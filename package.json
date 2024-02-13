@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lint-staged": "^15.2.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.70.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.55",
@@ -28,5 +30,16 @@
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "index.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
