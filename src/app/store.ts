@@ -1,7 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
+import {rootReducer, initialState} from "./reducers.ts";
 
-export default configureStore({
-    reducer:{
-
-    }
+export const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialState
 })
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

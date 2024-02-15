@@ -1,62 +1,21 @@
-import {useState} from "react";
+import {useAppSelector} from "../../app/hooks.ts";
+import List from "./components/List/List.tsx";
 
-const initialTitle = "Моя тестова дошка"
-const initialLists = [
-    {
-        id: 1,
-        title: "Плани",
-        cards: [
-            {
-                id: 1,
-                title: "помити кота"
-            },
-            {
-                id: 2,
-                title: "приготувати суп"
-            },
-            {
-                id: 3,
-                title: "сходити в магазин"
-            }
-        ]
-    },
-    {
-        id: 2,
-        title: "В процесі",
-        cards: [
-            {
-                id: 4,
-                title: "подивитися серіал"
-            }
-        ]
-    },
-    {
-        id: 3,
-        title: "Зроблено",
-        cards: [
-            {
-                id: 5,
-                title: "зробити домашку"
-            },
-            {
-                id: 6,
-                title: "погуляти з собакой"
-            }
-        ]
-    }
-]
 
 export const Board = () => {
-    const [title, setTitle] = useState(initialTitle)
-    const [lists, setLists] = useState(initialLists)
 
+    const title = useAppSelector(state => state.allBoards.boards[0].title);
+    const lists = useAppSelector(state => state.allBoards.boards)
 
     return (
         <>
             <h1>{title}</h1>
-            <div>Hello board</div>
+
+                {lists.map(board => {
+
+                    return <List key={board.id} cards={board.cards}/>
+                })}
+
         </>
     )
-
-
 }

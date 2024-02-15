@@ -5,9 +5,9 @@ import {Board} from "../pages/Board/Board.tsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Layout from "../components/Layout/Layout.tsx";
 
+
 function App() {
     return (
-        <>
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Layout/>}>
@@ -18,7 +18,6 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
-        </>
     )
 }
 
