@@ -1,4 +1,6 @@
-import {NavLink} from "react-router-dom";
+import { NavLink } from 'react-router-dom'
+import styles from './Header.module.scss'
+import ThemeSwither from '../ThemeSwither/ThemeSwither.tsx'
 
 enum Tabs {
     BOARD = 'board',
@@ -7,25 +9,30 @@ enum Tabs {
 }
 
 export default function Header() {
+    const { link, active } = styles
     return (
-        <header>
-            <nav>
+        <header className={styles.header}>
+            <nav className={styles.nav}>
                 <NavLink
-                to={`/${Tabs.BOARD}`}
-                end>
+                    className={({ isActive }) => isActive ? `${active} ${link}` : `${link}`}
+                    to={`/${Tabs.BOARD}`}
+                    end>
                     {Tabs.BOARD}
                 </NavLink>
                 <NavLink
+                    className={({ isActive }) => isActive ? `${active} ${link}` : `${link}`}
                     to={`/${Tabs.LINK1}`}
                     end>
                     {Tabs.LINK1}
                 </NavLink>
                 <NavLink
+                    className={({ isActive }) => isActive ? `${active} ${link}` : `${link}`}
                     to={`/${Tabs.LINK2}`}
                     end>
                     {Tabs.LINK2}
                 </NavLink>
             </nav>
+            <ThemeSwither />
         </header>
     )
 }

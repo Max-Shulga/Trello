@@ -1,0 +1,40 @@
+@import "./../../utils/colors";
+
+.header {
+  padding: 1rem;
+  text-align: left;
+  background: $main-white-color;
+  border-bottom: 1px solid $main-blue-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  div{
+    margin-right: 5rem;
+  }
+}
+
+.nav {
+  position: relative;
+}
+
+.link {
+  display: inline-block;
+  margin: 0 11px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 44px;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+  text-transform: capitalize;
+  color: $main-black-color;
+
+  &:hover {
+    color: $main-blue-color;
+    filter: brightness(150%);
+  }
+
+  &.active {
+    color: $main-blue-color;
+  }
+}
