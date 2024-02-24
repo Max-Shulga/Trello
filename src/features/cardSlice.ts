@@ -11,14 +11,12 @@ export interface ICase {
 export interface ICard {
     id: number,
     title: string,
-    color: string
     cases: ICase[]
 }
 
 const initialState: ICard = {
     id: 0,
     title: '',
-    color: 'card-blue',
     cases: [],
 }
 
@@ -37,15 +35,11 @@ const cardSlice = createSlice({
                 return cases.id === action.payload.id ? { ...cases, title: action.payload.newTitle } : cases
             })
         },
-        changeCardColor: (state, action: PayloadAction<{ color: string }>) => {
-            state.color = action.payload.color
-        },
     },
 })
 export const {
     addCase,
     removeCase,
-    editCase,
-    changeCardColor,
+    editCase
 } = cardSlice.actions
 export default cardSlice.reducer
