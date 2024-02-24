@@ -1,0 +1,46 @@
+@import './../../../../utils/constants';
+@import './../../../../utils/mixins';
+.list {
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.cardTitle {
+  color: $main-white-color;
+  background: $card-blue;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px;
+}
+
+.card, .addTask, .addCard {
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
+  background: var(--card-bg);
+  margin: 8px;
+  box-shadow: $main-box-shadow;
+}
+
+.card{
+  width: calc(20% - 2rem);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+}
+
+.addTask {
+ @include main-button
+}
+
+.addCard{
+  width: 4rem;
+  @include main-button
+}
+
+

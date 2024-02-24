@@ -1,4 +1,4 @@
-@import "./../../utils/colors";
+@import "./../../utils/constants";
 button {
   border: none;
   background: none;
@@ -11,7 +11,7 @@ button {
 .background {
   border-radius: 8px;
   border: 1px solid $main-blue-color;
-  background: $main-white-color;
+  background: var(--main-bg-color);
   mix-blend-mode: luminosity;
   backdrop-filter: blur(15px);
   width: 32.5px;
@@ -37,7 +37,7 @@ button {
   width: 11.5px;
   height: 11.5px;
   border-radius: 100%;
-  background-color: rgb(28, 28, 30);
+  background-color: var(--text-color);
   animation: ease reverse-change-theme .6s forwards;
   transition: background-color .4s;
   z-index: 10;
@@ -45,7 +45,7 @@ button {
 
 .changeThemeIcon:hover .iconSunMoon {
   animation: change-theme .4s forwards;
-  background-color: $main-black-color;
+  background-color: var(--text-color);
 }
 
 @keyframes change-theme {
@@ -83,7 +83,7 @@ button {
   width: 20px;
   height: 20px;
   border-radius: 100%;
-  background-color: $main-white-color;
+  background-color: var(--main-bg-color);
   position: absolute;
   top: 2px;
   right: -2px;
@@ -107,7 +107,7 @@ button {
   width: 2px;
   height: 4px;
   border-radius: 2px;
-  background-color: rgb(28, 28, 30);
+  background-color: var(--text-color);
   position: absolute;
 }
 

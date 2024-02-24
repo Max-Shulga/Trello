@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import boardSlice, {IBoard} from "../features/boardSlice.ts";
 import cardSlice, {ICard} from "../features/cardSlice.ts";
 import allBoardsSlice, {IAllBoards} from "../features/allBoardsSlice.ts";
+import themeToggleSlice from '../features/themeToggleSlice.ts'
 
 
 const initialTitle = "Моя тестова дошка"
@@ -61,7 +62,8 @@ const initialState: IInitialState = {
 const rootReducer = combineReducers({
     allBoards: allBoardsSlice,
     board: boardSlice,
-    card: cardSlice
+    card: cardSlice,
+    themeToggle: themeToggleSlice
 })
 
 export {rootReducer, initialState}

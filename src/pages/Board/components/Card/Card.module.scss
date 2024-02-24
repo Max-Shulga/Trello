@@ -1,0 +1,14 @@
+@import './../../../../utils/constants';
+.card{
+  padding: 1rem;
+  font-size: 18px;
+  margin: 5px;
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
+  background: var(--card-bg);
+  box-shadow: $main-box-shadow;
+  transition: transform 0.3s ease;
+  &:hover{
+    transform: translateY(-1px)
+  }
+}

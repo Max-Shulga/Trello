@@ -1,3 +1,4 @@
+import styles from './Card.module.scss'
 interface CardProps {
     title: string
 }
@@ -5,6 +6,6 @@ interface CardProps {
 export default function Card(props: CardProps) {
 
     return (
-        <p>{props.title}</p>
+        <div className={styles.card}>{props.title}</div>
     )
 }

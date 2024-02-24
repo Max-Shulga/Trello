@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 
 // export type BoardStatuses = IBoard['cardTitles'][number]
@@ -11,13 +11,15 @@ export interface ICase {
 export interface ICard {
     id: number,
     title: string,
+    color: string
     cases: ICase[]
 }
 
 const initialState: ICard = {
     id: 0,
     title: '',
-    cases: []
+    color: 'card-blue',
+    cases: [],
 }
 
 const cardSlice = createSlice({
@@ -31,12 +33,19 @@ const cardSlice = createSlice({
             state.cases = state.cases.filter(cases => cases.id !== action.payload.id)
         },
         editCase: (state, action: PayloadAction<{ id: number, newTitle: string }>) => {
-            state.cases = state.cases.map(cases=>{
-               return  cases.id === action.payload.id? {...cases,title: action.payload.newTitle}: cases
+            state.cases = state.cases.map(cases => {
+                return cases.id === action.payload.id ? { ...cases, title: action.payload.newTitle } : cases
             })
         },
-
-    }
+        changeCardColor: (state, action: PayloadAction<{ color: string }>) => {
+            state.color = action.payload.color
+        },
+    },
 })
-export const {addCase, removeCase,editCase} = cardSlice.actions
+export const {
+    addCase,
+    removeCase,
+    editCase,
+    changeCardColor,
+} = cardSlice.actions
 export default cardSlice.reducer
