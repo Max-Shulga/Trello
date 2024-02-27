@@ -18,7 +18,9 @@
   padding: 10px;
 }
 
-.card, .addTask, .addCard {
+.card,
+.addTask,
+.addCard {
   border: 1px solid var(--card-border);
   border-radius: 5px;
   background: var(--card-bg);
@@ -26,21 +28,18 @@
   box-shadow: $main-box-shadow;
 }
 
-.card{
+.card {
   width: calc(20% - 2rem);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
 }
 
 .addTask {
- @include main-button
+  @include main-button;
 }
 
-.addCard{
+.addCard {
   width: 4rem;
-  @include main-button
+  @include main-button;
 }
-
-

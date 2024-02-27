@@ -1,4 +1,4 @@
-@import "./../../utils/constants";
+@import './../../utils/constants';
 
 .header {
   padding: 1rem;
@@ -9,7 +9,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  div{
+  div {
     margin-right: 5rem;
   }
 }

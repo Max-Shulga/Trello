@@ -1,53 +1,44 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {ICard} from "./cardSlice.ts";
-
-export interface IBoard {
-    id: number
-    title: string
-    cards: ICard[],
-    // cardTitles: string[]
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IBoard } from '../common/interfaces/IBoard.ts'
+import { IList } from '../common/interfaces/IList.ts'
 
 const initialState: IBoard = {
-    id: 0,
-    title: '',
-    cards: [],
-    // cardTitles: []
+  id: 0,
+  title: '',
+  lists: [],
+  // cardTitles: []
 }
 
 const boardSlice = createSlice({
-    name: 'board',
-    initialState,
-    reducers: {
-        addCard: (state, action: PayloadAction<ICard>) => {
-            state.cards.push(action.payload)
-        },
-        removeCard: (state, action: PayloadAction<{ id: number }>) => {
-            state.cards = state.cards.filter((card) => card.id !== action.payload.id)
-        },
-        changeTitle: (state, action: PayloadAction<ICard>) => {
-            const {id, title} = action.payload
-            state.cards = state.cards.map(card => {
-                return card.id === id ? {...card, title: title} : card
-            })
-        },
-        // changeCaseStatus: (state: IBoard, action: PayloadAction<{ cardId: number, caseId: number, newStatus: BoardStatuses }>) => {
-        //     const {cardId, caseId, newStatus} = action.payload
-        //
-        //     const currentCard = state.cards.filter(card => card.id === cardId)[0];
-        //     if (!currentCard) return state
-        //     const currentCase: ICase = currentCard.cases.filter(cases => cases.id === caseId)[0]
-        //
-        //     currentCard.cases = currentCard.cases.filter(cases => cases.id !== caseId)
-        //
-        //     const newStatusCard = state.cards.filter(card => card.title === newStatus)[0]
-        //     if (!newStatusCard) return state
-        //     newStatusCard.cases.push(currentCase)
-        // }
-    }
+  name: 'board',
+  initialState,
+  reducers: {
+    addList: (state, action: PayloadAction<IList>) => {
+      state.lists.push(action.payload)
+    },
+    removeList: (state, action: PayloadAction<{ id: number }>) => {
+      state.lists = state.lists.filter(list => list.id !== action.payload.id)
+    },
+    changeListTitle: (state, action: PayloadAction<IList>) => {
+      const { id, title } = action.payload
+      state.lists = state.lists.map(list => {
+        return list.id === id ? { ...list, title: title } : list
+      })
+    },
+    // changeCaseStatus: (state: IBoard, action: PayloadAction<{ cardId: number, caseId: number, newStatus: BoardStatuses }>) => {
+    //     const {cardId, caseId, newStatus} = action.payload
+    //
+    //     const currentCard = state.lists.filter(list => list.id === cardId)[0];
+    //     if (!currentCard) return state
+    //     const currentCase: ICard = currentCard.lists.filter(lists => lists.id === caseId)[0]
+    //
+    //     currentCard.lists = currentCard.lists.filter(lists => lists.id !== caseId)
+    //
+    //     const newStatusCard = state.lists.filter(list => list.title === newStatus)[0]
+    //     if (!newStatusCard) return state
+    //     newStatusCard.lists.push(currentCase)
+    // }
+  },
 })
-export const {addCard,
-    removeCard,
-    changeTitle} = boardSlice.actions
+export const { addList, removeList, changeListTitle } = boardSlice.actions
 export default boardSlice.reducer
-

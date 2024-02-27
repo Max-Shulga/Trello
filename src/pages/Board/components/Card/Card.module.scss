@@ -1,5 +1,5 @@
 @import './../../../../utils/constants';
-.card{
+.card {
   padding: 1rem;
   font-size: 18px;
   margin: 5px;
@@ -8,7 +8,7 @@
   background: var(--card-bg);
   box-shadow: $main-box-shadow;
   transition: transform 0.3s ease;
-  &:hover{
-    transform: translateY(-1px)
+  &:hover {
+    transform: translateY(-1px);
   }
 }

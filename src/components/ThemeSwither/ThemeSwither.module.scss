@@ -1,4 +1,4 @@
-@import "./../../utils/constants";
+@import './../../utils/constants';
 button {
   border: none;
   background: none;
@@ -38,13 +38,13 @@ button {
   height: 11.5px;
   border-radius: 100%;
   background-color: var(--text-color);
-  animation: ease reverse-change-theme .6s forwards;
-  transition: background-color .4s;
+  animation: ease reverse-change-theme 0.6s forwards;
+  transition: background-color 0.4s;
   z-index: 10;
 }
 
 .changeThemeIcon:hover .iconSunMoon {
-  animation: change-theme .4s forwards;
+  animation: change-theme 0.4s forwards;
   background-color: var(--text-color);
 }
 
@@ -87,13 +87,13 @@ button {
   position: absolute;
   top: 2px;
   right: -2px;
-  transform: translateX(100%) scale(.2);
-  transition: transform .4s;
+  transform: translateX(100%) scale(0.2);
+  transition: transform 0.4s;
 }
 
 .changeThemeIcon:hover .iconSunMoon:before {
   transform: scale(1);
-  transition: transform .4s .12s;
+  transition: transform 0.4s 0.12s;
 }
 
 /* sun-rays */
@@ -160,11 +160,11 @@ button {
 }
 
 .sunRays {
-  animation: reverse-sun-rays .6s forwards;
+  animation: reverse-sun-rays 0.6s forwards;
 }
 
 .changeThemeIcon:hover .sunRays {
-  animation: ease sun-rays .4s forwards;
+  animation: ease sun-rays 0.4s forwards;
 }
 
 @keyframes sun-rays {
