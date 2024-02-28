@@ -5,6 +5,7 @@ import { IBoard } from '../common/interfaces/IBoard.ts'
 const initialState: IAllBoards = {
   id: 0,
   boards: [],
+  boardsIcons:[]
 }
 
 const allBoardsSlice = createSlice({
