@@ -9,7 +9,6 @@ export const Board = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
-
       {lists.map(board => {
         return <List key={board.id} cards={board.lists} />
       })}
