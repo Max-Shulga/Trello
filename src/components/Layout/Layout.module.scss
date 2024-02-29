@@ -1,9 +1,13 @@
+@import "../../utils/constants";
 .appContainer{
-  position: relative; /* Использовать флексбокс для контейнера */
-  flex-direction: column; /* Основной контейнер будет расположен в виде столбца */
+  position: relative;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--main-bg-color);
+
 }
 .content{
+  min-height: calc(100vh - 10rem);
   padding-bottom: 5rem;
+  box-shadow: $main-box-shadow;
 }

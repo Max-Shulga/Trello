@@ -4,10 +4,10 @@ import styles from './Board.module.scss'
 import { useParams } from 'react-router-dom'
 
 export const Board = () => {
-  const params = useParams()
+  const {id} = useParams()
   const board = useAppSelector(state =>
     state.allBoards.boards.filter(board => {
-      return board.id === Number(params.id)
+      return board.id === Number(id)
     }),
   )[0]
   const renderBoardContent = () => {

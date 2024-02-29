@@ -28,15 +28,13 @@
 }
 
 .nav::-webkit-scrollbar-track {
-  background: transparent; /* Прозрачный фон */
+  background: transparent;
 }
-
 
 .nav::-webkit-scrollbar-thumb {
-  background: $main-blue-color; /* Цвет полосы */
-  border-radius: 5px; /* Закругление углов полосы */
+  background: $main-blue-color;
+  border-radius: 5px;
 }
-
 
 .nav::-webkit-scrollbar-thumb:hover {
   background: #7183e0;
