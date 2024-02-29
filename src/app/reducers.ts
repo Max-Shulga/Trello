@@ -39,6 +39,7 @@ const initialBoard: IBoard = {
     ],
 }
 const initialBoardIcons: IBoardIcon[] = [
+    { id: 0, title: 'to-do list', custom: { background: 'yellow' } },
     { id: 1, title: 'покупки', custom: { background: 'red' } },
     { id: 2, title: 'підготовка до весілля', custom: { background: 'green' } },
     { id: 3, title: 'розробка інтернет-магазину', custom: { background: 'blue' } },

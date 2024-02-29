@@ -1,6 +1,5 @@
 @import "./../../../../utils/constants";
 .boardIcon {
-  width: calc(25% - 5rem);
   height: 100px;
   display: flex;
   justify-content: center;
@@ -9,6 +8,7 @@
   cursor: pointer;
   transition: background 0.3s ease;
   box-shadow: $main-box-shadow;
+  text-decoration: none;
   &:hover {
     filter: brightness(0.9);
   }

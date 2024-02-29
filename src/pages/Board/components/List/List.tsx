@@ -19,14 +19,14 @@ const titleColors: ITitleColors = {
 }
 
 interface ListProps {
-  cards: IList[]
+  lists: IList[]
 }
 
 export default function List(props: ListProps) {
-  const { cards } = props
+  const { lists } = props
   return (
     <div className={styles.list}>
-      {cards.map((cards, index) => (
+      {lists.map((cards, index) => (
         <div className={styles.card} key={cards.id}>
           <h2
             className={styles.cardTitle}

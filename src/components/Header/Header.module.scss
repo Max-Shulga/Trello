@@ -1,4 +1,5 @@
 @import './../../utils/constants';
+@import './../../utils/mixins';
 
 .header {
   padding: 1rem;
@@ -9,6 +10,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
   div {
     margin-right: 5rem;
   }
@@ -16,6 +18,28 @@
 
 .nav {
   position: relative;
+  width: 90%;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.nav::-webkit-scrollbar {
+  height: 8px;
+}
+
+.nav::-webkit-scrollbar-track {
+  background: transparent; /* Прозрачный фон */
+}
+
+
+.nav::-webkit-scrollbar-thumb {
+  background: $main-blue-color; /* Цвет полосы */
+  border-radius: 5px; /* Закругление углов полосы */
+}
+
+
+.nav::-webkit-scrollbar-thumb:hover {
+  background: #7183e0;
 }
 
 .link {

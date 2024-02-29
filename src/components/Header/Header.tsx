@@ -1,15 +1,12 @@
 import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
 import ThemeSwither from '../ThemeSwither/ThemeSwither.tsx'
-
-enum Tabs {
-  HOME = 'home',
-  BOARD = 'board',
-  LINK1 = 'link1',
-}
+import { useAppSelector } from '../../app/hooks.ts'
 
 export default function Header() {
   const { link, active } = styles
+
+  const boards = useAppSelector(state => state.allBoards.boardsIcons)
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -18,22 +15,16 @@ export default function Header() {
           to={`/`}
           end
         >
-          {Tabs.HOME}
+          home
         </NavLink>
-        <NavLink
-          className={({ isActive }) => (isActive ? `${active} ${link}` : `${link}`)}
-          to={`/${Tabs.BOARD}`}
-          end
-        >
-          {Tabs.BOARD}
-        </NavLink>
-        <NavLink
-          className={({ isActive }) => (isActive ? `${active} ${link}` : `${link}`)}
-          to={`/${Tabs.LINK1}`}
-          end
-        >
-          {Tabs.LINK1}
-        </NavLink>
+        {boards.map(board => (
+          <NavLink
+            className={({ isActive }) => (isActive ? `${active} ${link}` : `${link}`)}
+            to={`/board/${board.id}`}
+          >
+            {board.title}
+          </NavLink>
+        ))}
       </nav>
       <ThemeSwither />
     </header>
