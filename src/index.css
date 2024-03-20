@@ -7,8 +7,8 @@
 }
 
 :root[data-theme='dark'] {
-  --main-bg-color: #292929;
-  --card-bg: #454545;
+  --main-bg-color: #1D2125;
+  --card-bg: #282d33;
   --text-color: #f6f6f6;
   --card-border: #3e3e3e;
 }
@@ -21,3 +21,12 @@ body {
   color: var(--text-color);
 }
 
+input[type='color'] {
+  border-radius: 50%; /* Устанавливаем радиус скругления на 50%, чтобы сделать элемент круглым */
+  width: 30px; /* Устанавливаем желаемую ширину */
+  height: 30px; /* Устанавливаем желаемую высоту */
+  padding: 0; /* Убираем отступы */
+  border: none; /* Убираем границу */
+  cursor: pointer; /* Добавляем курсор при наведении */
+  outline: none; /* Убираем обводку при фокусе */
+}

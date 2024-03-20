@@ -10,6 +10,7 @@ export const Board = () => {
       return board.id === Number(id)
     }),
   )[0]
+    console.log(board)
   const renderBoardContent = () => {
     return (
       <div className={styles.container}>

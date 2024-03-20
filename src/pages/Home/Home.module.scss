@@ -1,30 +1,44 @@
 @import './../../utils/mixins';
-.homePageContainer{
+@import './../../utils/constants';
+
+.homePageContainer {
   background: var(--main-bg-color);
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 2rem;
   gap: 5rem;
   text-decoration: none;
-  text-transform: capitalize;
+
   h1 {
-    font-size: 2rem;
+    text-transform: capitalize;
     margin-bottom: 1rem;
   }
 }
 
-.boardIconsContainer{
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 5rem;
-  width: 100%;
+.boardIconsContainer {
+  display: block;
 }
 
-.addNewBoardButton{
+.ul {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  list-style: none;
+  gap: 2rem 1rem;
+  width: fit-content;
+  max-width: calc(100% - 440px);
+  li {
+    width: 150px;
+  }
+}
+
+.addNewBoardButton {
   @include main-button;
-  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  @include hover
+
 }

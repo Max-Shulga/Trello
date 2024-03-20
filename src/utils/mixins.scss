@@ -1,3 +1,14 @@
+@import "constants";
+@mixin textPreset{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+@mixin h4Presets{
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+}
 @mixin hover {
   &:hover {
     filter: brightness(0.9);
@@ -5,8 +16,18 @@
 }
 
 @mixin main-button {
-  font-size: 20px;
+  box-sizing: border-box;
+  border-radius: $maim-border-radius;
+  box-shadow:$main-box-shadow;
+  font-weight: 200;
+  font-size: 16px;
+  color: var(--text-color);
   background: var(--card-bg);
   cursor: pointer;
-  @include hover;
+}
+@mixin active-button{
+  &:active{
+    transform: scale(0.95);
+    box-shadow: 0 2px 25px var(--card-bg);
+}
 }

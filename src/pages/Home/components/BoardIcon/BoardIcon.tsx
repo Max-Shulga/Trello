@@ -1,18 +1,21 @@
-import { IBoardIcon } from '../../../../common/interfaces/IBoardIcon.ts'
 import styles from './BoardIcon.module.scss'
 import { Link } from 'react-router-dom'
+import { IBoardServer } from '../../../../common/interfaces/IBoardServer.ts'
 
-interface IProps {
-    boardIcon: IBoardIcon
-}
 
-export default function BoardIcon(props: IProps) {
-    const { custom, title } = props.boardIcon
-    const backgroundColor = custom.background
 
-    return (
-      <Link className={styles.boardIcon} style={{ background: backgroundColor }} to={`board/${props.boardIcon.id}`}>
-          <h3>{title}</h3>
+export default function BoardIcon(props: IBoardServer) {
+    const {custom, title} = props
+  return (
+    <li className={styles.boardsPageListItem}>
+      <Link
+        className={styles.boardIcon}
+        style={{ background: custom?.bgColor }}
+        to={`board/${props.id}`}
+      >
+        <div>{title}</div>
+        <div></div>
       </Link>
-    )
+    </li>
+  )
 }

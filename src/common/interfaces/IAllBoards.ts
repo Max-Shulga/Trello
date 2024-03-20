@@ -1,8 +1,6 @@
-import { IBoard } from './IBoard.ts'
-import { IBoardIcon } from './IBoardIcon.ts'
+import { IBoardServer } from './IBoardServer.ts'
 
 export interface IAllBoards {
   id: number
-  boards: IBoard[]
-  boardsIcons: IBoardIcon[]
+  boards: IBoardServer[]
 }
