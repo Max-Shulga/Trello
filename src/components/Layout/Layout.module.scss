@@ -1,13 +1,10 @@
 @import "../../utils/constants";
 .appContainer{
   position: relative;
-  flex-direction: column;
-  //min-height: 100vh;
+  min-height: 100%;
   background: var(--main-bg-color);
-
 }
 .content{
-  min-height: calc(100vh - 10rem);
-  padding-bottom: 5rem;
-  box-shadow: $main-box-shadow;
+  padding-bottom: 55px  ;
+  min-height: 86.2vh;
 }

@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IBoard } from '../common/interfaces/IBoard.ts'
+import { IAllBoards, IHomeBoard, IHomeBoardServerResponse } from '../common/interfaces/IHomeBoard.ts'
 import api from '../api/request.ts'
-import { IAllBoards } from '../common/interfaces/IAllBoards.ts'
 import { RootState } from '../app/store.ts'
+import { ILoadingErrorState } from '../common/interfaces/ILoadingErrorState.ts'
+import { IBoard } from '../common/interfaces/IBoard.ts'
 
-export interface IInitialState extends IAllBoards {
-  isLoading: boolean
-  hasError: boolean
+
+interface IInitialState extends IAllBoards,ILoadingErrorState {
+
 }
 
 const initialState: IInitialState = {
-  id: 0,
   boards: [],
   isLoading: false,
   hasError: false,
@@ -21,13 +21,18 @@ export const loadAllBoards = createAsyncThunk('boards/loadBoards', async () => {
   return boards
 })
 
-export const addBoard = createAsyncThunk('boards/addBoard', async (boardData: IBoard) => {
-  const { data } = await api.post(`/board`, boardData)
-
-  return data
+export const addBoard = createAsyncThunk('boards/addBoard', async (boardData: IHomeBoard) => {
+  const response: IHomeBoardServerResponse = await api.post(`/board`, boardData)
+  const newBoardId = response.id
+  const { title, custom }:IBoard = await api.get(`/board/${newBoardId}`)
+  return {
+    id: newBoardId,
+    title,
+    custom,
+  }
 })
 
-export const boardsSlice = createSlice({
+export const homeBoardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {},
@@ -56,4 +61,4 @@ export const boardsSlice = createSlice({
 
 export const getBoards = (state: RootState) => state.boards.boards
 export const isBoardsLoading = (state: RootState) => state.boards.isLoading
-export default boardsSlice.reducer
+export default homeBoardsSlice.reducer

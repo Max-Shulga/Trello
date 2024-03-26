@@ -1,49 +1,81 @@
-import Card from '../Card/Card..tsx'
 import styles from './List.module.scss'
-import { IList } from '../../../../common/interfaces/IList.ts'
-
-interface ITitleColors {
-  [name: string]: string
-}
-
-const titleColors: ITitleColors = {
-  blue: '#1c5a7c',
-  green: '#106354',
-  purple: '#54117d',
-  yellow: '#f3c820',
-  red: '#e73434',
-  brown: '#71441b',
-  orange: '#ef6f28',
-  gray: '#9f9f9f',
-  lightBlue: '#4af5f5',
-}
+import { IListServerResponse } from '../../../../common/interfaces/IList.ts'
+import Card from '../Card/Card..tsx'
+import React, { ChangeEvent, useState } from 'react'
+import InputForm from '../../../../components/InputForm/InputForm.tsx'
+import { changeListTitle } from '../../../../features/BoardSlice.ts'
+import { AppDispatch } from '../../../../app/store.ts'
 
 interface ListProps {
-  lists: IList[]
+  list: IListServerResponse
+  boardID: number
+  dispatch:AppDispatch
 }
 
 export default function List(props: ListProps) {
-  const { lists } = props
-  return (
-    <div className={styles.list}>
-      {lists.map((cards, index) => (
-        <div className={styles.card} key={cards.id}>
-          <h2
-            className={styles.cardTitle}
-            style={{
-              background: titleColors[Object.keys(titleColors)[index]],
-            }}
-          >
-            {cards.title}
-          </h2>
+  const [showNewTitleInput, setShowNewTitleInput] = useState(false)
+  const [showNewCardInput, setShowNewCardInput] = useState(false)
+  const { list, boardID,dispatch } = props
+  // const dispatch = useAppDispatch()
 
-          {cards.cards.map(card => (
-            <Card key={card.id} title={card.title} />
-          ))}
-          <button className={styles.addTask}>+</button>
+  const [newListTitle, setNewListTitle] = useState({
+    boardId: boardID,
+    listId: list.id,
+    title: '',
+    position: list.position,
+  })
+  const handleNewTitleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value
+    setNewListTitle({
+      ...newListTitle,
+      title: newTitle,
+    })
+  }
+  const handleChangeTitleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setShowNewTitleInput(false)
+    if (newListTitle.title){
+      e.preventDefault()
+      dispatch(changeListTitle(newListTitle))
+      console.log(123)
+    }
+  }
+
+  return (
+    <li className={styles.listEl}>
+      <div className={styles.cardContentContainer} key={list.id}>
+        <div className={styles.listContent}>
+          <div className={styles.listHeader}>
+            {showNewTitleInput ? (
+              <form name='changeListTitle' onSubmit={handleChangeTitleOnSubmit} onBlur={handleChangeTitleOnSubmit}>
+                <label htmlFor='changeListTitle'></label>
+                <InputForm htmlFor={'changeListTitle'} onChange={handleNewTitleOnChange}  value={list.title} />
+              </form>
+            ) : (
+              <h2 onClick={() => setShowNewTitleInput(true)}>{list.title}</h2>
+            )}
+            {list.cards.map(card => (
+              <Card key={card.id} title={card.title} />
+            ))}
+          </div>
+          <button className={styles.cardOptionsButton}></button>
+
+          {showNewCardInput ? (
+            <form name='addCard' className={styles.cardInputContainer}>
+              <label htmlFor='addCard'>
+                <InputForm
+                  htmlFor={'addCard'}
+                  onChange={() => null}
+                  placeholder={'Enter a title for this card...'}
+                />
+              </label>
+            </form>
+          ) : (
+            <button className={styles.addCard} onClick={() => setShowNewCardInput(true)}>
+              Add a card
+            </button>
+          )}
         </div>
-      ))}
-      <button className={styles.addCard}>+</button>
-    </div>
+      </div>
+    </li>
   )
 }

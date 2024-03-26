@@ -1,0 +1,4 @@
+@import "../../utils/mixins";
+.input{
+  @include input-preset;
+}

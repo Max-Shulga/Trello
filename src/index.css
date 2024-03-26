@@ -4,6 +4,7 @@
   --card-bg: #f8f8f9;
   --text-color: #292929;
   --card-border: #e7e7e7;
+  --invert-filter: invert(1)
 }
 
 :root[data-theme='dark'] {
@@ -11,6 +12,7 @@
   --card-bg: #282d33;
   --text-color: #f6f6f6;
   --card-border: #3e3e3e;
+  --invert-filter: invert(0)
 }
 
 body {
@@ -19,6 +21,15 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
   color: var(--text-color);
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 input[type='color'] {

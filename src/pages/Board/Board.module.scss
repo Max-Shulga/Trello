@@ -1,16 +1,83 @@
 @import './../../utils/constants';
+@import './../../utils/mixins';
 
-.container {
+.boardContainer {
   display: flex;
   flex-direction: column;
-  background-color: var(--main-bg-color);
-  padding: 20px;
+  padding: 2rem;
+  min-height: 79.3vh;
+  text-decoration: none;
+
+
 }
-
 .title {
-  margin-bottom: 20px;
-
+  width: fit-content;
   font-size: 32px;
   color: var(--text-color);
   text-align: left;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
 }
+
+.cardsListContainer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  list-style: none;
+  gap: 2rem 1rem;
+  width: fit-content;
+  max-width: calc(100% - 440px);
+
+}
+
+.addCard {
+  padding: 0 6px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  flex-grow: 1;
+  height: 100%;
+  }
+
+.showCreateMenuButton {
+  display: flex;
+  justify-content: flex-start;
+  width: 272px;
+  align-items: center;
+  background: #ffffff3d;
+  border-radius: 12px;
+  padding: 12px 12px 12px 40px;
+  text-align: left;
+  color: var(--text-color);
+  gap: 1rem;
+  box-shadow: $main-box-shadow;
+  border: none;
+  position: relative;
+
+  &:after {
+    content: '';
+    background-image: url("../../assets/plus-icon.svg");
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    filter: var(--invert-filter)
+  }
+
+  &:hover {
+    scale: 0.95;
+  }
+
+
+  p {
+    font-size: 16px;
+  }
+}
+
+
+
+

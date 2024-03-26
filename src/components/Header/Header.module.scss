@@ -22,7 +22,11 @@
   white-space: nowrap;
   overflow-x: auto;
 }
-
+.verticalLine{
+  border-left: 1px solid $main-blue-color;
+  height: 20px;
+  margin: 0 10px;
+}
 .nav::-webkit-scrollbar {
   height: 8px;
 }

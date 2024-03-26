@@ -1,45 +1,123 @@
 @import './../../../../utils/constants';
 @import './../../../../utils/mixins';
-.list {
-  padding: 1rem;
+
+.listEl {
+  padding: 0 6px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  display: block;
+  height: 100%;
+  white-space: nowrap;
+
+}
+
+.cardContentContainer {
+  border-radius: 12px;
+  box-shadow: $main-box-shadow;
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.cardTitle {
-  color: $main-white-color;
-  background: $card-blue;
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  padding: 10px;
-}
-
-.card,
-.addTask,
-.addCard {
-  border: 1px solid var(--card-border);
-  border-radius: 5px;
-  background: var(--card-bg);
-  margin: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);;
-}
-
-.card {
-  width: calc(20% - 2rem);
-  display: flex;
+  justify-content: space-between;
+  max-height: 100%;
   flex-direction: column;
+  padding-bottom: 8px;
+  position: relative;
+  scroll-margin: 8px;
+  white-space: normal;
+  width: 272px;
   box-sizing: border-box;
+  vertical-align: top;
+  background: var(--card-bg);
 }
 
-.addTask {
-  @include main-button;
+.listContent {
+  display: flex;
+  row-gap: 0;
+  padding: 8px 8px 0;
+  position: relative;
+  flex-grow: 0;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.listHeader {
+  position: relative;
+  flex-basis: min-content;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 20px;
+
+  h2 {
+    @include h2Preset;
+    width: fit-content;
+    cursor: pointer;
+  }
+}
+
+.cardOptionsButton {
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 8px;
+  border-right: $maim-border-radius;
+  position: relative;
+  width: 32px;
+  height: 32px;
+
+  &:after {
+    content: '• • •';
+    position: absolute;
+    width: 32px;
+    left: 50%;
+    top: 50%;
+    font-size: 11px;
+    transform: translate(-50%, -50%);
+    color: #1c0f0f;
+    cursor: pointer;
+  }
 }
 
 .addCard {
-  width: 4rem;
-  @include main-button;
+  margin: 8px 8px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 12px;
+  padding: 8px 12px 8px 40px;
+  text-align: left;
+  color: var(--text-color);
+  gap: 1rem;
+  border: none;
+  position: relative;
+  background: var(--card-bg);
+  width: 95%;
+
+  &:after {
+    content: '';
+    background-image: url("../../../../assets/plus-icon.svg");
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    filter: var(--invert-filter);
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+.cardInputContainer {
+  input {
+    border-radius: 12px;
+    margin-top: 8px;
+    height: 30px;
+    border: none;
+    box-shadow: $main-box-shadow;
+    &:focus {
+      box-shadow: $main-box-shadow;
+    }
+  }
 }

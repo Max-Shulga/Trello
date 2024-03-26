@@ -1,17 +1,13 @@
 import { combineReducers } from 'redux'
-import boardSlice from '../features/boardSlice.ts'
-import cardSlice from '../features/ListSlice.ts'
-import listSlice from '../features/ListSlice.ts'
+import boardSlice from '../features/BoardSlice.ts'
+import listSlice from '../features/listSlice.ts'
 import themeToggleSlice from '../features/themeToggleSlice.ts'
-import boardsSlice  from '../features/boardsSlice.ts'
-import createNewBoardSlice from '../features/createNewBoardSlice.ts'
+import HomeBoardsSlice from '../features/HomeBoardsSlice.ts'
 
 const rootReducer = combineReducers({
-  createNewBoard:createNewBoardSlice,
-  boards: boardsSlice,
+  boards: HomeBoardsSlice,
   board: boardSlice,
   list: listSlice,
-  card: cardSlice,
   themeToggle: themeToggleSlice,
 })
 

@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import {  getBoards, isBoardsLoading, loadAllBoards } from '../../features/boardsSlice.ts'
+import {  getBoards, isBoardsLoading, loadAllBoards } from '../../features/HomeBoardsSlice.ts'
 import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import BoardIcon from './components/BoardIcon/BoardIcon.tsx'
-import { IBoardServer } from '../../common/interfaces/IBoardServer.ts'
 import NewBoardCreator from './components/NewBoardCreator/NewBoardCreator.tsx'
+import { IHomeBoardServerResponse } from '../../common/interfaces/IHomeBoard.ts'
 
 export default function Home() {
   const [showNewBoardCreator, setShowNewBoardCreator] = useState(false)
@@ -14,19 +14,19 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(loadAllBoards())
-  }, [dispatch])
+  }, [])
 
   const handleClick = () => {
     setShowNewBoardCreator(!showNewBoardCreator)
   }
-  if (isLoading && boards) return <div>Loading...</div>
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className={styles.homePageContainer}>
       <h3>YOUR WORKSPACES</h3>
       <div className={styles.boardIconsContainer}>
         <ul className={styles.ul}>
-          {boards.map((board: IBoardServer) => (
+          {boards.map((board: IHomeBoardServerResponse) => (
               <BoardIcon key={board.id}  {...board}/>
           ))}
           <li className={styles.addNewBoardButton} onClick={handleClick}>
@@ -34,6 +34,7 @@ export default function Home() {
           </li>
           {showNewBoardCreator && <NewBoardCreator onClick={handleClick}/>}
         </ul>
+
       </div>
     </div>
   )

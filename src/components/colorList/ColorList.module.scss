@@ -1,9 +1,0 @@
-.button {
-  &.acceptEffect:after {
-    content: url('../../assets/check_accept_icon.svg');
-    transform: scale(0.33) translate(-50%, -50%);
-    position: absolute;
-    top: -2px;
-    left: 5px;
-  }
-}
