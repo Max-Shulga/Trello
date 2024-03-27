@@ -1,5 +1,15 @@
 {
+  "redirects": [
+    {
+      "source": "/trello/stc/assets/:filePath",
+      "destination": "dist/assets/:filePath",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/trello",
+      "destination": "dist"
+    }
   ]
 }
