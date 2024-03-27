@@ -58,7 +58,7 @@ export default function NewBoardCreator({ onClick }: IProps) {
                 className={styles.boardPreViewer}
                 style={{ background: newBoardData.custom.color }}
             >
-              <img src={'/assets/newBoardCreatorPresetBoard.svg'} alt='board preset' />
+              <img src='/assets/newBoardCreatorPresetBoard.svg' alt='board preset' />
             </div>
             <div className={styles.bgPickerContainer}>
               <p>Background</p>
