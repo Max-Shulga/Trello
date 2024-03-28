@@ -59,8 +59,6 @@ export const Board = () => {
 
   if (isLoading) {
     return <div>Loading... </div>
-  }else {
-    console.log(lists)
   }
 
   return (

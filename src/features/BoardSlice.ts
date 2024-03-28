@@ -60,8 +60,31 @@ export const addList = createAsyncThunk(
   },
 )
 
+export const addNewCard = createAsyncThunk(
+  'board/list/card/addCard',
+  async ({
+    boardID,
+    list_id,
+    title,
+    position,
+  }: {
+    boardID: number
+    list_id: number
+    title: string
+    position: number
+  }) => {
+    await api.post(`/board/${boardID}/card`, {
+      title: title,
+      list_id: list_id,
+      position: position,
+    })
+    const response: IBoard = await api.get(`/board/${boardID}`)
+    return response.lists
+  },
+)
+
 export const changeListTitle = createAsyncThunk(
-  'board/changeListTitle',
+  'board/list/changeListTitle',
   async ({
     boardId,
     listId,
@@ -73,7 +96,11 @@ export const changeListTitle = createAsyncThunk(
     title: string
     position: number
   }) => {
-    await api.put(`/board/${boardId}/list/${listId}`, {id:listId, title: title, position: position })
+    await api.put(`/board/${boardId}/list/${listId}`, {
+      id: listId,
+      title: title,
+      position: position,
+    })
     const response: IBoard = await api.get(`/board/${boardId}`)
     return response.lists
   },
@@ -105,7 +132,12 @@ const boardSlice = createSlice({
       state.hasError = false
       state.lists = action.payload
     })
-    builder.addCase(changeListTitle.fulfilled,(state,action)=>{
+    builder.addCase(changeListTitle.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.hasError = false
+      state.lists = action.payload
+    })
+    builder.addCase(addNewCard.fulfilled,(state,action)=>{
       state.isLoading = false
       state.hasError = false
       state.lists = action.payload

@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(loadAllBoards())
-  }, [])
+  }, [dispatch])
 
   const handleClick = () => {
     setShowNewBoardCreator(!showNewBoardCreator)

@@ -4,6 +4,7 @@ import { IList } from '../../../../common/interfaces/IList.ts'
 import styles from './NewCardCreator.module.scss'
 import { addList } from '../../../../features/BoardSlice.ts'
 import { useAppDispatch } from '../../../../app/hooks.ts'
+import { closeIcon } from '../../../../assets/closeIcon.tsx'
 
 interface INewCardCreator {
   position: number
@@ -44,7 +45,7 @@ export default function NewCardCreator(params: INewCardCreator) {
         <button
           className={styles.closeButton}
           onClick={() => setShowBoardCreateForm(false)}
-        ></button>
+        >{closeIcon()}</button>
       </div>
     </form>
   )
