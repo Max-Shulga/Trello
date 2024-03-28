@@ -3,6 +3,8 @@ import React, { ChangeEvent, useState } from 'react'
 import { useAppDispatch } from '../../../../app/hooks.ts'
 import ColorList from '../../../../components/СolorList/ColorList.tsx'
 import { addBoard } from '../../../../features/HomeBoardsSlice.ts'
+import { newBoardCreatorPresetBoard } from '../../../../assets/newBoardCreatorPresetBoard.tsx'
+import { closeIcon } from '../../../../assets/closeIcon.tsx'
 
 interface IProps {
   onClick: () => void
@@ -45,60 +47,56 @@ export default function NewBoardCreator({ onClick }: IProps) {
   }
 
   return (
-      <div className={styles.dropMenuContainer}>
-        <section className={styles.newBoardContainer}>
-          <header className={styles.header}>
-            <h2>Create board</h2>
-            <button className={styles.closeButton} onClick={handleCloseNewBoardCreator}>
-              <img src={'/assets/close_icon.svg'} alt='close icon' />
-            </button>
-          </header>
-          <div className={styles.contentContainer}>
-            <div
-                className={styles.boardPreViewer}
-                style={{ background: newBoardData.custom.color }}
-            >
-              <img src='/assets/newBoardCreatorPresetBoard.svg' alt='board preset' />
-            </div>
-            <div className={styles.bgPickerContainer}>
-              <p>Background</p>
-              <div className={styles.backgroundPicker}>
-                <ul className={styles.presetColorsList}>
-                  <ColorList onClick={handleBoardPreviewBGChange} />
-                </ul>
-              </div>
-            </div>
-            <form className={styles.form} onSubmit={e => handleCreateNewBoardButtonClick(e)}>
-              <div>
-                <label className={styles.titleInputContainer}>
-                  <h4>
-                    Board title <span>*</span>
-                  </h4>
-                  <input
-                      type='text'
-                      onChange={handleInputChange}
-                      required={true}
-                      placeholder={newBoardData.title}
-                  />
-                  {!newBoardData.title && (
-                      <div>
-                        <p>
-                          <span>👋</span> Board title is required
-                        </p>
-                      </div>
-                  )}
-                </label>
-              </div>
-              <button
-                  type={'submit'}
-                  className={`${!newBoardData.title ? styles.createButtonDisabled : styles.createButton}`}
-              >
-                Create
-              </button>
-            </form>
+    <div className={styles.dropMenuContainer}>
+      <section className={styles.newBoardContainer}>
+        <header className={styles.header}>
+          <h2>Create board</h2>
+          <button className={styles.closeButton} onClick={handleCloseNewBoardCreator}>
+            {closeIcon()}
+          </button>
+        </header>
+        <div className={styles.contentContainer}>
+          <div className={styles.boardPreViewer} style={{ background: newBoardData.custom.color }}>
+            {newBoardCreatorPresetBoard()}
           </div>
-        </section>
-
-      </div>
+          <div className={styles.bgPickerContainer}>
+            <p>Background</p>
+            <div className={styles.backgroundPicker}>
+              <ul className={styles.presetColorsList}>
+                <ColorList onClick={handleBoardPreviewBGChange} />
+              </ul>
+            </div>
+          </div>
+          <form className={styles.form} onSubmit={e => handleCreateNewBoardButtonClick(e)}>
+            <div>
+              <label className={styles.titleInputContainer}>
+                <h4>
+                  Board title <span>*</span>
+                </h4>
+                <input
+                  type='text'
+                  onChange={handleInputChange}
+                  required={true}
+                  placeholder={newBoardData.title}
+                />
+                {!newBoardData.title && (
+                  <div>
+                    <p>
+                      <span>👋</span> Board title is required
+                    </p>
+                  </div>
+                )}
+              </label>
+            </div>
+            <button
+              type={'submit'}
+              className={`${!newBoardData.title ? styles.createButtonDisabled : styles.createButton}`}
+            >
+              Create
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
   )
 }
