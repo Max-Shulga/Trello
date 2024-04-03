@@ -1,11 +1,8 @@
-import { ICard } from './ICard'
+import { ICard } from './ICard.ts'
 
 export interface IList {
-  title: string
-  position: number
-}
-
-export interface IListServerResponse extends IList {
   cards: ICard[]
   id: number
+  position:number
+  title: string
 }

@@ -5,30 +5,21 @@ import { useParams } from 'react-router-dom'
 import { changeBoardTitle, getBoard, loadBoard } from '../../features/BoardSlice.ts'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import InputForm from '../../components/InputForm/InputForm.tsx'
-import NewCardCreator from './components/NewCardCreator/NewCardCreator.tsx'
+
 import { AppDispatch } from '../../app/store.ts'
+import NewCardCreator from './components/NewListCreator/NewCardCreator.tsx'
 
 export const Board = () => {
-  const { id:idString } = useParams<string>() as {
+  const { id: idString } = useParams<string>() as {
     id: string
   }
   const id = +idString
   const { title, lists, custom, isLoading } = useAppSelector(getBoard)
   const [showBoardCreateForm, setShowBoardCreateForm] = useState(false)
   const [showNewTitleInput, setShowNewTitleInput] = useState(false)
-  const dispatch:AppDispatch = useAppDispatch()
-  const [newTitleData, setNewTitleData] = useState({
-    id: id,
-    title: '',
-    custom: {},
-  })
+  const dispatch: AppDispatch = useAppDispatch()
+  const [newTitleData, setNewTitleData] = useState('')
   const createNewCardText = lists.length > 0 ? 'Add another list' : 'Add a list'
-  useEffect(() => {
-    setNewTitleData(prevData => ({
-      ...prevData,
-      id: id,
-    }));
-  }, [id]);
 
   useEffect(() => {
     dispatch(loadBoard(id))
@@ -36,39 +27,38 @@ export const Board = () => {
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value
-    setNewTitleData({
-      ...newTitleData,
-      title: newTitle,
-    })
+    setNewTitleData(newTitle)
   }
   const handleOnSubmit = (
     event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>,
   ) => {
-    if (newTitleData.title) {
+    if (newTitleData) {
       event.preventDefault()
       dispatch(changeBoardTitle(newTitleData))
     }
     setShowNewTitleInput(false)
   }
-  const changeTitleForm = () => (
-    <form name='changeBoardName' onSubmit={handleOnSubmit} onBlur={handleOnSubmit}>
-      <label htmlFor='changeBoardName' />
-      <InputForm htmlFor={'changeBoardName'} onChange={handleInputValue} value={title} />
-    </form>
-  )
 
   if (isLoading) {
     return <div>Loading... </div>
   }
-
   return (
     <div style={{ background: custom.color }} className={styles.boardContainer}>
       <div onClick={() => setShowNewTitleInput(true)} className={styles.title}>
-        {showNewTitleInput ? changeTitleForm() : title}
+        {showNewTitleInput ? (
+          <InputForm
+            htmlFor={'changeBoardName'}
+            onChange={handleInputValue}
+            value={title}
+            onSubmit={handleOnSubmit}
+          />
+        ) : (
+          title
+        )}
       </div>
       <ul className={styles.cardsListContainer}>
         {lists.map(list => (
-          <List key={list.id} list={list}  boardID={id} dispatch={dispatch}/>
+          <List key={list.id} list={list} dispatch={dispatch} />
         ))}
         <li className={styles.addCard}>
           {showBoardCreateForm ? (

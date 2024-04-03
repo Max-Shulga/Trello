@@ -12,8 +12,8 @@
   position: relative;
   scroll-margin: 8px;
   list-style: none;
-
-  span {
+  color: black;
+  button {
     display: none;
   cursor: pointer;
     &:after {
@@ -26,7 +26,7 @@
   }
 
   &:hover {
-    span {
+    button {
       display: block
     }
   }

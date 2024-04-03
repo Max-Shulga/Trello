@@ -1,12 +1,12 @@
 import { Color } from '../types/Color.ts'
-import { IListServerResponse } from './IList.ts'
+import { IList } from './IList.ts'
 
 export interface IBoard {
   title: string
   custom: {
     color: Color
   }
-  lists: IListServerResponse[]
+  lists: IList[]
   users: [
     {
       [key: number]: {

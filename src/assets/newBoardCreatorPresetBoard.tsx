@@ -13,8 +13,8 @@ export const newBoardCreatorPresetBoard = () => (
     </mask>
     <g mask='url(#mask0)'>
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M70.651 32.5795C70.651 32.2167 70.9451 31.9226 71.3079 31.9226H80.3815C80.7443 31.9226 81.0384 32.2167 81.0384 32.5795V35.0672C81.0384 35.43 80.7443 35.7241 80.3815 35.7241H71.3079C70.9451 35.7241 70.651 35.43 70.651 35.0672V32.5795Z'
         fill='#E4E4E4'
       />
@@ -28,7 +28,7 @@ export const newBoardCreatorPresetBoard = () => (
       <rect x='70.651' y='54.1465' width='14.2456' height='3.80145' rx='0.656896' fill='#E4E4E4' />
     </g>
     <path
-      fill-rule='evenodd'
+        fillRule='evenodd'
       clipRule='evenodd'
       d='M68.2767 20.0055C68.2767 19.6427 68.5708 19.3486 68.9336 19.3486H90.7689C91.1317 19.3486 91.4258 19.6427 91.4258 20.0055V23.078C91.4258 23.4408 91.1317 23.7349 90.7689 23.7349H68.9336C68.5708 23.7349 68.2767 23.4408 68.2767 23.078V20.0055Z'
       fill='white'
@@ -41,7 +41,7 @@ export const newBoardCreatorPresetBoard = () => (
     <g mask='url(#mask2)'>
       <rect x='131.51' y='26.6929' width='55.3861' height='27.0612' fill='#F1F1F1' />
       <path
-        fill-rule='evenodd'
+          fillRule='evenodd'
         clipRule='evenodd'
         d='M134.163 57.1427C134.163 56.7799 134.457 56.4858 134.82 56.4858H145.674C146.037 56.4858 146.331 56.7799 146.331 57.1427V59.6304C146.331 59.9932 146.037 60.2873 145.674 60.2873H134.82C134.457 60.2873 134.163 59.9932 134.163 59.6304V57.1427Z'
         fill='#E4E4E4'
@@ -60,7 +60,7 @@ export const newBoardCreatorPresetBoard = () => (
     <g mask='url(#mask4)'></g>
     <rect x='133.866' y='85.7277' width='13.3553' height='3.80145' rx='0.656896' fill='#E4E4E4' />
     <path
-      fill-rule='evenodd'
+        fillRule='evenodd'
       clipRule='evenodd'
       d='M131.788 20.0055C131.788 19.6427 132.082 19.3486 132.445 19.3486H146.267C146.63 19.3486 146.924 19.6427 146.924 20.0055V23.078C146.924 23.4408 146.63 23.7349 146.267 23.7349H132.445C132.082 23.7349 131.788 23.4408 131.788 23.078V20.0055Z'
       fill='white'

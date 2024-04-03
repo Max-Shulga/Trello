@@ -1,10 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
 import InputForm from '../../../../components/InputForm/InputForm.tsx'
-import { IList } from '../../../../common/interfaces/IList.ts'
 import styles from './NewCardCreator.module.scss'
 import { addList } from '../../../../features/BoardSlice.ts'
 import { useAppDispatch } from '../../../../app/hooks.ts'
-import { closeIcon } from '../../../../assets/closeIcon.tsx'
+import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
 
 interface INewCardCreator {
   position: number
@@ -14,10 +13,9 @@ interface INewCardCreator {
 
 export default function NewCardCreator(params: INewCardCreator) {
   const { position, id, setShowBoardCreateForm } = params
-  const [newListData, setNewListData] = useState<IList>({
+  const [newListData, setNewListData] = useState<IChangeListDataPayload>({
     title: '',
     position: position,
-
   })
   const dispatch = useAppDispatch()
 
@@ -26,7 +24,9 @@ export default function NewCardCreator(params: INewCardCreator) {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(addList({ ...newListData, id: id }))
+    if (newListData.title) {
+      dispatch(addList({ title: newListData.title, id: id, position: position }))
+    }
     setShowBoardCreateForm(false)
   }
 
@@ -37,7 +37,7 @@ export default function NewCardCreator(params: INewCardCreator) {
         htmlFor={'CardName'}
         onChange={handleOnChange}
         placeholder={'Enter list title...'}
-      />
+       onSubmit={()=>null}/>
       <div className={styles.buttonsContainer}>
         <button className={styles.submitButton} type='submit'>
           Add list
@@ -45,7 +45,7 @@ export default function NewCardCreator(params: INewCardCreator) {
         <button
           className={styles.closeButton}
           onClick={() => setShowBoardCreateForm(false)}
-        >{closeIcon()}</button>
+        ></button>
       </div>
     </form>
   )
