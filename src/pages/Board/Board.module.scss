@@ -76,6 +76,20 @@
     font-size: 16px;
   }
 }
+.headerContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.delBoardButton{
+  padding: 0 15px;
+  border: 1px solid black;
+  border-radius: $maim-border-radius;
+  background: #ea6669;
+  &:hover{
+    filter: brightness(1.2);
+  }
+}
 
 
 

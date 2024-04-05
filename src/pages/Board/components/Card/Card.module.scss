@@ -13,9 +13,11 @@
   scroll-margin: 8px;
   list-style: none;
   color: black;
-  button {
+
+  .changeCardTitle {
     display: none;
-  cursor: pointer;
+    cursor: pointer;
+
     &:after {
       content: url("/assets/pen_icon.svg");
       position: absolute;
@@ -38,5 +40,23 @@
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 1px;
+  }
+}
+
+.deleteCardButton {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 50%;
+  display: none;
+  &:after {
+    content: '\2716';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
   }
 }

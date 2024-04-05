@@ -1,10 +1,10 @@
 import styles from './Card.module.scss'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import InputForm from '../../../../components/InputForm/InputForm.tsx'
 import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload.ts'
 import { ICard } from '../../../../common/interfaces/ICard.ts'
 import { AppDispatch } from '../../../../app/store.ts'
-import { changeCardData } from '../../../../features/BoardSlice.ts'
+import { changeCardData, deleteCard } from '../../../../features/BoardSlice.ts'
 
 interface CardProps extends ICard {
   dispatch: AppDispatch
@@ -13,11 +13,11 @@ interface CardProps extends ICard {
 
 export default function Card(props: CardProps) {
   const [showInput, setShowInput] = useState(false)
-  const { list_id,title, dispatch,id } = props
+  const { list_id, title, dispatch, id } = props
 
   const [cardData, setCardData] = useState<IChangeCardDataPayload>({
     id: id,
-    list_id:list_id,
+    list_id: list_id,
     title: '',
   })
 
@@ -28,13 +28,12 @@ export default function Card(props: CardProps) {
       title: newTitle,
     })
   }
-  const handleChangeCardTitleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleChangeCardTitleOnSubmit = () => {
     setShowInput(false)
-
-    if (cardData.title) {
-      e.preventDefault()
-      dispatch(changeCardData(cardData))
-    }
+    if (cardData.title) dispatch(changeCardData(cardData))
+  }
+  const handleDeleteCard = ()=>{
+    dispatch(deleteCard(cardData.id||0))
   }
   return (
     <li className={styles.cardContainer}>
@@ -48,9 +47,12 @@ export default function Card(props: CardProps) {
       ) : (
         <>
           <div>{title}</div>
-          <button onClick={() => setShowInput(true)} />
+          <button className={styles.changeCardTitle} onClick={() => setShowInput(true)} />
         </>
       )}
+      <button className={styles.deleteCardButton} onClick={handleDeleteCard}></button>
+
     </li>
+
   )
 }

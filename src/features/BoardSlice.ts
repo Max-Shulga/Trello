@@ -42,13 +42,20 @@ export const changeBoardTitle = createAsyncThunk(
   async (title: string, { getState }) => {
     const currentState: RootState = getState() as RootState
     const { id } = currentState.board
-
     await api.put(`/board/${id}`, { title: title })
     const response: IBoard = await api.get(`/board/${id}`)
     return response.title
   },
 )
-
+export const deleteBoard = createAsyncThunk(
+  'board/list/changeListData',
+  async (_, { getState }) => {
+    console.log(123)
+    const currentState: RootState = getState() as RootState
+    const { id } = currentState.board
+    await api.delete(`/board/${id}`)
+  },
+)
 /*
  * Lists
  */
@@ -69,13 +76,21 @@ export const changeListData = createAsyncThunk(
     const currentState: RootState = getState() as RootState
     const { id } = currentState.board
     const { id: listId } = listData
-
     await api.put(`/board/${id}/list/${listId}`, { ...listData })
     const response: IBoard = await api.get(`/board/${id}`)
     return response.lists
   },
 )
-
+export const deleteList = createAsyncThunk(
+  'board/list/changeListData',
+  async (listId: number, { getState }) => {
+    const currentState: RootState = getState() as RootState
+    const { id } = currentState.board
+    await api.delete(`/board/${id}/list/${listId}`)
+    const response: IBoard = await api.get(`/board/${id}`)
+    return response.lists
+  },
+)
 /*
  * Cards
  */
@@ -94,14 +109,22 @@ export const changeCardData = createAsyncThunk(
   async (cardData: IChangeCardDataPayload, { getState }) => {
     const currentState: RootState = getState() as RootState
     const { id } = currentState.board
-    console.log(cardData)
     await api.put(`/board/${id}/card/${cardData.id}`, { ...cardData })
     const response: IBoard = await api.get(`/board/${id}`)
     return response.lists
   },
 )
-
-const handleFulfilledCase = <T>(state:IInitialState, action:PayloadAction<T>) => {
+export const deleteCard = createAsyncThunk(
+  'board/list/changeListData',
+  async (cardId: number, { getState }) => {
+    const currentState: RootState = getState() as RootState
+    const { id } = currentState.board
+    await api.delete(`/board/${id}/card/${cardId}`)
+    const response: IBoard = await api.get(`/board/${id}`)
+    return response.lists
+  },
+)
+const handleFulfilledCase = <T>(state: IInitialState, action: PayloadAction<T>) => {
   return {
     ...state,
     isLoading: false,
@@ -115,15 +138,15 @@ const boardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(loadBoard.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.hasError = false
-      return {
-        ...state,
-        ...action.payload,
-      }
-    })
     builder
+      .addCase(loadBoard.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.hasError = false
+        return {
+          ...state,
+          ...action.payload,
+        }
+      })
       .addCase(changeBoardTitle.fulfilled, (state, action) => {
         state.isLoading = false
         state.hasError = false

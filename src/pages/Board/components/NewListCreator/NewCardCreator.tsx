@@ -4,6 +4,7 @@ import styles from './NewCardCreator.module.scss'
 import { addList } from '../../../../features/BoardSlice.ts'
 import { useAppDispatch } from '../../../../app/hooks.ts'
 import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
+import { closeIcon } from '../../../../assets/closeIcon.tsx'
 
 interface INewCardCreator {
   position: number
@@ -22,8 +23,7 @@ export default function NewCardCreator(params: INewCardCreator) {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewListData({ ...newListData, title: e.target.value })
   }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = () => {
     if (newListData.title) {
       dispatch(addList({ title: newListData.title, id: id, position: position }))
     }
@@ -31,22 +31,20 @@ export default function NewCardCreator(params: INewCardCreator) {
   }
 
   return (
-    <form name='CardName' className={styles.form} onSubmit={handleSubmit}>
-      <label htmlFor='CardName' />
+    <div className={styles.form}>
       <InputForm
         htmlFor={'CardName'}
         onChange={handleOnChange}
         placeholder={'Enter list title...'}
-       onSubmit={()=>null}/>
-      <div className={styles.buttonsContainer}>
-        <button className={styles.submitButton} type='submit'>
-          Add list
-        </button>
-        <button
-          className={styles.closeButton}
-          onClick={() => setShowBoardCreateForm(false)}
-        ></button>
-      </div>
-    </form>
+        onSubmit={handleSubmit}
+      />
+    <div className={styles.buttonsContainer}>
+
+      <button className={styles.submitButton} type='submit' form={'CardName'}>
+        Add list
+      </button>
+      <button className={styles.closeButton} onClick={() => setShowBoardCreateForm(false)}>{closeIcon()}</button>
+    </div>
+    </div>
   )
 }
