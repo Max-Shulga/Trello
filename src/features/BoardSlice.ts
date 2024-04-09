@@ -3,36 +3,34 @@ import { IBoard, IBoardWithId } from '../common/interfaces/IBoard.ts'
 import { ILoadingErrorState } from '../common/interfaces/ILoadingErrorState.ts'
 import api from '../api/request.ts'
 import { RootState } from '../app/store.ts'
-import { IChangeListDataPayload } from '../common/types/IChangeListDataPayload.ts'
+import { AxiosError } from 'axios'
 import { IChangeCardDataPayload } from '../common/types/IChangeCardDataPayload.ts'
+import { IChangeListDataPayload } from '../common/types/IChangeListDataPayload.ts'
 
-interface IInitialState extends IBoardWithId, ILoadingErrorState {}
-
-const initialState: IInitialState = {
-  id: 0,
-  title: '',
-  custom: {
-    color: 'transparent',
-  },
-  lists: [],
-  users: [
-    {
-      0: {
-        id: 0,
-        username: '',
-      },
-    },
-  ],
-  isLoading: false,
-  hasError: false,
+interface IInitialState extends IBoardWithId, ILoadingErrorState {
+    error?: AxiosError
 }
 
+const initialState: IInitialState = {
+    id: 0,
+    title: '',
+    custom: {
+        color: 'transparent',
+    },
+    lists: [],
+    users: [{}],
+    isLoading: false,
+    hasError: false,
+
+}
+
+
 export const loadBoard = createAsyncThunk(
-  'board/loadBoard',
-  async (id: number): Promise<IBoardWithId> => {
-    const response: IBoard = await api.get(`/board/${id}`)
-    return { id: id, ...response }
-  },
+    'board/loadBoard',
+    async (id: number) => {
+        const response: IBoard = await api.get(`/board/${id}`)
+        return { id: id, ...response }
+    },
 )
 /*
 Boards
@@ -50,7 +48,6 @@ export const changeBoardTitle = createAsyncThunk(
 export const deleteBoard = createAsyncThunk(
   'board/list/changeListData',
   async (_, { getState }) => {
-    console.log(123)
     const currentState: RootState = getState() as RootState
     const { id } = currentState.board
     await api.delete(`/board/${id}`)
@@ -128,35 +125,38 @@ const handleFulfilledCase = <T>(state: IInitialState, action: PayloadAction<T>) 
   return {
     ...state,
     isLoading: false,
-    hasError: false,
     lists: action.payload,
   }
 }
 
 const boardSlice = createSlice({
-  name: 'board',
-  initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(loadBoard.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.hasError = false
-        return {
-          ...state,
-          ...action.payload,
-        }
-      })
-      .addCase(changeBoardTitle.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.hasError = false
-        state.title = action.payload
-      })
-      .addCase(addList.fulfilled, handleFulfilledCase)
-      .addCase(changeListData.fulfilled, handleFulfilledCase)
-      .addCase(addCard.fulfilled, handleFulfilledCase)
-      .addCase(changeCardData.fulfilled, handleFulfilledCase)
-  },
+    name: 'board',
+    initialState,
+    reducers: {},
+    extraReducers: builder => {
+        builder
+            .addCase(loadBoard.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.hasError = false
+                return {
+                    ...state,
+                    ...action.payload,
+                }
+            })
+            .addCase(changeBoardTitle.fulfilled, (state, action) => {
+              state.isLoading = false
+              state.hasError = false
+              state.title = action.payload
+            })
+            .addCase(addList.fulfilled, handleFulfilledCase)
+            .addCase(changeListData.fulfilled, handleFulfilledCase)
+            .addCase(addCard.fulfilled, handleFulfilledCase)
+            .addCase(changeCardData.fulfilled, handleFulfilledCase)
+            .addCase(loadBoard.rejected, (state) => {
+                state.isLoading = false
+                state.hasError = true
+            })
+    },
 })
 
 export const getBoard = (state: RootState) => state.board

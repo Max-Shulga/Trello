@@ -42,7 +42,6 @@ export default function InputForm(params: IInputFormParams) {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsValid(false)
-    setShowValidInfo(false)
     onChange(e)
     setInputValue(e.target.value)
   }

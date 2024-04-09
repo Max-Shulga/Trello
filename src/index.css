@@ -1,3 +1,4 @@
+@import 'react-redux-toastr/src/styles/index.scss';
 @import 'utils/reset.scss';
 :root[data-theme='light'] {
   --main-bg-color: #ffffff;

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import InputForm from '../../../../components/InputForm/InputForm.tsx'
-import styles from './NewCardCreator.module.scss'
+import styles from './NewListCreator.module.scss'
 import { addList } from '../../../../features/BoardSlice.ts'
 import { useAppDispatch } from '../../../../app/hooks.ts'
 import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
@@ -12,7 +12,7 @@ interface INewCardCreator {
   setShowBoardCreateForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function NewCardCreator(params: INewCardCreator) {
+export default function NewListCreator(params: INewCardCreator) {
   const { position, id, setShowBoardCreateForm } = params
   const [newListData, setNewListData] = useState<IChangeListDataPayload>({
     title: '',

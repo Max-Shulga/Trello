@@ -84,13 +84,15 @@
 .delBoardButton{
   padding: 0 15px;
   border: 1px solid black;
-  border-radius: $maim-border-radius;
+  border-radius: $main-border-radius;
   background: #ea6669;
   &:hover{
     filter: brightness(1.2);
   }
 }
 
-
-
+.loading{
+  padding: 1rem;
+  width: 40px;
+}
 

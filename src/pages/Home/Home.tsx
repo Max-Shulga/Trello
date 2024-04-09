@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import {  getBoards, isBoardsLoading, loadAllBoards } from '../../features/HomeBoardsSlice.ts'
+import { getBoards, isBoardsLoading, loadAllBoards } from '../../features/HomeBoardsSlice.ts'
 import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import BoardIcon from './components/BoardIcon/BoardIcon.tsx'
@@ -19,7 +19,8 @@ export default function Home() {
   const handleClick = () => {
     setShowNewBoardCreator(!showNewBoardCreator)
   }
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return <img className={styles.loading} src='/assets/icon-spinner.gif' alt='loading spinner' />
 
   return (
     <div className={styles.homePageContainer}>
@@ -27,14 +28,13 @@ export default function Home() {
       <div className={styles.boardIconsContainer}>
         <ul className={styles.ul}>
           {boards.map((board: IHomeBoardServerResponse) => (
-              <BoardIcon key={board.id}  {...board}/>
+            <BoardIcon key={board.id} {...board} />
           ))}
           <li className={styles.addNewBoardButton} onClick={handleClick}>
             <div>Create new board</div>
           </li>
-          {showNewBoardCreator && <NewBoardCreator onClick={handleClick}/>}
+          {showNewBoardCreator && <NewBoardCreator onClick={handleClick} />}
         </ul>
-
       </div>
     </div>
   )
