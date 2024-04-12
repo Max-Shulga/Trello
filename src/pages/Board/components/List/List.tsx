@@ -1,6 +1,6 @@
 import styles from './List.module.scss'
 import Card from '../Card/Card..tsx'
-import  { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import InputForm from '../../../../components/InputForm/InputForm.tsx'
 import { addCard, changeListData, deleteList } from '../../../../features/BoardSlice.ts'
 import { AppDispatch } from '../../../../app/store.ts'
@@ -21,7 +21,7 @@ export default function List(props: ListProps) {
   const [newListTitle, setNewListTitle] = useState<IChangeListDataPayload>({
     title: '',
     position: list.position,
-    id:list.id
+    id: list.id,
   })
 
   const [newCard, setNewCard] = useState<IChangeCardDataPayload>({
@@ -40,7 +40,7 @@ export default function List(props: ListProps) {
 
   const handleTitleSubmit = () => {
     setShowNewTitleInput(false)
-     if (newListTitle.title) dispatch(changeListData(newListTitle))
+    if (newListTitle.title) dispatch(changeListData(newListTitle))
   }
 
   const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +52,10 @@ export default function List(props: ListProps) {
   }
   const handleCardSubmit = () => {
     setShowNewCardInput(false)
-     if (newCard.title) dispatch(addCard(newCard))
+    if (newCard.title) dispatch(addCard(newCard))
   }
 
-  const handleDeleteList = ()=>{
+  const handleDeleteList = () => {
     dispatch(deleteList(list.id))
   }
   return (
@@ -73,7 +73,9 @@ export default function List(props: ListProps) {
             ) : (
               <h2 onClick={() => setShowNewTitleInput(true)}>{list.title}</h2>
             )}
-            <button onClick={handleDeleteList} className={styles.cardOptionsButton}>del</button>
+            <button onClick={handleDeleteList} className={styles.cardOptionsButton}>
+              del
+            </button>
           </div>
           <ul className={styles.cardsContainer}>
             {showNewCardInput ? (

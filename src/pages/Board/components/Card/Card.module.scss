@@ -2,7 +2,7 @@
 
 .cardContainer {
   font-size: 18px;
-  margin: 5px;
+  margin: 5px 0 ;
   border: 1px solid var(--card-border);
   border-radius: $main-border-radius;
   background: $main-white-color;
@@ -13,7 +13,12 @@
   scroll-margin: 8px;
   list-style: none;
   color: black;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  input{
+    height: 26px;
+  }
   .changeCardTitleButton {
     display: none;
     cursor: pointer;
@@ -25,6 +30,7 @@
       right: 0;
       transform: translateY(-50%) translateX(-50%);
     }
+
   }
 
   &:hover {
