@@ -2,10 +2,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from 'react'
 import styles from './InputForm.module.scss'
 import { RegexPattern } from '../../common/types/RegexPattern.ts'
+import { BoardNameValidationInfo } from '../BoardNameValidationInfo/BoardNameValidationInfo.tsx'
 
-interface IInputFormParams
+interface InputFormProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSubmit'> {
-  htmlFor: string
+  htmlId: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   value?: string
   onSubmit: SubmitHandler<FormValues>
@@ -16,12 +17,11 @@ interface IInputFormParams
 type FormValues = {
   title: string
 }
-export default function InputForm(params: IInputFormParams) {
-  const { htmlFor, onChange, onSubmit, validationPattern, className, value, ...rest } = params
+export default function InputForm(props: InputFormProps) {
+  const { htmlId: htmlId, onChange, onSubmit, validationPattern, className, value, ...rest } = props
   const { register, handleSubmit, setFocus } = useForm<FormValues>()
   const [inputValue, setInputValue] = useState(value || '')
   const [isValid, setIsValid] = useState(false)
-  const [showValidInfo, setShowValidInfo] = useState(false)
   const pattern = validationPattern || /.*/
 
   const handleFormSubmit: SubmitHandler<FormValues> = data => {
@@ -40,40 +40,32 @@ export default function InputForm(params: IInputFormParams) {
     setFocus('title')
   }, [setFocus])
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsValid(false)
     onChange(e)
     setInputValue(e.target.value)
   }
-  const handleValidInfoOnClick = () => {
-    setShowValidInfo(!showValidInfo)
-  }
+
 
   return (
+
     <form
-      id={htmlFor}
-      name={htmlFor}
+      id={htmlId}
+      name={htmlId}
       onSubmit={handleSubmit(handleFormSubmit)}
       onBlur={handleSubmit(handleFormSubmit)}
       className={className ? className : ''}
     >
-      <label htmlFor={htmlFor} className={styles.inputContainer}>
+      <label htmlFor={htmlId} className={styles.inputContainer}>
         <input
           className={styles.input}
           type='text'
           value={inputValue}
           {...register(`title`)}
-          onChange={handleInputChange}
+          onChange={handleChange}
           {...rest}
         />
-        {isValid && <span onClick={handleValidInfoOnClick} className={styles.validInfoIcon}></span>}
-        {showValidInfo && (
-          <div className={styles.info}>
-            <h4>The name of the board may contain:</h4>
-            <p> Numbers, letters, spaces,</p>
-            <p>dashes, periods, and underscores</p>
-          </div>
-        )}
+        {isValid && <BoardNameValidationInfo/>}
       </label>
     </form>
   )

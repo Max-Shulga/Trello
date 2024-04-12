@@ -21,38 +21,36 @@ export default function Card(props: CardProps) {
     title: '',
   })
 
-  const handleCardOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value
     setCardData({
       ...cardData,
       title: newTitle,
     })
   }
-  const handleChangeCardTitleOnSubmit = () => {
+  const handleSubmit = () => {
     setShowInput(false)
     if (cardData.title) dispatch(changeCardData(cardData))
   }
-  const handleDeleteCard = ()=>{
-    dispatch(deleteCard(cardData.id||0))
+  const handleDelete = () => {
+    dispatch(deleteCard(cardData.id || 0))
   }
   return (
     <li className={styles.cardContainer}>
       {showInput ? (
         <InputForm
-          htmlFor={'changeCardTitle'}
-          onChange={handleCardOnChange}
-          onSubmit={handleChangeCardTitleOnSubmit}
+          htmlId={'changeCardTitle'}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
           value={title}
         />
       ) : (
         <>
           <div>{title}</div>
-          <button className={styles.changeCardTitle} onClick={() => setShowInput(true)} />
+          <button className={styles.changeCardTitleButton} onClick={() => setShowInput(true)} />
         </>
       )}
-      <button className={styles.deleteCardButton} onClick={handleDeleteCard}></button>
-
+      <button className={styles.deleteCardButton} onClick={handleDelete}></button>
     </li>
-
   )
 }

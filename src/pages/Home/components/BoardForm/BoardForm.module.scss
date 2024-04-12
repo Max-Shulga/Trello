@@ -2,15 +2,13 @@
 @import "./../../../../utils/mixins";
 
 .dropMenuContainer {
-  box-sizing: border-box;
   position: relative;
-
 }
 
 .newBoardContainer {
   position: absolute;
   width: 304px;
-  top: 0;
+  top: 30px;
   right: calc(-1rem - 304px);
   transform: translateY(-10%);
   display: flex;
@@ -55,7 +53,8 @@
   height: 20px;
   justify-content: center;
   align-items: center;
-  img{
+
+  img {
     width: 22px;
   }
 }
@@ -91,7 +90,7 @@
   display: flex;
   justify-content: space-between;
   list-style: none;
-  gap:8px
+  gap: 8px
 }
 
 .paletteButton {
@@ -103,25 +102,28 @@
 
 .titleInputContainer {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  gap: 3px;
+  font-weight: 500;
+  padding-bottom: 8px;
 
   h4 {
     @include h4Presets;
   }
 
-  p {
-    @include textPreset
+  span {
+    font-weight: 600;
   }
 }
 
-.form{
+.form {
   display: flex;
   flex-direction: column;
   padding-bottom: 1.5rem;
   gap: 1rem;
 }
-.createButtonDisabled{
+
+.createButtonDisabled {
   @include main-button;
   border: none;
   box-shadow: none;
@@ -132,7 +134,7 @@
   padding: 3px 0;
 }
 
-.createButton{
+.createButton {
   @include main-button;
   border: none;
   box-shadow: none;
@@ -144,3 +146,75 @@
   @include hover;
   @include active-button;
 }
+
+.colorPikerElement {
+  width: 40px;
+  height: 32px;
+  position: relative;
+  border-radius: $main-border-radius;
+  @include hover;
+
+  .moreEffectContainer {
+    display: flex;
+  }
+
+  &.moreEffect:after {
+    content: '• • •';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 9px;
+    transform: translate(-50%, -50%);
+    color: #1c0f0f;
+    cursor: pointer;
+  }
+
+  button {
+    @include main-button;
+    width: 100%;
+    height: 100%;
+    background: #B6C2CF;
+    @include hover
+  }
+
+
+}
+
+.acceptEffect:after {
+  content: url('/assets/check_accept_icon.svg');
+  transform: scale(0.33) translate(-50%, -50%);
+  position: absolute;
+  top: -2px;
+  left: 5px;
+}
+
+.colorsDropMenu {
+  position: absolute;
+  right: -480px;
+  top: 140px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-radius: 8px;
+  box-shadow: $main-box-shadow;
+  background: var(--card-bg);
+  list-style: none;
+  padding: 1rem;
+  gap: 8px;
+
+  li {
+    position: relative;
+    width: 40px;
+    height: 32px;
+    border-radius: $main-border-radius;
+  }
+
+}
+
+.notValid {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+

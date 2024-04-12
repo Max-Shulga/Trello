@@ -7,10 +7,9 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import InputForm from '../../components/InputForm/InputForm.tsx'
 import { AppDispatch } from '../../app/store.ts'
 import NewListCreator from './components/NewListCreator/NewListCreator.tsx'
-import { BoardTitleValidator } from '../../common/constants/BoardTitleValidator.ts'
-import { AxiosError } from 'axios'
-import { toastr } from 'react-redux-toastr'
+import { patternBoardTitle } from '../../common/constants/patternBoardTitle.ts'
 import { unwrapResult } from '@reduxjs/toolkit'
+import { handleApiError } from '../../api/handleApiError.ts'
 
 export const Board = () => {
   const { id: idString } = useParams<string>() as {
@@ -18,22 +17,12 @@ export const Board = () => {
   }
   const id = +idString
   const { title, lists, custom, isLoading } = useAppSelector(getBoard)
-  const [showBoardCreateForm, setShowBoardCreateForm] = useState(false)
+  const [showListCreateForm, setShowListCreateForm] = useState(false)
   const [showNewTitleInput, setShowNewTitleInput] = useState(false)
   const dispatch: AppDispatch = useAppDispatch()
-  const [newTitleData, setNewTitleData] = useState('')
-  const createNewCardText = lists.length > 0 ? 'Add another list' : 'Add a list'
+  const [newTitle, setNewTitle] = useState(title)
+  const createNewListText = lists.length > 0 ? 'Add another list' : 'Add a list'
   const navigate = useNavigate()
-
-  const handleApiError = (error: AxiosError) => {
-    if (error.response) {
-      toastr.error('Response error', 'Check network')
-    } else if (error.request) {
-      toastr.error('Request error', 'Check network')
-    } else {
-      toastr.error('Error', error.message)
-    }
-  }
 
   useEffect(() => {
     dispatch(loadBoard(id))
@@ -43,23 +32,23 @@ export const Board = () => {
       })
   }, [id, dispatch])
 
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value
-    setNewTitleData(newTitle)
+    setNewTitle(newTitle)
   }
 
-  const handleOnSubmit = () => {
-    if (newTitleData.trim()) dispatch(changeBoardTitle(newTitleData))
+  const handleSubmit = () => {
+    if (newTitle.trim()) dispatch(changeBoardTitle(newTitle))
 
     setShowNewTitleInput(false)
   }
 
-  const handleDelete = () => {
+  const handleDeleteBoard = () => {
     dispatch(deleteBoard())
     navigate('/')
   }
   if (isLoading) {
-    return <img className={styles.loading} src='/assets/icon-spinner.gif' alt='loading spinner' />
+    return <img className={styles.loading} src={'/assets/icon-spinner.gif'} alt='loading spinner' />
   }
   return (
     <div style={{ background: custom.color }} className={styles.boardContainer}>
@@ -67,17 +56,17 @@ export const Board = () => {
         <div onClick={() => setShowNewTitleInput(true)} className={styles.title}>
           {showNewTitleInput ? (
             <InputForm
-              htmlFor={'changeBoardName'}
-              onChange={handleInputValue}
+              htmlId={'changeBoardName'}
+              onChange={handleInputChange}
               value={title}
-              onSubmit={handleOnSubmit}
-              validationPattern={BoardTitleValidator}
+              onSubmit={handleSubmit}
+              validationPattern={patternBoardTitle}
             />
           ) : (
             title
           )}
         </div>
-        <button onClick={handleDelete} className={styles.delBoardButton}>
+        <button onClick={handleDeleteBoard} className={styles.delBoardButton}>
           del
         </button>
       </div>
@@ -86,18 +75,18 @@ export const Board = () => {
           <List key={list.id} list={list} dispatch={dispatch} />
         ))}
         <li className={styles.addCard}>
-          {showBoardCreateForm ? (
+          {showListCreateForm ? (
             <NewListCreator
               position={lists.length + 1}
               id={id}
-              setShowBoardCreateForm={setShowBoardCreateForm}
+              setShowCreateForm={setShowListCreateForm}
             />
           ) : (
             <button
               className={styles.showCreateMenuButton}
-              onClick={() => setShowBoardCreateForm(true)}
+              onClick={() => setShowListCreateForm(true)}
             >
-              {createNewCardText}
+              {createNewListText}
             </button>
           )}
         </li>

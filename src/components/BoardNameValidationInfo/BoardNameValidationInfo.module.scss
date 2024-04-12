@@ -1,0 +1,34 @@
+@import "./../../utils/constants";
+.container{
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 50%;
+}
+.infoIcon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: url("/assets/info-icon.svg") no-repeat;
+  background-size: 20px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 12px;
+}
+.info {
+  position: absolute;
+  top: -70px;
+  left: -80px;
+  width: 200px;
+  z-index: 2;
+  border-radius: $main-border-radius;
+  box-shadow: $main-box-shadow;
+  border: 1px solid #f26065;
+  font-size: 12px;
+  padding: 10px;
+  h4{
+    font-weight: 600;
+  }
+}

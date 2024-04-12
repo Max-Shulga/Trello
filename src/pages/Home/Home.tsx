@@ -3,37 +3,44 @@ import { getBoards, isBoardsLoading, loadAllBoards } from '../../features/HomeBo
 import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import BoardIcon from './components/BoardIcon/BoardIcon.tsx'
-import NewBoardCreator from './components/NewBoardCreator/NewBoardCreator.tsx'
+import BoardForm from './components/BoardForm/BoardForm.tsx'
 import { IHomeBoardServerResponse } from '../../common/interfaces/IHomeBoard.ts'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { handleApiError } from '../../api/handleApiError.ts'
 
 export default function Home() {
-  const [showNewBoardCreator, setShowNewBoardCreator] = useState(false)
+  const [isNewBoardVisible, setIsNewBoardVisible] = useState(false)
   const dispatch = useAppDispatch()
   const boards = useAppSelector(getBoards)
   const isLoading = useAppSelector(isBoardsLoading)
 
   useEffect(() => {
     dispatch(loadAllBoards())
+      .then(unwrapResult)
+      .catch(e => {
+        handleApiError(e)
+      })
   }, [dispatch])
 
-  const handleClick = () => {
-    setShowNewBoardCreator(!showNewBoardCreator)
+  const toggleNewBoardVisibility = () => {
+    setIsNewBoardVisible(!isNewBoardVisible)
   }
+
   if (isLoading)
-    return <img className={styles.loading} src='/assets/icon-spinner.gif' alt='loading spinner' />
+    return <img className={styles.loading} src={'/assets/icon-spinner.gif'} alt='loading spinner' />
 
   return (
     <div className={styles.homePageContainer}>
-      <h3>YOUR WORKSPACES</h3>
-      <div className={styles.boardIconsContainer}>
-        <ul className={styles.ul}>
+      <h3>Your workspaces</h3>
+      <div>
+        <ul className={styles.iconsList}>
           {boards.map((board: IHomeBoardServerResponse) => (
             <BoardIcon key={board.id} {...board} />
           ))}
-          <li className={styles.addNewBoardButton} onClick={handleClick}>
+          <li className={styles.addNewBoardButton} onClick={toggleNewBoardVisibility}>
             <div>Create new board</div>
           </li>
-          {showNewBoardCreator && <NewBoardCreator onClick={handleClick} />}
+          {isNewBoardVisible && <BoardForm onClick={toggleNewBoardVisibility} dispatch={dispatch} />}
         </ul>
       </div>
     </div>

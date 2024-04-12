@@ -30,7 +30,7 @@ export default function List(props: ListProps) {
     position: position,
   })
 
-  const handleNewTitleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNewTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value
     setNewListTitle({
       ...newListTitle,
@@ -38,19 +38,19 @@ export default function List(props: ListProps) {
     })
   }
 
-  const handleChangeTitleOnSubmit = () => {
+  const handleTitleSubmit = () => {
     setShowNewTitleInput(false)
      if (newListTitle.title) dispatch(changeListData(newListTitle))
   }
 
-  const handleAddCardOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newCardValue = e.target.value
     setNewCard({
       ...newCard,
       title: newCardValue,
     })
   }
-  const handleAddCardOnSubmit = () => {
+  const handleCardSubmit = () => {
     setShowNewCardInput(false)
      if (newCard.title) dispatch(addCard(newCard))
   }
@@ -65,10 +65,10 @@ export default function List(props: ListProps) {
           <div className={styles.listHeader}>
             {showNewTitleInput ? (
               <InputForm
-                htmlFor={'changeListTitle'}
-                onChange={handleNewTitleOnChange}
+                htmlId={'changeListTitle'}
+                onChange={handleNewTitleChange}
                 value={list.title}
-                onSubmit={handleChangeTitleOnSubmit}
+                onSubmit={handleTitleSubmit}
               />
             ) : (
               <h2 onClick={() => setShowNewTitleInput(true)}>{list.title}</h2>
@@ -78,10 +78,10 @@ export default function List(props: ListProps) {
           <ul className={styles.cardsContainer}>
             {showNewCardInput ? (
               <InputForm
-                htmlFor={'addCard'}
-                onChange={handleAddCardOnChange}
+                htmlId={'addCard'}
+                onChange={handleCardInputChange}
                 placeholder={'Enter a title for this card...'}
-                onSubmit={handleAddCardOnSubmit}
+                onSubmit={handleCardSubmit}
               />
             ) : (
               <button className={styles.addCard} onClick={() => setShowNewCardInput(true)}>

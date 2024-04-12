@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {api} from '../common/constants'
+import { api } from '../common/constants'
 
 const instance = axios.create({
   baseURL: api.baseURL,
@@ -9,5 +9,6 @@ const instance = axios.create({
   },
 })
 instance.interceptors.response.use(res => res.data)
+
 
 export default instance

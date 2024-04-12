@@ -6,21 +6,15 @@
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  gap: 5rem;
+  gap: 3rem;
   text-decoration: none;
 
-  h1 {
-    text-transform: capitalize;
-    margin-bottom: 1rem;
+  h3 {
+    text-transform: uppercase;
   }
 }
 
-.boardIconsContainer {
-  display: block;
-}
-
-.ul {
-  position: relative;
+.iconsList {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -28,17 +22,14 @@
   gap: 2rem 1rem;
   width: fit-content;
   max-width: calc(100% - 440px);
-  li {
-    width: 150px;
-  }
 }
 
 .addNewBoardButton {
+  width: 150px;
   @include main-button;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   @include hover
 
 }

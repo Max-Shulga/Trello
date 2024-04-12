@@ -6,35 +6,35 @@ import { useAppDispatch } from '../../../../app/hooks.ts'
 import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
 import { closeIcon } from '../../../../assets/closeIcon.tsx'
 
-interface INewCardCreator {
+interface NewListCreatorProps {
   position: number
   id: number
-  setShowBoardCreateForm: React.Dispatch<React.SetStateAction<boolean>>
+  setShowCreateForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function NewListCreator(params: INewCardCreator) {
-  const { position, id, setShowBoardCreateForm } = params
+export default function NewListCreator(params: NewListCreatorProps) {
+  const { position, id, setShowCreateForm } = params
   const [newListData, setNewListData] = useState<IChangeListDataPayload>({
     title: '',
     position: position,
   })
   const dispatch = useAppDispatch()
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewListData({ ...newListData, title: e.target.value })
   }
   const handleSubmit = () => {
     if (newListData.title) {
       dispatch(addList({ title: newListData.title, id: id, position: position }))
     }
-    setShowBoardCreateForm(false)
+    setShowCreateForm(false)
   }
 
   return (
     <div className={styles.form}>
       <InputForm
-        htmlFor={'CardName'}
-        onChange={handleOnChange}
+        htmlId={'CardName'}
+        onChange={handleInputChange}
         placeholder={'Enter list title...'}
         onSubmit={handleSubmit}
       />
@@ -43,7 +43,7 @@ export default function NewListCreator(params: INewCardCreator) {
       <button className={styles.submitButton} type='submit' form={'CardName'}>
         Add list
       </button>
-      <button className={styles.closeButton} onClick={() => setShowBoardCreateForm(false)}>{closeIcon()}</button>
+      <button className={styles.closeButton} onClick={() => setShowCreateForm(false)}>{closeIcon()}</button>
     </div>
     </div>
   )

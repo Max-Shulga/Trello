@@ -8,35 +8,3 @@
 .inputContainer {
   position: relative;
 }
-
-.validInfoIcon {
-  position: absolute;
-  right: 5px;
-  top: 0;
-  background: url("/assets/info-icon.svg") no-repeat;
-  background-size: 20px;
-  width: 20px;
-  height: 20px;
-  transform: translateY(100%);
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 12px;
-
-}
-
-.info {
-  position: absolute;
-  top: 0;
-  right: -100%;
-  width: fit-content;
-  z-index: 2;
-  border-radius: $main-border-radius;
-  box-shadow: $main-box-shadow;
-  border: 1px solid #f26065;
-  font-size: 12px;
-  padding: 10px;
-  h4{
-    font-weight: 600;
-  }
-
-}
