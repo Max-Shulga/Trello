@@ -1,0 +1,42 @@
+@import 'react-redux-toastr/src/styles/index';
+@import 'utils/reset';
+
+:root[data-theme='light'] {
+  --main-bg-color: #ffffff;
+  --card-bg: #f8f8f9;
+  --text-color: #292929;
+  --card-border: #e7e7e7;
+  --invert-filter: invert(1);
+}
+
+:root[data-theme='dark'] {
+  --main-bg-color: #1d2125;
+  --card-bg: #282d33;
+  --text-color: #f6f6f6;
+  --card-border: #3e3e3e;
+  --invert-filter: invert(0);
+}
+
+body {
+  color: var(--text-color);
+  font-family: Oswald, sans-serif;
+  font-style: normal;
+  line-height: 1;
+  font-optical-sizing: auto;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input[type='color'] {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}

@@ -1,33 +1,32 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import { getBoards, isBoardsLoading, loadAllBoards } from '../../features/HomeBoardsSlice.ts'
-import { useEffect, useState } from 'react'
-import styles from './Home.module.scss'
-import BoardIcon from './components/BoardIcon/BoardIcon.tsx'
-import BoardForm from './components/BoardForm/BoardForm.tsx'
-import { IHomeBoardServerResponse } from '../../common/interfaces/IHomeBoard.ts'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { handleApiError } from '../../api/handleApiError.ts'
+import { unwrapResult } from '@reduxjs/toolkit';
+import React, { useEffect, useState } from 'react';
 
-export default function Home() {
-  const [isNewBoardVisible, setIsNewBoardVisible] = useState(false)
-  const dispatch = useAppDispatch()
-  const boards = useAppSelector(getBoards)
-  const isLoading = useAppSelector(isBoardsLoading)
+import { handleApiError } from '../../api/handleApiError';
+import { IHomeBoardServerResponse } from '../../common/interfaces/IHomeBoard';
+import { getBoards } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import BoardForm from './components/BoardForm/BoardForm';
+import BoardIcon from './components/BoardIcon/BoardIcon';
+import styles from './Home.module.scss';
+
+function Home():React.JSX.Element {
+  const [isNewBoardVisible, setIsNewBoardVisible] = useState(false);
+  const dispatch = useAppDispatch();
+  const { boards, isLoading } = useAppSelector((state) => state.home);
 
   useEffect(() => {
-    dispatch(loadAllBoards())
+    dispatch(getBoards())
       .then(unwrapResult)
-      .catch(e => {
-        handleApiError(e)
-      })
-  }, [dispatch])
+      .catch((e) => {
+        handleApiError(e);
+      });
+  }, [dispatch]);
 
-  const toggleNewBoardVisibility = () => {
-    setIsNewBoardVisible(!isNewBoardVisible)
-  }
+  const toggleNewBoardVisibility = ():void => {
+    setIsNewBoardVisible(!isNewBoardVisible);
+  };
 
-  if (isLoading)
-    return <img className={styles.loading} src={'/assets/icon-spinner.gif'} alt='loading spinner' />
+  if (isLoading) return <img className={styles.loading} src="/assets/icon-spinner.gif" alt="loading spinner" />;
 
   return (
     <div className={styles.homePageContainer}>
@@ -44,5 +43,6 @@ export default function Home() {
         </ul>
       </div>
     </div>
-  )
+  );
 }
+export default Home;

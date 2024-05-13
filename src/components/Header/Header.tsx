@@ -1,45 +1,25 @@
-import { NavLink } from 'react-router-dom'
-import styles from './Header.module.scss'
-import ThemeSwither from '../ThemeSwither/ThemeSwither.tsx'
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import { getBoards, loadAllBoards } from '../../features/HomeBoardsSlice.ts'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
-export default function Header() {
-  const { link, active } = styles
-  const dispatch = useAppDispatch()
-  const boards = useAppSelector(getBoards)
+import { getBoards } from '../../store/actions';
+import ThemeSwither from '../ThemeSwither/ThemeSwither';
+import styles from './Header.module.scss';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts'
 
+function Header():React.JSX.Element {
+  const { link, active } = styles;
+  const dispatch = useAppDispatch();
+  const {boards}=useAppSelector(state => state.home)
   useEffect(() => {
-    dispatch(loadAllBoards())
-  }, [])
-
-  // useEffect(() => {
-  //   const handleTitleChange = () => {
-  //     const state = store.getState();
-  //     const currentBoardId = state.board.id;
-  //     if (currentBoardId) {
-  //       const currentBoard = state.boards.boards.find(board => board.id === currentBoardId);
-  //       console.log(`currentBoard: ${currentBoard?.title} state.board: ${state.board.title}`);
-  //       if (currentBoard && currentBoard.title !== state.board.title) {
-  //         dispatch(loadAllBoards());
-  //       }
-  //     }
-  //   };
-  //
-  //   const unsubscribe = store.subscribe(handleTitleChange);
-  //
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [dispatch, boards]);
+    dispatch(getBoards());
+  }, [dispatch]);
 
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <NavLink
           className={({ isActive }) => (isActive ? `${active} ${link}` : `${link}`)}
-          to={`/`}
+          to="/"
           end
         >
           home
@@ -57,5 +37,6 @@ export default function Header() {
       </nav>
       <ThemeSwither />
     </header>
-  )
+  );
 }
+export default Header;

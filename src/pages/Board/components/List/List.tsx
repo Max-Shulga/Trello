@@ -1,63 +1,68 @@
-import styles from './List.module.scss'
-import Card from '../Card/Card..tsx'
-import { ChangeEvent, useState } from 'react'
-import InputForm from '../../../../components/InputForm/InputForm.tsx'
-import { addCard, changeListData, deleteList } from '../../../../features/BoardSlice.ts'
-import { AppDispatch } from '../../../../app/store.ts'
-import { IList } from '../../../../common/interfaces/IList.ts'
-import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload.ts'
-import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
+import React, { ChangeEvent, useState } from 'react';
+
+import { IList } from '../../../../common/interfaces/IList';
+import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
+import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload';
+import InputForm from '../../../../components/InputForm/InputForm';
+import { addCard, changeListData, deleteList } from '../../../../store/actions';
+import { AppDispatch } from '../../../../store/store';
+import Card from '../Card/Card';
+import styles from './List.module.scss';
 
 interface ListProps {
   list: IList
   dispatch: AppDispatch
+  boardId:number
 }
 
-export default function List(props: ListProps) {
-  const [showNewTitleInput, setShowNewTitleInput] = useState(false)
-  const [showNewCardInput, setShowNewCardInput] = useState(false)
-  const { list, dispatch } = props
-  const position = list.cards.length
+function List(props: ListProps) :React.JSX.Element {
+  const [showNewTitleInput, setShowNewTitleInput] = useState(false);
+  const [showNewCardInput, setShowNewCardInput] = useState(false);
+  const { list, dispatch, boardId } = props;
+  const position = list.cards.length;
   const [newListTitle, setNewListTitle] = useState<IChangeListDataPayload>({
     title: '',
     position: list.position,
     id: list.id,
-  })
+  });
 
   const [newCard, setNewCard] = useState<IChangeCardDataPayload>({
     list_id: list.id,
     title: '',
-    position: position,
-  })
+    position,
+  });
 
   const handleNewTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value
+    const newTitle = e.target.value;
     setNewListTitle({
       ...newListTitle,
       title: newTitle,
-    })
-  }
+    });
+  };
 
-  const handleTitleSubmit = () => {
-    setShowNewTitleInput(false)
-    if (newListTitle.title) dispatch(changeListData(newListTitle))
-  }
+  const handleTitleSubmit = ():void => {
+    setShowNewTitleInput(false);
 
-  const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newCardValue = e.target.value
+    if (newListTitle.title) dispatch(changeListData({ listData: newListTitle, boardId }));
+  };
+
+  const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
+    const newCardValue = e.target.value;
     setNewCard({
       ...newCard,
       title: newCardValue,
-    })
-  }
-  const handleCardSubmit = () => {
-    setShowNewCardInput(false)
-    if (newCard.title) dispatch(addCard(newCard))
-  }
+    });
+  };
+  const handleCardSubmit = ():void => {
+    setShowNewCardInput(false);
 
-  const handleDeleteList = () => {
-    dispatch(deleteList(list.id))
-  }
+    if (newCard.title) dispatch(addCard({ cardData: newCard, boardId }));
+  };
+
+  const handleDeleteList = ():void => {
+    dispatch(deleteList({ listId: list.id, boardId }));
+  };
+
   return (
     <li className={styles.listEl}>
       <div className={styles.cardContentContainer} key={list.id}>
@@ -65,7 +70,7 @@ export default function List(props: ListProps) {
           <div className={styles.listHeader}>
             {showNewTitleInput ? (
               <InputForm
-                htmlId={'changeListTitle'}
+                htmlId="changeListTitle"
                 onChange={handleNewTitleChange}
                 value={list.title}
                 onSubmit={handleTitleSubmit}
@@ -80,9 +85,9 @@ export default function List(props: ListProps) {
           <ul className={styles.cardsContainer}>
             {showNewCardInput ? (
               <InputForm
-                htmlId={'addCard'}
+                htmlId="addCard"
                 onChange={handleCardInputChange}
-                placeholder={'Enter a title for this card...'}
+                placeholder="Enter a title for this card..."
                 onSubmit={handleCardSubmit}
               />
             ) : (
@@ -90,12 +95,13 @@ export default function List(props: ListProps) {
                 Add a card
               </button>
             )}
-            {list.cards.map(card => (
-              <Card key={card.id} dispatch={dispatch} {...card} list_id={list.id} />
+            {list.cards.map((card) => (
+              <Card key={card.id} dispatch={dispatch} {...card} list_id={list.id} boardId={boardId} />
             ))}
           </ul>
         </div>
       </div>
     </li>
-  )
+  );
 }
+export default List;

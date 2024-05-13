@@ -1,50 +1,55 @@
-import React, { ChangeEvent, useState } from 'react'
-import InputForm from '../../../../components/InputForm/InputForm.tsx'
-import styles from './NewListCreator.module.scss'
-import { addList } from '../../../../features/BoardSlice.ts'
-import { useAppDispatch } from '../../../../app/hooks.ts'
-import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload.ts'
-import { closeIcon } from '../../../../assets/closeIcon.tsx'
+import React, { ChangeEvent, useState } from 'react';
+
+import { closeIcon } from '../../../../assets/closeIcon';
+import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload';
+import InputForm from '../../../../components/InputForm/InputForm';
+import { addList } from '../../../../store/actions';
+import { useAppDispatch } from '../../../../store/hooks';
+import styles from './NewListCreator.module.scss';
 
 interface NewListCreatorProps {
   position: number
   id: number
   setShowCreateForm: React.Dispatch<React.SetStateAction<boolean>>
+  boardId:number
 }
 
-export default function NewListCreator(params: NewListCreatorProps) {
-  const { position, id, setShowCreateForm } = params
+function NewListCreator(params: NewListCreatorProps):React.JSX.Element {
+  const {
+    position, id, setShowCreateForm, boardId,
+  } = params;
   const [newListData, setNewListData] = useState<IChangeListDataPayload>({
     title: '',
-    position: position,
-  })
-  const dispatch = useAppDispatch()
+    position,
+  });
+  const dispatch = useAppDispatch();
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewListData({ ...newListData, title: e.target.value })
-  }
-  const handleSubmit = () => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
+    setNewListData({ ...newListData, title: e.target.value });
+  };
+  const handleSubmit = () :void => {
     if (newListData.title) {
-      dispatch(addList({ title: newListData.title, id: id, position: position }))
+      dispatch(addList({ listData: newListData, boardId }));
     }
-    setShowCreateForm(false)
-  }
+    setShowCreateForm(false);
+  };
 
   return (
     <div className={styles.form}>
       <InputForm
-        htmlId={'CardName'}
+        htmlId="CardName"
         onChange={handleInputChange}
-        placeholder={'Enter list title...'}
+        placeholder="Enter list title..."
         onSubmit={handleSubmit}
       />
-    <div className={styles.buttonsContainer}>
+      <div className={styles.buttonsContainer}>
 
-      <button className={styles.submitButton} type='submit' form={'CardName'}>
-        Add list
-      </button>
-      <button className={styles.closeButton} onClick={() => setShowCreateForm(false)}>{closeIcon()}</button>
+        <button className={styles.submitButton} type="submit" form="CardName">
+          Add list
+        </button>
+        <button className={styles.closeButton} onClick={() => setShowCreateForm(false)}>{closeIcon()}</button>
+      </div>
     </div>
-    </div>
-  )
+  );
 }
+export default NewListCreator;
