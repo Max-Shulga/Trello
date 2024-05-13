@@ -1,62 +1,66 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts'
-import List from './components/List/List.tsx'
-import styles from './Board.module.scss'
-import { useNavigate, useParams } from 'react-router-dom'
-import { changeBoardTitle, deleteBoard, getBoard, loadBoard } from '../../features/BoardSlice.ts'
-import { ChangeEvent, useEffect, useState } from 'react'
-import InputForm from '../../components/InputForm/InputForm.tsx'
-import { AppDispatch } from '../../app/store.ts'
-import NewListCreator from './components/NewListCreator/NewListCreator.tsx'
-import { patternBoardTitle } from '../../common/constants/patternBoardTitle.ts'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { handleApiError } from '../../api/handleApiError.ts'
+import { unwrapResult } from '@reduxjs/toolkit';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export const Board = () => {
+import { handleApiError } from '../../api/handleApiError';
+import { patternBoardTitle } from '../../common/constants/patternBoardTitle';
+import { IList } from '../../common/interfaces/IList';
+import InputForm from '../../components/InputForm/InputForm';
+import { changeBoardTitle, deleteBoard, getBoardById } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import styles from './Board.module.scss';
+import List from './components/List/List';
+import NewListCreator from './components/NewListCreator/NewListCreator';
+
+function Board():React.JSX.Element {
   const { id: idString } = useParams<string>() as {
     id: string
-  }
-  const id = +idString
-  const { title, lists, custom, isLoading } = useAppSelector(getBoard)
-  const [showListCreateForm, setShowListCreateForm] = useState(false)
-  const [showNewTitleInput, setShowNewTitleInput] = useState(false)
-  const dispatch: AppDispatch = useAppDispatch()
-  const [newTitle, setNewTitle] = useState(title)
-  const createNewListText = lists.length > 0 ? 'Add another list' : 'Add a list'
-  const navigate = useNavigate()
+  };
+  const id = +idString;
+  const {
+    title, lists, custom, isLoading,
+  } = useAppSelector((state) => state.board);
+  const [showListCreateForm, setShowListCreateForm] = useState(false);
+  const [showNewTitleInput, setShowNewTitleInput] = useState(false);
+  const dispatch = useAppDispatch();
+  const [newTitle, setNewTitle] = useState(title);
+  const createNewListText = lists.length > 0 ? 'Add another list' : 'Add a list';
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadBoard(id))
+    dispatch(getBoardById(id))
       .then(unwrapResult)
-      .catch(e => {
-        handleApiError(e)
-      })
-  }, [id, dispatch])
+      .catch((e) => {
+        handleApiError(e);
+      });
+  }, [id, dispatch]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value
-    setNewTitle(newTitle)
-  }
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
+    setNewTitle(e.target.value);
+  };
 
-  const handleSubmit = () => {
-    if (newTitle.trim()) dispatch(changeBoardTitle(newTitle))
+  const handleSubmit = ():void => {
+    if (newTitle.trim()) dispatch(changeBoardTitle({ title: newTitle, boardId: id }));
 
-    setShowNewTitleInput(false)
-  }
+    setShowNewTitleInput(false);
+  };
 
-  const handleDeleteBoard = () => {
-    dispatch(deleteBoard())
-    navigate('/')
-  }
+  const handleDeleteBoard = ():void => {
+    dispatch(deleteBoard(id));
+    navigate('/');
+  };
+
   if (isLoading) {
-    return <img className={styles.loading} src={'/assets/icon-spinner.gif'} alt='loading spinner' />
+    return <img className={styles.loading} src="/assets/icon-spinner.gif" alt="loading spinner" />;
   }
+
   return (
     <div style={{ background: custom.color }} className={styles.boardContainer}>
       <div className={styles.headerContainer}>
         <div onClick={() => setShowNewTitleInput(true)} className={styles.title}>
           {showNewTitleInput ? (
             <InputForm
-              htmlId={'changeBoardName'}
+              htmlId="changeBoardName"
               onChange={handleInputChange}
               value={title}
               onSubmit={handleSubmit}
@@ -71,8 +75,8 @@ export const Board = () => {
         </button>
       </div>
       <ul className={styles.cardsListContainer}>
-        {lists.map(list => (
-          <List key={list.id} list={list} dispatch={dispatch} />
+        {lists.map((list:IList) => (
+          <List key={list.id} list={list} dispatch={dispatch} boardId={id} />
         ))}
         <li className={styles.addCard}>
           {showListCreateForm ? (
@@ -92,5 +96,6 @@ export const Board = () => {
         </li>
       </ul>
     </div>
-  )
+  );
 }
+export default Board;

@@ -1,55 +1,56 @@
-import styles from './BoardForm.module.scss'
-import { useState } from 'react'
-import ColorButtons from '../../../../components/ColorButtons/ColorButtons.tsx'
-import { addBoard } from '../../../../features/HomeBoardsSlice.ts'
-import { newBoardCreatorPresetBoard } from '../../../../assets/newBoardCreatorPresetBoard.tsx'
-import { closeIcon } from '../../../../assets/closeIcon.tsx'
-import { mainBgColors } from '../../../../common/constants/mainBgColors.ts'
-import { dropMenuBgColors } from '../../../../common/constants/dropMenuBgColors.ts'
-import { useForm } from 'react-hook-form'
-import { IHomeBoard } from '../../../../common/interfaces/IHomeBoard.ts'
-import { AppDispatch } from '../../../../app/store.ts'
-import { BoardNameValidationInfo } from '../../../../components/BoardNameValidationInfo/BoardNameValidationInfo.tsx'
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { closeIcon } from '../../../../assets/closeIcon';
+import { newBoardCreatorPresetBoard } from '../../../../assets/newBoardCreatorPresetBoard';
+import { dropMenuBgColors } from '../../../../common/constants/dropMenuBgColors';
+import { mainBgColors } from '../../../../common/constants/mainBgColors';
+import { IHomeBoard } from '../../../../common/interfaces/IHomeBoard';
+import { BoardNameValidationInfo } from '../../../../components/BoardNameValidationInfo/BoardNameValidationInfo';
+import ColorButtons from '../../../../components/ColorButtons/ColorButtons';
+import { addBoard } from '../../../../store/actions';
+import { AppDispatch } from '../../../../store/store';
+import styles from './BoardForm.module.scss';
 
 interface IProps {
   onClick: () => void
   dispatch: AppDispatch
 }
 
-export default function BoardForm({ onClick, dispatch }: IProps) {
+function BoardForm({ onClick, dispatch }: IProps) :React.JSX.Element {
   const [boardSettings, setBoardSettings] = useState({
     custom: {
       color: 'transparent',
     },
-  })
-  const [showMoreColors, setShowMoreColors] = useState(false)
+  });
+  const [showMoreColors, setShowMoreColors] = useState(false);
 
-  const { register, handleSubmit, formState } = useForm<IHomeBoard>()
-  const selectBoardColor = (color: string, button: HTMLButtonElement) => {
-    document.querySelectorAll(`.${styles.acceptEffect}`).forEach(btn => {
-      btn.classList.remove(styles.acceptEffect)
-    })
-    button.classList.add(styles.acceptEffect)
+  const { register, handleSubmit, formState } = useForm<IHomeBoard>();
+  const selectBoardColor = (color: string, button: HTMLButtonElement):void => {
+    document.querySelectorAll(`.${styles.acceptEffect}`).forEach((btn) => {
+      btn.classList.remove(styles.acceptEffect);
+    });
+    button.classList.add(styles.acceptEffect);
     setBoardSettings({
       custom: {
-        color: color,
+        color,
       },
-    })
-  }
+    });
+  };
 
-  const closeForm = () => {
-    onClick()
-  }
+  const closeForm = ():void => {
+    onClick();
+  };
 
-  const submitForm = (data: IHomeBoard) => {
+  const submitForm = (data: IHomeBoard):void => {
     dispatch(
       addBoard({
         ...data,
         ...boardSettings,
       }),
-    )
-    closeForm()
-  }
+    );
+    closeForm();
+  };
 
   return (
     <div className={styles.dropMenuContainer}>
@@ -68,7 +69,7 @@ export default function BoardForm({ onClick, dispatch }: IProps) {
             {newBoardCreatorPresetBoard()}
           </div>
           <form
-            name={'newBoard'}
+            name="newBoard"
             className={styles.form}
             onSubmit={handleSubmit(submitForm)}
             noValidate
@@ -86,17 +87,19 @@ export default function BoardForm({ onClick, dispatch }: IProps) {
                     className={`${styles.colorPikerElement} ${showMoreColors ? '' : styles.moreEffect} ${styles.moreEffectContainer}`}
                     onClick={() => setShowMoreColors(!showMoreColors)}
                   >
-                    <button type={'button'} />
+                    <button type="button" />
                   </li>
                 </ul>
               </div>
             </div>
             <div>
               <label className={styles.titleInputContainer}>
-                Board title <span>*</span>
+                Board title
+                {' '}
+                <span>*</span>
               </label>
               <input
-                type='text'
+                type="text"
                 {...register('title', {
                   required: {
                     value: true,
@@ -104,7 +107,7 @@ export default function BoardForm({ onClick, dispatch }: IProps) {
                   },
                   pattern: {
                     value: /^(?!\s*$)[0-9\p{L}\s._-]+$/u,
-                    message: `Invalid board name format`,
+                    message: 'Invalid board name format',
                   },
                 })}
               />
@@ -116,7 +119,7 @@ export default function BoardForm({ onClick, dispatch }: IProps) {
               )}
             </div>
             <button
-              type={'submit'}
+              type="submit"
               className={`
                 ${!formState.errors.title ? styles.createButton : styles.createButtonDisabled}
                 `}
@@ -129,12 +132,13 @@ export default function BoardForm({ onClick, dispatch }: IProps) {
       {showMoreColors && (
         <ul className={styles.colorsDropMenu}>
           <ColorButtons
-            className={''}
+            className=""
             onClick={selectBoardColor}
             colors={dropMenuBgColors}
           />
         </ul>
       )}
     </div>
-  )
+  );
 }
+export default BoardForm;
