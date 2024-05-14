@@ -1,3 +1,3 @@
-import { IBoardWithId } from '../interfaces/IBoard.ts'
+import { IBoard } from '../interfaces/IBoard.ts';
 
-export type IChangeBoardDataPayload = Partial<IBoardWithId>
+export type IChangeBoardDataPayload = Partial<IBoard>;

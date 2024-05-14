@@ -1,8 +1,9 @@
 import { unwrapResult } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import { handleApiError } from '../../api/handleApiError';
-import { IHomeBoardServerResponse } from '../../common/interfaces/IHomeBoard';
+import { IHomeBoard } from '../../common/interfaces/IHomeBoard';
 import { getBoards } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import BoardForm from './components/BoardForm/BoardForm';
@@ -17,7 +18,7 @@ function Home():React.JSX.Element {
   useEffect(() => {
     dispatch(getBoards())
       .then(unwrapResult)
-      .catch((e) => {
+      .catch((e:AxiosError) => {
         handleApiError(e);
       });
   }, [dispatch]);
@@ -33,13 +34,13 @@ function Home():React.JSX.Element {
       <h3>Your workspaces</h3>
       <div>
         <ul className={styles.iconsList}>
-          {boards.map((board: IHomeBoardServerResponse) => (
+          {boards.map((board: IHomeBoard) => (
             <BoardIcon key={board.id} {...board} />
           ))}
-          <li className={styles.addNewBoardButton} onClick={toggleNewBoardVisibility}>
+          <button type="button" className={styles.addNewBoardButton} onClick={toggleNewBoardVisibility}>
             <div>Create new board</div>
-          </li>
-          {isNewBoardVisible && <BoardForm onClick={toggleNewBoardVisibility} dispatch={dispatch} />}
+          </button>
+          {isNewBoardVisible && <BoardForm onClick={toggleNewBoardVisibility} />}
         </ul>
       </div>
     </div>

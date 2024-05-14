@@ -5,7 +5,10 @@
   justify-content: space-between;
   background: var(--main-bg-color);
   min-height: 100vh;
+  min-width: 100%;
+  width: fit-content;
 }
 .content{
+  display: flex;
   flex-grow: 1;
 }

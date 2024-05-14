@@ -1,5 +1,5 @@
-@import "./../../../../utils/constants";
-@import "./../../../../utils/mixins";
+@import './../../../../utils/constants';
+@import './../../../../utils/mixins';
 
 .dropMenuContainer {
   position: relative;
@@ -36,7 +36,7 @@
     padding: 0 32px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    grid-column: 1/span 3;
+    grid-column: 1 / span 3;
     grid-row: 1;
     line-height: 40px;
   }
@@ -46,7 +46,7 @@
   z-index: 1;
   grid-column: 3;
   grid-row: 1;
-  color: #626F86;
+  color: #626f86;
   border-radius: 8px;
   display: flex;
   width: 20px;
@@ -90,7 +90,7 @@
   display: flex;
   justify-content: space-between;
   list-style: none;
-  gap: 8px
+  gap: 8px;
 }
 
 .paletteButton {
@@ -146,17 +146,16 @@
   @include hover;
   @include active-button;
 }
-
+.moreEffectContainer {
+  display: flex;
+  background: $card-gray;
+}
 .colorPikerElement {
   width: 40px;
   height: 32px;
   position: relative;
   border-radius: $main-border-radius;
   @include hover;
-
-  .moreEffectContainer {
-    display: flex;
-  }
 
   &.moreEffect:after {
     content: '• • •';
@@ -165,7 +164,6 @@
     top: 50%;
     font-size: 9px;
     transform: translate(-50%, -50%);
-    color: #1c0f0f;
     cursor: pointer;
   }
 
@@ -173,21 +171,20 @@
     @include main-button;
     width: 100%;
     height: 100%;
-    background: #B6C2CF;
-    @include hover
+    background: #b6c2cf;
+    @include hover;
   }
-
-
 }
 
-.acceptEffect:after {
-  content: url('/assets/check_accept_icon.svg');
-  transform: scale(0.33) translate(-50%, -50%);
-  position: absolute;
-  top: -2px;
-  left: 5px;
+.acceptEffect {
+  & :after {
+    content: url('/assets/check_accept_icon.svg');
+    transform: scale(0.33) translate(-50%, -50%);
+    position: absolute;
+    top: -2px;
+    left: 5px;
+  }
 }
-
 .colorsDropMenu {
   position: absolute;
   right: -480px;
@@ -207,7 +204,6 @@
     height: 32px;
     border-radius: $main-border-radius;
   }
-
 }
 
 .notValid {
@@ -217,4 +213,3 @@
   flex-direction: row;
   gap: 5px;
 }
-

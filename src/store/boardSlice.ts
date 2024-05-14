@@ -1,13 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { IBoardWithId } from '../common/interfaces/IBoard';
+import { IBoard } from '../common/interfaces/IBoard.ts';
 import { ILoadingErrorState } from '../common/interfaces/ILoadingErrorState';
-import {
-  addCard, addList, changeBoardTitle, changeCardData, changeListData, getBoardById,
-} from './actions';
+import { getBoardById } from './actions';
 
-interface IInitialState extends IBoardWithId, ILoadingErrorState {
+interface IInitialState extends IBoard, ILoadingErrorState {
   error?: AxiosError
 }
 
@@ -24,16 +22,15 @@ const initialState: IInitialState = {
 
 };
 
-const handleFulfilledCase = <T>(state: IInitialState, action: PayloadAction<T>) => ({
-  ...state,
-  isLoading: false,
-  lists: action.payload,
-});
-
 const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {},
+  reducers: {
+    setBoardId: (state, action) => ({
+      ...state,
+      id: action.payload,
+    }),
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getBoardById.fulfilled, (state, action) => {
@@ -45,20 +42,12 @@ const boardSlice = createSlice({
           ...action.payload,
         };
       })
-      .addCase(changeBoardTitle.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.hasError = false;
-        state.title = action.payload;
-      })
-      .addCase(addList.fulfilled, handleFulfilledCase)
-      .addCase(changeListData.fulfilled, handleFulfilledCase)
-      .addCase(addCard.fulfilled, handleFulfilledCase)
-      .addCase(changeCardData.fulfilled, handleFulfilledCase)
+
       .addCase(getBoardById.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
       });
   },
 });
-
+export const { setBoardId } = boardSlice.actions;
 export default boardSlice.reducer;

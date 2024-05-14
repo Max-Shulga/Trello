@@ -1,4 +1,4 @@
-import { ICard } from './ICard.ts'
+import { ICard } from './ICard.ts';
 
 export interface IList {
   cards: ICard[]

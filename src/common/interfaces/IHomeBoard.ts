@@ -1,14 +1,11 @@
 export interface IHomeBoard {
+  id?:number
   title: string
   custom: {
     [key: string]: string
   }
 }
 
-export interface IHomeBoardServerResponse extends IHomeBoard {
-  id: number
-}
-
-export interface IAllBoards {
-  boards: IHomeBoardServerResponse[]
+export interface IHomeBoards {
+  boards: IHomeBoard[]
 }

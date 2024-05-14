@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IAllBoards } from '../common/interfaces/IHomeBoard';
+import { IHomeBoards } from '../common/interfaces/IHomeBoard';
 import { ILoadingErrorState } from '../common/interfaces/ILoadingErrorState';
 import { addBoard, getBoards } from './actions';
 
-interface IInitialState extends IAllBoards, ILoadingErrorState {
+interface IInitialState extends IHomeBoards, ILoadingErrorState {
 
 }
 

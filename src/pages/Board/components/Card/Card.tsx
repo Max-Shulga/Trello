@@ -4,19 +4,18 @@ import { ICard } from '../../../../common/interfaces/ICard';
 import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
 import InputForm from '../../../../components/InputForm/InputForm';
 import { changeCardData, deleteCard } from '../../../../store/actions';
-import { AppDispatch } from '../../../../store/store';
+import { useAppDispatch } from '../../../../store/hooks';
 import styles from './Card.module.scss';
 
 interface CardProps extends ICard {
-  dispatch: AppDispatch
   list_id: number
-  boardId:number
 }
 
 function Card(props: CardProps):React.JSX.Element {
   const [showInput, setShowInput] = useState(false);
   const {
-    list_id, title, dispatch, id, boardId,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    list_id, title, id,
   } = props;
 
   const [cardData, setCardData] = useState<IChangeCardDataPayload>({
@@ -24,7 +23,7 @@ function Card(props: CardProps):React.JSX.Element {
     list_id,
     title: '',
   });
-
+  const dispatch = useAppDispatch();
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
     setCardData({
       ...cardData,
@@ -34,10 +33,10 @@ function Card(props: CardProps):React.JSX.Element {
   const handleSubmit = ():void => {
     setShowInput(false);
 
-    if (cardData.title) dispatch(changeCardData({ cardData, boardId }));
+    if (cardData.title) dispatch(changeCardData(cardData));
   };
   const handleDelete = ():void => {
-    dispatch(deleteCard({ cardId: cardData.id || 0, boardId }));
+    dispatch(deleteCard(cardData.id ?? 0));
   };
 
   return (
@@ -52,10 +51,15 @@ function Card(props: CardProps):React.JSX.Element {
       ) : (
         <>
           <div>{title}</div>
-          <button className={styles.changeCardTitleButton} onClick={() => setShowInput(true)} />
+          <button
+            type="button"
+            aria-label="Change card title"
+            className={styles.changeCardTitleButton}
+            onClick={() => setShowInput(true)}
+          />
         </>
       )}
-      <button className={styles.deleteCardButton} onClick={handleDelete} />
+      <button type="button" aria-label="Delete card" className={styles.deleteCardButton} onClick={handleDelete} />
     </li>
   );
 }

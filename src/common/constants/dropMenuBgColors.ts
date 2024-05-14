@@ -8,4 +8,4 @@ export const dropMenuBgColors = [
   '#4bbf6b',
   '#00aecc',
   '#838c91',
-]
+];

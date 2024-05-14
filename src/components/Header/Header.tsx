@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { getBoards } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import ThemeSwither from '../ThemeSwither/ThemeSwither';
 import styles from './Header.module.scss';
-import { useAppDispatch, useAppSelector } from '../../store/hooks.ts'
 
 function Header():React.JSX.Element {
   const { link, active } = styles;
   const dispatch = useAppDispatch();
-  const {boards}=useAppSelector(state => state.home)
+  const { boards } = useAppSelector((state) => state.home);
   useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);

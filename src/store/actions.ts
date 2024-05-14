@@ -2,15 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from '../api/request';
 import { IBoard } from '../common/interfaces/IBoard';
-import { IAllBoards, IHomeBoard, IHomeBoardServerResponse } from '../common/interfaces/IHomeBoard';
+import { IHomeBoard, IHomeBoards } from '../common/interfaces/IHomeBoard.ts';
 import { IChangeCardDataPayload } from '../common/types/IChangeCardDataPayload';
 import { IChangeListDataPayload } from '../common/types/IChangeListDataPayload';
 import ActionType from './common';
+import { RootState } from './types.ts';
 
 const getBoards = createAsyncThunk(
   ActionType.GET_BOARDS,
   async () => {
-    const { boards }:IAllBoards = await api.get('/board');
+    const { boards }:IHomeBoards = await api.get('/board');
 
     return boards;
   },
@@ -19,7 +20,7 @@ const getBoards = createAsyncThunk(
 const addBoard = createAsyncThunk(
   ActionType.ADD_BOARD,
   async (boardData: IHomeBoard) => {
-    const response:IHomeBoardServerResponse = await api.post('/board', boardData);
+    const response:IHomeBoard = await api.post('/board', boardData);
     const newBoardId = response.id;
     const { title, custom }:IBoard = await api.get(`/board/${newBoardId}`);
 
@@ -42,84 +43,73 @@ const getBoardById = createAsyncThunk(
 
 const changeBoardTitle = createAsyncThunk(
   ActionType.CHANGE_BOARD_TITLE,
-  async ({ title, boardId }: { title: string; boardId: number }) => {
+  async (title: string, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.put(`/board/${boardId}`, { title });
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.title;
   },
 );
+
 const deleteBoard = createAsyncThunk(
   ActionType.DELETE_BOARD,
-  async (boardID:number) => {
-    await api.delete(`/board/${boardID}`);
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
+    await api.delete(`/board/${boardId}`);
   },
 );
 
 const addList = createAsyncThunk(
   ActionType.ADD_LIST,
-  async ({ listData, boardId }:{ listData:IChangeListDataPayload; boardId:number }) => {
+  async (listData:IChangeListDataPayload, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.post(`/board/${boardId}/list`, { ...listData });
-    const response:IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
   },
 );
 
 const changeListData = createAsyncThunk(
   ActionType.CHANGE_LIST_DATA,
-  async ({ listData, boardId }:{ listData:IChangeListDataPayload;boardId:number }) => {
-    const { id: listId } = listData;
-    await api.put(`/board/${boardId}/list/${listId}`, { ...listData });
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
+  async (listData:IChangeListDataPayload, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
+    await api.put(`/board/${boardId}/list/${listData.id}`, { ...listData });
   },
 );
 
 const deleteList = createAsyncThunk(
   ActionType.DELETE_LIST,
-  async ({ listId, boardId }:{ listId:number;boardId:number }) => {
+  async (listId:number, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.delete(`/board/${boardId}/list/${listId}`);
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
   },
 );
 
 const addCard = createAsyncThunk(
   ActionType.ADD_CARD,
-  async ({
-    cardData,
-    boardId,
-  }: {
-    cardData: IChangeCardDataPayload;
-    boardId: number;
-  }) => {
+  async (cardData: IChangeCardDataPayload, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.post(`/board/${boardId}/card`, { ...cardData });
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
   },
 );
 
 const changeCardData = createAsyncThunk(
   ActionType.CHANGE_CARD_DATA,
-  async ({ cardData, boardId }:{ cardData:IChangeCardDataPayload; boardId:number }) => {
+  async (cardData:IChangeCardDataPayload, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.put(`/board/${boardId}/card/${cardData.id}`, { ...cardData });
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
   },
 );
 
 const deleteCard = createAsyncThunk(
   ActionType.DELETE_CARD,
-  async ({ cardId, boardId }:{ cardId:number; boardId:number }) => {
+  async (cardId:number, { getState }) => {
+    const state = getState() as RootState;
+    const boardId = state.board.id;
     await api.delete(`/board/${boardId}/card/${cardId}`);
-    const response: IBoard = await api.get(`/board/${boardId}`);
-
-    return response.lists;
   },
 );
 

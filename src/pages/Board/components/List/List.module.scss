@@ -51,7 +51,7 @@
   min-height: 20px;
   width: 98%;
 
-  h2 {
+  button {
     @include h2Preset;
     width: fit-content;
     cursor: pointer;
