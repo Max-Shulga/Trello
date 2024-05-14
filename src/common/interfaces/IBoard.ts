@@ -1,7 +1,8 @@
-import { Color } from '../types/Color.ts'
-import { IList } from './IList.ts'
+import { Color } from '../types/Color.ts';
+import { IList } from './IList.ts';
 
 export interface IBoard {
+  id?:number
   title: string
   custom: {
     color: Color
@@ -15,8 +16,4 @@ export interface IBoard {
       }
     },
   ]
-}
-
-export interface IBoardWithId extends IBoard{
-  id: number
 }

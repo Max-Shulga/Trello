@@ -1,4 +1,5 @@
 import { unwrapResult } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -7,6 +8,7 @@ import { patternBoardTitle } from '../../common/constants/patternBoardTitle';
 import { IList } from '../../common/interfaces/IList';
 import InputForm from '../../components/InputForm/InputForm';
 import { changeBoardTitle, deleteBoard, getBoardById } from '../../store/actions';
+import { setBoardId } from '../../store/boardSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import styles from './Board.module.scss';
 import List from './components/List/List';
@@ -28,9 +30,10 @@ function Board():React.JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(setBoardId(id));
     dispatch(getBoardById(id))
       .then(unwrapResult)
-      .catch((e) => {
+      .catch((e:AxiosError):void => {
         handleApiError(e);
       });
   }, [id, dispatch]);
@@ -40,13 +43,13 @@ function Board():React.JSX.Element {
   };
 
   const handleSubmit = ():void => {
-    if (newTitle.trim()) dispatch(changeBoardTitle({ title: newTitle, boardId: id }));
+    if (newTitle.trim()) dispatch(changeBoardTitle(newTitle));
 
     setShowNewTitleInput(false);
   };
 
   const handleDeleteBoard = ():void => {
-    dispatch(deleteBoard(id));
+    dispatch(deleteBoard());
     navigate('/');
   };
 
@@ -57,7 +60,7 @@ function Board():React.JSX.Element {
   return (
     <div style={{ background: custom.color }} className={styles.boardContainer}>
       <div className={styles.headerContainer}>
-        <div onClick={() => setShowNewTitleInput(true)} className={styles.title}>
+        <div role="button" tabIndex={0} onClick={() => setShowNewTitleInput(true)} className={styles.title}>
           {showNewTitleInput ? (
             <InputForm
               htmlId="changeBoardName"
@@ -70,23 +73,23 @@ function Board():React.JSX.Element {
             title
           )}
         </div>
-        <button onClick={handleDeleteBoard} className={styles.delBoardButton}>
+        <button type="button" onClick={handleDeleteBoard} className={styles.delBoardButton}>
           del
         </button>
       </div>
-      <ul className={styles.cardsListContainer}>
+      <ul className={styles.ListContainer}>
         {lists.map((list:IList) => (
-          <List key={list.id} list={list} dispatch={dispatch} boardId={id} />
+          <List key={list.id} list={list} />
         ))}
         <li className={styles.addCard}>
           {showListCreateForm ? (
             <NewListCreator
               position={lists.length + 1}
-              id={id}
               setShowCreateForm={setShowListCreateForm}
             />
           ) : (
             <button
+              type="button"
               className={styles.showCreateMenuButton}
               onClick={() => setShowListCreateForm(true)}
             >

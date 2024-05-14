@@ -1,21 +1,23 @@
-import styles from './BoardIcon.module.scss'
-import { Link } from 'react-router-dom'
-import { IHomeBoardServerResponse } from '../../../../common/interfaces/IHomeBoard.ts'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
+import { IHomeBoard } from '../../../../common/interfaces/IHomeBoard';
+import styles from './BoardIcon.module.scss';
 
+function BoardIcon(props: IHomeBoard):React.JSX.Element {
+  const { custom, title, id } = props;
 
-export default function BoardIcon(props: IHomeBoardServerResponse) {
-    const {custom, title} = props
   return (
     <li className={styles.boardsPageListItem}>
       <Link
         className={styles.boardIcon}
         style={{ background: custom?.color }}
-        to={`board/${props.id}`}
+        to={`board/${id}`}
       >
         <div>{title}</div>
-        <div></div>
+        <div />
       </Link>
     </li>
-  )
+  );
 }
+export default BoardIcon;

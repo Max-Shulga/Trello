@@ -1,5 +1,5 @@
 
 export interface ILoadingErrorState {
-    isLoading: boolean;
-    hasError: boolean;
+  isLoading: boolean;
+  hasError: boolean;
 }

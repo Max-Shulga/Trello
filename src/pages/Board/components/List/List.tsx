@@ -5,20 +5,18 @@ import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardData
 import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload';
 import InputForm from '../../../../components/InputForm/InputForm';
 import { addCard, changeListData, deleteList } from '../../../../store/actions';
-import { AppDispatch } from '../../../../store/store';
+import { useAppDispatch } from '../../../../store/hooks';
 import Card from '../Card/Card';
 import styles from './List.module.scss';
 
 interface ListProps {
   list: IList
-  dispatch: AppDispatch
-  boardId:number
 }
 
 function List(props: ListProps) :React.JSX.Element {
   const [showNewTitleInput, setShowNewTitleInput] = useState(false);
   const [showNewCardInput, setShowNewCardInput] = useState(false);
-  const { list, dispatch, boardId } = props;
+  const { list } = props;
   const position = list.cards.length;
   const [newListTitle, setNewListTitle] = useState<IChangeListDataPayload>({
     title: '',
@@ -31,8 +29,9 @@ function List(props: ListProps) :React.JSX.Element {
     title: '',
     position,
   });
+  const dispatch = useAppDispatch();
 
-  const handleNewTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNewTitleChange = (e: ChangeEvent<HTMLInputElement>):void => {
     const newTitle = e.target.value;
     setNewListTitle({
       ...newListTitle,
@@ -43,7 +42,7 @@ function List(props: ListProps) :React.JSX.Element {
   const handleTitleSubmit = ():void => {
     setShowNewTitleInput(false);
 
-    if (newListTitle.title) dispatch(changeListData({ listData: newListTitle, boardId }));
+    if (newListTitle.title) dispatch(changeListData(newListTitle));
   };
 
   const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
@@ -56,11 +55,11 @@ function List(props: ListProps) :React.JSX.Element {
   const handleCardSubmit = ():void => {
     setShowNewCardInput(false);
 
-    if (newCard.title) dispatch(addCard({ cardData: newCard, boardId }));
+    if (newCard.title) dispatch(addCard(newCard));
   };
 
   const handleDeleteList = ():void => {
-    dispatch(deleteList({ listId: list.id, boardId }));
+    dispatch(deleteList(list.id));
   };
 
   return (
@@ -76,9 +75,15 @@ function List(props: ListProps) :React.JSX.Element {
                 onSubmit={handleTitleSubmit}
               />
             ) : (
-              <h2 onClick={() => setShowNewTitleInput(true)}>{list.title}</h2>
+              <button
+                type="button"
+                className={styles.listTitleButton}
+                onClick={() => setShowNewTitleInput(true)}
+              >
+                {list.title}
+              </button>
             )}
-            <button onClick={handleDeleteList} className={styles.cardOptionsButton}>
+            <button type="button" onClick={handleDeleteList} className={styles.cardOptionsButton}>
               del
             </button>
           </div>
@@ -91,12 +96,16 @@ function List(props: ListProps) :React.JSX.Element {
                 onSubmit={handleCardSubmit}
               />
             ) : (
-              <button className={styles.addCard} onClick={() => setShowNewCardInput(true)}>
+              <button
+                type="button"
+                className={styles.addCard}
+                onClick={() => setShowNewCardInput(true)}
+              >
                 Add a card
               </button>
             )}
             {list.cards.map((card) => (
-              <Card key={card.id} dispatch={dispatch} {...card} list_id={list.id} boardId={boardId} />
+              <Card key={card.id} {...card} list_id={list.id} />
             ))}
           </ul>
         </div>

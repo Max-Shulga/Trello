@@ -9,23 +9,23 @@ import { IHomeBoard } from '../../../../common/interfaces/IHomeBoard';
 import { BoardNameValidationInfo } from '../../../../components/BoardNameValidationInfo/BoardNameValidationInfo';
 import ColorButtons from '../../../../components/ColorButtons/ColorButtons';
 import { addBoard } from '../../../../store/actions';
-import { AppDispatch } from '../../../../store/store';
+import { useAppDispatch } from '../../../../store/hooks';
 import styles from './BoardForm.module.scss';
 
 interface IProps {
   onClick: () => void
-  dispatch: AppDispatch
 }
 
-function BoardForm({ onClick, dispatch }: IProps) :React.JSX.Element {
+function BoardForm({ onClick }: IProps) :React.JSX.Element {
   const [boardSettings, setBoardSettings] = useState({
     custom: {
       color: 'transparent',
     },
   });
   const [showMoreColors, setShowMoreColors] = useState(false);
-
+  const dispatch = useAppDispatch();
   const { register, handleSubmit, formState } = useForm<IHomeBoard>();
+
   const selectBoardColor = (color: string, button: HTMLButtonElement):void => {
     document.querySelectorAll(`.${styles.acceptEffect}`).forEach((btn) => {
       btn.classList.remove(styles.acceptEffect);
@@ -57,7 +57,7 @@ function BoardForm({ onClick, dispatch }: IProps) :React.JSX.Element {
       <section className={styles.newBoardContainer}>
         <header className={styles.header}>
           <h2>Create board</h2>
-          <button className={styles.closeButton} onClick={closeForm}>
+          <button type="button" className={styles.closeButton} onClick={closeForm}>
             {closeIcon()}
           </button>
         </header>
@@ -77,19 +77,19 @@ function BoardForm({ onClick, dispatch }: IProps) :React.JSX.Element {
             <div className={styles.bgPickerContainer}>
               <p>Background</p>
               <div className={styles.backgroundPicker}>
-                <ul className={styles.presetColorsList}>
+                <div className={styles.presetColorsList}>
                   <ColorButtons
                     colors={mainBgColors}
                     onClick={selectBoardColor}
                     className={styles.colorPikerElement}
                   />
-                  <li
+                  <button
+                    type="button"
                     className={`${styles.colorPikerElement} ${showMoreColors ? '' : styles.moreEffect} ${styles.moreEffectContainer}`}
                     onClick={() => setShowMoreColors(!showMoreColors)}
-                  >
-                    <button type="button" />
-                  </li>
-                </ul>
+                    aria-label="Show More Colors"
+                  />
+                </div>
               </div>
             </div>
             <div>
@@ -132,7 +132,7 @@ function BoardForm({ onClick, dispatch }: IProps) :React.JSX.Element {
       {showMoreColors && (
         <ul className={styles.colorsDropMenu}>
           <ColorButtons
-            className=""
+            className={styles.colorPikerElement}
             onClick={selectBoardColor}
             colors={dropMenuBgColors}
           />

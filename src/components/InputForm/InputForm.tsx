@@ -1,8 +1,11 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from 'react'
-import styles from './InputForm.module.scss'
-import { RegexPattern } from '../../common/types/RegexPattern.ts'
-import { BoardNameValidationInfo } from '../BoardNameValidationInfo/BoardNameValidationInfo.tsx'
+import React, {
+  ChangeEvent, InputHTMLAttributes, useEffect, useState,
+} from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { RegexPattern } from '../../common/types/RegexPattern';
+import { BoardNameValidationInfo } from '../BoardNameValidationInfo/BoardNameValidationInfo';
+import styles from './InputForm.module.scss';
 
 interface InputFormProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSubmit'> {
@@ -16,36 +19,38 @@ interface InputFormProps
 
 type FormValues = {
   title: string
-}
-export default function InputForm(props: InputFormProps) {
-  const { htmlId: htmlId, onChange, onSubmit, validationPattern, className, value, ...rest } = props
-  const { register, handleSubmit, setFocus } = useForm<FormValues>()
-  const [inputValue, setInputValue] = useState(value || '')
-  const [isValid, setIsValid] = useState(false)
-  const pattern = validationPattern || /.*/
+};
 
-  const handleFormSubmit: SubmitHandler<FormValues> = data => {
+function InputForm(props: InputFormProps):React.JSX.Element {
+  const {
+    htmlId, onChange, onSubmit, validationPattern, className, value, ...rest
+  } = props;
+  const { register, handleSubmit, setFocus } = useForm<FormValues>();
+  const [inputValue, setInputValue] = useState(value || '');
+  const [isValid, setIsValid] = useState(false);
+  const pattern = validationPattern || /.*/;
+
+  const handleFormSubmit: SubmitHandler<FormValues> = (data) => {
     if (pattern.test(inputValue)) {
       if (!inputValue.trim()) {
-        onSubmit({ title: value || '' })
+        onSubmit({ title: value || '' });
       } else {
-        onSubmit(data)
+        onSubmit(data);
       }
     } else {
-      setIsValid(true)
+      setIsValid(true);
     }
-  }
+  };
 
   useEffect(() => {
-    setFocus('title')
-  }, [setFocus])
+    setFocus('title');
+  }, [setFocus]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsValid(false)
-    onChange(e)
-    setInputValue(e.target.value)
-  }
-
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) :void => {
+    setIsValid(false);
+    onChange(e);
+    setInputValue(e.target.value);
+  };
 
   return (
 
@@ -54,19 +59,26 @@ export default function InputForm(props: InputFormProps) {
       name={htmlId}
       onSubmit={handleSubmit(handleFormSubmit)}
       onBlur={handleSubmit(handleFormSubmit)}
-      className={className ? className : ''}
+      className={className || ''}
     >
       <label htmlFor={htmlId} className={styles.inputContainer}>
         <input
           className={styles.input}
-          type='text'
+          type="text"
           value={inputValue}
-          {...register(`title`)}
+          {...register('title')}
           onChange={handleChange}
           {...rest}
         />
-        {isValid && <BoardNameValidationInfo/>}
+        {isValid && <BoardNameValidationInfo />}
       </label>
     </form>
-  )
+  );
 }
+
+InputForm.defaultProps = {
+  value: '',
+  className: '',
+  validationPattern: /.*/,
+};
+export default InputForm;

@@ -1,8 +1,9 @@
-import styles from './BoardNameValidationInfo.module.scss'
-import { useState } from 'react'
+import { useState } from 'react';
 
-export const BoardNameValidationInfo = () => {
-  const [showInfo, setShowInfo] = useState(false)
+import styles from './BoardNameValidationInfo.module.scss';
+
+export function BoardNameValidationInfo() {
+  const [showInfo, setShowInfo] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -17,5 +18,5 @@ export const BoardNameValidationInfo = () => {
         </div>
       )}
     </div>
-  )
+  );
 }

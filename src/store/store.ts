@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import rootReducer from './reducers';
+import refreshBoardMiddleware from './refreshBoardMiddleware.ts';
+import refreshBoardsMiddleware from './refreshBoardsMiddleware';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(refreshBoardsMiddleware)
+    .concat(refreshBoardMiddleware),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export default store;

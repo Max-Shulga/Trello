@@ -9,14 +9,12 @@ import styles from './NewListCreator.module.scss';
 
 interface NewListCreatorProps {
   position: number
-  id: number
   setShowCreateForm: React.Dispatch<React.SetStateAction<boolean>>
-  boardId:number
 }
 
 function NewListCreator(params: NewListCreatorProps):React.JSX.Element {
   const {
-    position, id, setShowCreateForm, boardId,
+    position, setShowCreateForm,
   } = params;
   const [newListData, setNewListData] = useState<IChangeListDataPayload>({
     title: '',
@@ -29,7 +27,7 @@ function NewListCreator(params: NewListCreatorProps):React.JSX.Element {
   };
   const handleSubmit = () :void => {
     if (newListData.title) {
-      dispatch(addList({ listData: newListData, boardId }));
+      dispatch(addList(newListData));
     }
     setShowCreateForm(false);
   };
@@ -47,7 +45,9 @@ function NewListCreator(params: NewListCreatorProps):React.JSX.Element {
         <button className={styles.submitButton} type="submit" form="CardName">
           Add list
         </button>
-        <button className={styles.closeButton} onClick={() => setShowCreateForm(false)}>{closeIcon()}</button>
+        <button type="button" className={styles.closeButton} onClick={() => setShowCreateForm(false)}>
+          {closeIcon()}
+        </button>
       </div>
     </div>
   );

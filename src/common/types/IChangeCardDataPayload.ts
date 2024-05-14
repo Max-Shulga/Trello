@@ -1,3 +1,3 @@
-import { ICard } from '../interfaces/ICard.ts'
+import { ICard } from '../interfaces/ICard.ts';
 
-export type IChangeCardDataPayload = Partial<ICard>
+export type IChangeCardDataPayload = Partial<ICard>;
