@@ -10,7 +10,10 @@ const refreshBoardsMiddleware: Middleware<{}, RootState> = ({ dispatch }) => (ne
   const typedDispatch = dispatch as ThunkDispatch<RootState, unknown, Action>;
   const typedAction = action as Action;
 
-  if (typedAction.type === `${ActionType.CHANGE_BOARD_TITLE}/fulfilled`) {
+  if (
+    typedAction.type === `${ActionType.CHANGE_BOARD_TITLE}/fulfilled`
+    || typedAction.type === `${ActionType.DELETE_BOARD}/fulfilled`
+  ) {
     typedDispatch(getBoards());
   }
 
