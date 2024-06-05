@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import rootReducer from './reducers';
-import refreshBoardMiddleware from './refreshBoardMiddleware.ts';
-import refreshBoardsMiddleware from './refreshBoardsMiddleware';
+import refreshBoardMiddleware from './reducers/board/refreshBoardMiddleware';
+import refreshBoardsMiddleware from './reducers/home/refreshBoardsMiddleware';
 
 const store = configureStore({
   reducer: rootReducer,

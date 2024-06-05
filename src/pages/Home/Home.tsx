@@ -1,17 +1,17 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { handleApiError } from '../../api/handleApiError';
+import iconSpinner from '../../assets/iconSpinner.gif';
 import { IHomeBoard } from '../../common/interfaces/IHomeBoard';
-import { getBoards } from '../../store/actions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import BoardForm from './components/BoardForm/BoardForm';
+import { getBoards } from '../../store/reducers/actions';
 import BoardIcon from './components/BoardIcon/BoardIcon';
+import NewBoardControl from './components/NewBoardControl/NewBoardControl';
 import styles from './Home.module.scss';
 
 function Home():React.JSX.Element {
-  const [isNewBoardVisible, setIsNewBoardVisible] = useState(false);
   const dispatch = useAppDispatch();
   const { boards, isLoading } = useAppSelector((state) => state.home);
 
@@ -23,11 +23,7 @@ function Home():React.JSX.Element {
       });
   }, [dispatch]);
 
-  const toggleNewBoardVisibility = ():void => {
-    setIsNewBoardVisible(!isNewBoardVisible);
-  };
-
-  if (isLoading) return <img className={styles.loading} src="/assets/icon-spinner.gif" alt="loading spinner" />;
+  if (isLoading) return <img className={styles.loading} src={iconSpinner} alt="loading spinner" />;
 
   return (
     <div className={styles.homePageContainer}>
@@ -37,10 +33,7 @@ function Home():React.JSX.Element {
           {boards.map((board: IHomeBoard) => (
             <BoardIcon key={board.id} {...board} />
           ))}
-          <button type="button" className={styles.addNewBoardButton} onClick={toggleNewBoardVisibility}>
-            <div>Create new board</div>
-          </button>
-          {isNewBoardVisible && <BoardForm onClick={toggleNewBoardVisibility} />}
+          <NewBoardControl />
         </ul>
       </div>
     </div>

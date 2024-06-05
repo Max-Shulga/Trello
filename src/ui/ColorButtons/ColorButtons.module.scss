@@ -1,0 +1,21 @@
+@import 'src/common/styles/mixins';
+@import 'src/common/styles/constants';
+
+.colorButton {
+  position: relative;
+  width: 40px;
+  height: 32px;
+  border-radius: $main-border-radius;
+
+  @include hover;
+
+  &:checked {
+    &::after {
+      position: absolute;
+      top: -2px;
+      left: 5px;
+      transform: scale(0.33) translate(-50%, -50%);
+      content: url('/assets/check_accept_icon.svg');
+    }
+  }
+}

@@ -1,0 +1,29 @@
+@import 'src/common/styles/constants';
+@import 'src/common/styles/mixins';
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  h3 {
+    width: fit-content;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-weight: 400;
+    font-size: 32px;
+    text-align: left;
+    text-transform: capitalize;
+  }
+
+  .deleteButton {
+    padding: 0 15px;
+    background: #ea6669;
+    border: 1px solid black;
+    border-radius: $main-border-radius;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+  }
+}

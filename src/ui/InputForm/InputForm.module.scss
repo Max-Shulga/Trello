@@ -1,0 +1,13 @@
+@import '../../common/styles/mixins';
+@import '../../common/styles/constants';
+
+.input {
+  @include input-preset;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

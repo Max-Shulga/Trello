@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { ICard } from '../../../../common/interfaces/ICard';
 import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
-import InputForm from '../../../../components/InputForm/InputForm';
-import { changeCardData, deleteCard } from '../../../../store/actions';
 import { useAppDispatch } from '../../../../store/hooks';
+import { changeCardData, deleteCard } from '../../../../store/reducers/actions';
+import InputForm from '../../../../ui/InputForm/InputForm';
 import styles from './Card.module.scss';
 
 interface CardProps extends ICard {
@@ -15,14 +16,15 @@ function Card(props: CardProps):React.JSX.Element {
   const [showInput, setShowInput] = useState(false);
   const {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    list_id, title, id,
+    list_id, title, id: cardId,
   } = props;
 
   const [cardData, setCardData] = useState<IChangeCardDataPayload>({
-    id,
+    id: cardId,
     list_id,
     title: '',
   });
+  const { id } = useParams();
   const dispatch = useAppDispatch();
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
     setCardData({
@@ -33,10 +35,10 @@ function Card(props: CardProps):React.JSX.Element {
   const handleSubmit = ():void => {
     setShowInput(false);
 
-    if (cardData.title) dispatch(changeCardData(cardData));
+    if (cardData.title) dispatch(changeCardData({ cardData, boardId: Number(id) }));
   };
   const handleDelete = ():void => {
-    dispatch(deleteCard(cardData.id ?? 0));
+    dispatch(deleteCard({ cardId: cardData.id ?? 0, boardId: Number(id) }));
   };
 
   return (

@@ -1,11 +1,12 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { IList } from '../../../../common/interfaces/IList';
 import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
 import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload';
-import InputForm from '../../../../components/InputForm/InputForm';
-import { addCard, changeListData, deleteList } from '../../../../store/actions';
 import { useAppDispatch } from '../../../../store/hooks';
+import { addCard, changeListData, deleteList } from '../../../../store/reducers/actions';
+import InputForm from '../../../../ui/InputForm/InputForm';
 import Card from '../Card/Card';
 import styles from './List.module.scss';
 
@@ -17,6 +18,8 @@ function List(props: ListProps) :React.JSX.Element {
   const [showNewTitleInput, setShowNewTitleInput] = useState(false);
   const [showNewCardInput, setShowNewCardInput] = useState(false);
   const { list } = props;
+  const { id } = useParams();
+
   const position = list.cards.length;
   const [newListTitle, setNewListTitle] = useState<IChangeListDataPayload>({
     title: '',
@@ -42,7 +45,7 @@ function List(props: ListProps) :React.JSX.Element {
   const handleTitleSubmit = ():void => {
     setShowNewTitleInput(false);
 
-    if (newListTitle.title) dispatch(changeListData(newListTitle));
+    if (newListTitle.title) dispatch(changeListData({ listData: newListTitle, boardId: Number(id) }));
   };
 
   const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
@@ -55,11 +58,11 @@ function List(props: ListProps) :React.JSX.Element {
   const handleCardSubmit = ():void => {
     setShowNewCardInput(false);
 
-    if (newCard.title) dispatch(addCard(newCard));
+    if (newCard.title) dispatch(addCard({ cardData: newCard, boardId: Number(id) }));
   };
 
   const handleDeleteList = ():void => {
-    dispatch(deleteList(list.id));
+    dispatch(deleteList({ listId: list.id, boardId: Number(id) }));
   };
 
   return (
@@ -94,6 +97,7 @@ function List(props: ListProps) :React.JSX.Element {
                 onChange={handleCardInputChange}
                 placeholder="Enter a title for this card..."
                 onSubmit={handleCardSubmit}
+                value=""
               />
             ) : (
               <button

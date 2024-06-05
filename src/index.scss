@@ -1,5 +1,6 @@
 @import 'react-redux-toastr/src/styles/index';
-@import 'utils/reset';
+@import 'common/styles/reset';
+@import 'common/styles/constants';
 
 :root[data-theme='light'] {
   --main-bg-color: #ffffff;
@@ -11,13 +12,17 @@
 
 :root[data-theme='dark'] {
   --main-bg-color: #1d2125;
-  --card-bg: #282d33;
+  --card-bg: #314044;
   --text-color: #f6f6f6;
   --card-border: #3e3e3e;
   --invert-filter: invert(0);
 }
 
 body {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
   color: var(--text-color);
   font-family: Oswald, sans-serif;
   font-style: normal;
@@ -25,19 +30,73 @@ body {
   font-optical-sizing: auto;
 }
 
+#root {
+  display: flex;
+  flex-grow: 1;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
 }
 
 input[type='color'] {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
   padding: 0;
   border: none;
   border-radius: 50%;
   outline: none;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: scale-color($card-gray, $lightness: -20%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: scale-color($card-gray, $lightness: 50%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: scale-color($card-gray, $lightness: 0%);
+}
+
+h5 {
+  display: block;
+  margin: 0;
+  padding: 0.375rem 0.5rem 0.375rem 0.75rem;
+  overflow: hidden;
+  font-weight: 600;
+  line-height: 1.25rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  background-color: transparent;
+}
+
+h6 {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+p {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+input[type='radio'] {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  appearance: none;
 }
