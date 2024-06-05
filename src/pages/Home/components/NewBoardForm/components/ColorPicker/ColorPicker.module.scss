@@ -1,0 +1,59 @@
+@import '../../../../../../common/styles/constants';
+@import '../../../../../../common/styles/mixins';
+
+.backgroundPicker {
+  display: block;
+  padding-top: 8px;
+}
+
+.presetColorsList {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+}
+
+.moreColorsButton {
+  position: relative;
+  width: 40px;
+  height: 32px;
+  border-radius: $main-border-radius;
+
+  @include hover;
+
+  &.moreEffect::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 9px;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    content: '• • •';
+  }
+}
+
+.moreEffectContainer {
+  display: flex;
+  background: $card-gray;
+}
+
+.colorsDropMenu {
+  position: absolute;
+  top: 140px;
+  right: -170px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 1rem;
+  list-style: none;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: $main-box-shadow;
+
+  li {
+    position: relative;
+    width: 40px;
+    height: 32px;
+    border-radius: $main-border-radius;
+  }
+}

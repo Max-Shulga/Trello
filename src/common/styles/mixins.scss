@@ -1,0 +1,45 @@
+@import 'constants';
+
+@mixin hover {
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+
+@mixin main-button {
+  box-sizing: border-box;
+  color: var(--text-color);
+  font-weight: 200;
+  font-size: 16px;
+  background: var(--card-bg);
+  border-radius: $main-border-radius;
+  box-shadow: $main-box-shadow;
+  cursor: pointer;
+}
+
+@mixin active-button {
+  &:active {
+    box-shadow: 0 2px 25px var(--card-bg);
+    transform: scale(0.95);
+  }
+}
+
+@mixin input-preset {
+  min-width: 200px;
+  height: 30px;
+  padding: 6px 12px;
+  overflow: hidden;
+  font-weight: 600;
+  overflow-wrap: break-word;
+  border: none;
+  border-radius: $main-border-radius;
+  box-shadow: inset 0 0 0 2px #091e4224;
+  resize: none;
+
+  &:focus {
+    background: #ffffff;
+    border-color: initial;
+    outline: none;
+    box-shadow: inset 0 0 0 2px #388bff;
+  }
+}

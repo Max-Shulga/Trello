@@ -1,10 +1,11 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Layout from '../components/Layout/Layout';
 import Board from '../pages/Board/Board';
 import Home from '../pages/Home/Home';
 
-function App() {
+function App():React.JSX.Element {
   return (
     <BrowserRouter>
       <Routes>

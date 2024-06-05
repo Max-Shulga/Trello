@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { getBoards } from '../../store/actions';
-import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
-import ThemeSwither from '../ThemeSwither/ThemeSwither';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getBoards } from '../../store/reducers/actions';
+import ThemeSwither from '../../ui/ThemeSwither/ThemeSwither';
 import styles from './Header.module.scss';
 
 function Header():React.JSX.Element {
@@ -12,7 +12,7 @@ function Header():React.JSX.Element {
   const { boards } = useAppSelector((state) => state.home);
   useEffect(() => {
     dispatch(getBoards());
-  }, [dispatch]);
+  }, []);
 
   return (
     <header className={styles.header}>
@@ -25,10 +25,10 @@ function Header():React.JSX.Element {
           home
         </NavLink>
         <span className={styles.verticalLine} />
-        {boards.map((board, id) => (
+        {boards.map((board) => (
           <NavLink
             className={({ isActive }) => (isActive ? `${active} ${link}` : `${link}`)}
-            key={id}
+            key={board.id}
             to={`/board/${board.id}`}
           >
             {board.title}

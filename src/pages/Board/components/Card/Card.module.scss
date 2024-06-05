@@ -1,49 +1,50 @@
-@import './../../../../utils/constants';
+@import '../../../../common/styles/constants';
 
 .cardContainer {
-  font-size: 18px;
-  margin: 5px 0 ;
-  border: 1px solid var(--card-border);
-  border-radius: $main-border-radius;
-  background: $main-white-color;
-  box-shadow: 0 1px 1px #091e4240, 0 0 1px #091e424f;
-  transition: transform 0.3s ease;
-  min-height: 36px;
   position: relative;
-  scroll-margin: 8px;
-  list-style: none;
-  color: black;
   display: flex;
   flex-direction: row;
   align-items: center;
-  input{
+  min-height: 36px;
+  margin: 5px 0;
+  color: black;
+  font-size: 18px;
+  list-style: none;
+  background: $main-white-color;
+  border: 1px solid var(--card-border);
+  border-radius: $main-border-radius;
+  box-shadow: 0 1px 1px #091e4240, 0 0 1px #091e424f;
+  transition: transform 0.3s ease;
+  scroll-margin: 8px;
+
+  input {
     height: 26px;
   }
+
   .changeCardTitleButton {
     display: none;
     cursor: pointer;
 
-    &:after {
-      content: url("/assets/pen_icon.svg");
+    &::after {
+      content: url('/assets/pen_icon.svg');
       position: absolute;
       top: 50%;
       right: 0;
       transform: translateY(-50%) translateX(-50%);
     }
-
   }
 
   &:hover {
     button {
-      display: block
+      display: block;
     }
   }
 
   div {
-    padding: 8px 12px 4px;
     min-height: 24px;
-    font-size: 14px;
+    padding: 8px 12px 4px;
     font-weight: 400;
+    font-size: 14px;
     line-height: 20px;
     letter-spacing: 1px;
   }
@@ -51,14 +52,15 @@
 
 .deleteCardButton {
   position: absolute;
-  right: -10px;
   top: -10px;
+  right: -10px;
+  display: none;
   width: 15px;
   height: 15px;
   background: red;
   border-radius: 50%;
-  display: none;
-  &:after {
+
+  &::after {
     content: '\2716';
     position: absolute;
     top: 50%;

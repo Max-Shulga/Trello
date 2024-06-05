@@ -1,3 +1,4 @@
-import { RegexPattern } from '../types/RegexPattern.ts';
+import { RegexPattern } from '../types/RegexPattern';
 
-export const patternBoardTitle:RegexPattern = /^[0-9\p{L}\s._-]+$/u;
+const patternBoardTitle:RegexPattern = /^[0-9\p{L}\s._-]+$/u;
+export default patternBoardTitle;

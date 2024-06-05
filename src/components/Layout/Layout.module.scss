@@ -1,14 +1,16 @@
-@import "../../utils/constants";
-.appContainer{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: var(--main-bg-color);
-  min-height: 100vh;
-  min-width: 100%;
-  width: fit-content;
-}
-.content{
+@import '../../common/styles/constants';
+
+.appContainer {
   display: flex;
   flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  width: fit-content;
+  background: var(--main-bg-color);
+}
+
+.content {
+  flex-grow: 1;
+  align-self: flex-start;
+  width: 100%;
 }

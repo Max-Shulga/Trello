@@ -1,124 +1,108 @@
-@import './../../../../utils/constants';
-@import './../../../../utils/mixins';
+@import '../../../../common/styles/constants';
+@import '../../../../common/styles/mixins';
 
 .listEl {
-  padding: 0 6px;
-  align-self: flex-start;
-  flex-shrink: 0;
   display: block;
+  flex-shrink: 0;
+  align-self: flex-start;
   height: 100%;
+  padding: 0 6px;
   white-space: nowrap;
-
 }
 
 .cardContentContainer {
-  border-radius: 12px;
-  box-shadow: $main-box-shadow;
-  display: flex;
-  justify-content: space-between;
-  max-height: 100%;
-  flex-direction: column;
-  padding-bottom: 8px;
   position: relative;
-  scroll-margin: 8px;
-  white-space: normal;
-  width: 272px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
+  width: 272px;
+  max-height: 100%;
+  padding-bottom: 8px;
+  white-space: normal;
   vertical-align: top;
   background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: $main-box-shadow;
+  scroll-margin: 8px;
 }
 
 .listContent {
+  position: relative;
   display: flex;
+  flex-grow: 0;
+  flex-flow: row wrap;
+  flex-direction: column;
+  align-items: flex-start;
   row-gap: 0;
   padding: 8px 8px 0;
-  position: relative;
-  flex-grow: 0;
-  flex-direction: column;
-
-  align-items: flex-start;
-  flex-wrap: wrap;
 }
 
 .listHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   position: relative;
-  flex-basis: min-content;
+  display: flex;
   flex-grow: 1;
   flex-shrink: 1;
-  min-height: 20px;
+  flex-basis: min-content;
+  flex-direction: row;
+  justify-content: space-between;
   width: 98%;
+  min-height: 20px;
 
   button {
-    @include h2Preset;
     width: fit-content;
+    color: var(--text-color);
     cursor: pointer;
   }
 }
 
 .cardOptionsButton {
+  position: relative;
   flex-grow: 0;
   flex-shrink: 0;
-  padding: 8px;
-  border-right: $main-border-radius;
-  position: relative;
   width: 32px;
   height: 32px;
+  padding: 8px;
+  border-right: $main-border-radius;
 }
 
 .cardsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
-justify-content: flex-start;
 }
 
 .addCard {
-  margin: 8px 8px 0;
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 12px;
-  padding: 8px 12px 8px 40px;
-  text-align: left;
-  color: var(--text-color);
   gap: 1rem;
-  border: none;
-  position: relative;
-  background: var(--card-bg);
   width: 95%;
+  margin: 8px 8px 0;
+  padding: 8px 12px 8px 40px;
+  color: var(--text-color);
+  text-align: left;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 12px;
 
-  &:after {
-    content: '';
-    background-image: url('/assets/plus-icon.svg');
-    width: 16px;
-    height: 16px;
-    background-size: contain;
-    background-repeat: no-repeat;
+  &::after {
     position: absolute;
     top: 50%;
     left: 12px;
+    width: 16px;
+    height: 16px;
+    background-image: url('/assets/plus-icon.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
     transform: translateY(-50%);
     filter: var(--invert-filter);
+    content: '';
   }
 
   &:hover {
     filter: brightness(0.9);
-  }
-}
-
-.cardInputContainer {
-  input {
-    border-radius: 12px;
-    margin-top: 8px;
-    height: 30px;
-    border: none;
-    box-shadow: $main-box-shadow;
-
-    &:focus {
-      box-shadow: $main-box-shadow;
-    }
   }
 }

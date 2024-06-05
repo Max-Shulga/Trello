@@ -1,21 +1,29 @@
-@import './../../utils/constants';
-@import './../../utils/mixins';
+@import '../../common/styles/constants';
+@import '../../common/styles/mixins';
 
 .boardContainer {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  height: 100%;
   padding: 2rem;
   text-decoration: none;
-  width: 100%;
-
 }
+
 .title {
   width: fit-content;
-  font-size: 32px;
+  margin-bottom: 1rem;
   color: var(--text-color);
+  font-size: 32px;
   text-align: left;
   text-transform: capitalize;
-  margin-bottom: 1rem;
+}
+
+.listWrapper {
+  max-width: 90vw;
+  padding-bottom: 5rem;
+  overflow-x: auto;
+  border-radius: 1rem;
 }
 
 .ListContainer {
@@ -23,75 +31,58 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  list-style: none;
   gap: 2rem 1rem;
   width: fit-content;
-  //overflow-x: scroll;
+  list-style: none;
 }
 
 .addCard {
-  padding: 0 6px;
-  align-self: flex-start;
-  flex-shrink: 0;
   flex-grow: 1;
+  flex-shrink: 0;
+  align-self: flex-start;
   height: 100%;
-  }
+  padding: 0 6px;
+}
 
 .showCreateMenuButton {
+  position: relative;
   display: flex;
   justify-content: flex-start;
-  width: 272px;
   align-items: center;
-  background: #ffffff3d;
-  border-radius: 12px;
-  padding: 12px 12px 12px 40px;
-  text-align: left;
-  color: var(--text-color);
   gap: 1rem;
-  box-shadow: $main-box-shadow;
+  width: 272px;
+  padding: 12px 12px 12px 40px;
+  color: var(--text-color);
+  text-align: left;
+  background: #ffffff3d;
   border: none;
-  position: relative;
+  border-radius: 12px;
+  box-shadow: $main-box-shadow;
 
-  &:after {
-    content: '';
-    background-image: url("/assets/plus-icon.svg");
-    width: 18px;
-    height: 18px;
-    background-size: contain;
-    background-repeat: no-repeat;
+  &::after {
     position: absolute;
     top: 50%;
     left: 12px;
+    width: 18px;
+    height: 18px;
+    background-image: url('/assets/plus-icon.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
     transform: translateY(-50%);
-    filter: var(--invert-filter)
+    filter: var(--invert-filter);
+    content: '';
   }
 
   &:hover {
     scale: 0.95;
   }
 
-
   p {
     font-size: 16px;
   }
 }
-.headerContainer{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.delBoardButton{
-  padding: 0 15px;
-  border: 1px solid black;
-  border-radius: $main-border-radius;
-  background: #ea6669;
-  &:hover{
-    filter: brightness(1.2);
-  }
-}
 
-.loading{
-  padding: 1rem;
+.loading {
   width: 40px;
+  padding: 1rem;
 }
-

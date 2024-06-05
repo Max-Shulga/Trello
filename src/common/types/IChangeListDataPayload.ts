@@ -1,3 +1,3 @@
-import { IList } from '../interfaces/IList.ts';
+import { IList } from '../interfaces/IList';
 
 export type IChangeListDataPayload = Partial<IList>;

@@ -1,14 +1,16 @@
-@import './../../utils/mixins';
-@import './../../utils/constants';
+@import '../../common/styles/mixins';
+@import '../../common/styles/constants';
 
 .homePageContainer {
-  background: var(--main-bg-color);
   display: flex;
+  flex: 1;
   flex-direction: column;
-  padding: 2rem;
   gap: 3rem;
-  text-decoration: none;
   width: 100%;
+  padding: 2rem;
+  text-decoration: none;
+  background: var(--main-bg-color);
+
   h3 {
     text-transform: uppercase;
   }
@@ -18,21 +20,25 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  list-style: none;
   gap: 2rem 1rem;
   width: fit-content;
   max-width: calc(100% - 440px);
+  list-style: none;
 }
 
 .addNewBoardButton {
-  width: 150px;
-  @include main-button;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 150px;
+  height: 68px;
+  padding: 10px;
+
+  @include main-button;
   @include hover;
 }
+
 .loading {
-  padding: 1rem;
   width: 40px;
+  padding: 1rem;
 }
