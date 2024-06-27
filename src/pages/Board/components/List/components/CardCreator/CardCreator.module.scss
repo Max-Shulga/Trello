@@ -1,0 +1,33 @@
+.addCard {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  width: 95%;
+  padding: 8px 12px 8px 40px;
+  color: var(--text-color);
+  text-align: left;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 12px;
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    background-image: url('/assets/plus-icon.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateY(-50%);
+    filter: var(--invert-filter);
+    content: '';
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+    transition: 0.5s;
+  }
+}

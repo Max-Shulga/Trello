@@ -3,7 +3,7 @@ export interface ICard {
   id: number
   position: number,
   title: string
-  list_id:number,
+  description: string
   custom: {
     [key: string]: string
   }

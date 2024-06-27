@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from '../../api/request';
 import { IBoard } from '../../common/interfaces/IBoard';
+import { IChangeCardPosition } from '../../common/interfaces/IChangeCardPosition';
 import { IHomeBoard, IHomeBoards } from '../../common/interfaces/IHomeBoard';
 import { IChangeCardDataPayload } from '../../common/types/IChangeCardDataPayload';
 import { IChangeListDataPayload } from '../../common/types/IChangeListDataPayload';
@@ -36,7 +37,15 @@ const getBoardById = createAsyncThunk(
   async (boardId: number) => {
     const response:IBoard = await api.get(`/board/${boardId}`);
 
-    return { boardId, ...response };
+    return { ...response, boardId };
+  },
+);
+const getOtherBoardById = createAsyncThunk(
+  ActionType.GET_OTHER_BOARD_BY_ID,
+  async (boardId: number) => {
+    const response:IBoard = await api.get(`/board/${boardId}`);
+
+    return { ...response, boardId };
   },
 );
 
@@ -74,6 +83,12 @@ const deleteList = createAsyncThunk(
     await api.delete(`/board/${boardId}/list/${listId}`);
   },
 );
+const changeListPosition = createAsyncThunk(
+  ActionType.CHANGE_LIST_POSITION,
+  async ({ listId, boardId, newPosition }: { listId: number; boardId: number; newPosition: number }) => {
+    await api.put(`/board/${boardId}/list/${listId}`, { position: newPosition });
+  },
+);
 
 const addCard = createAsyncThunk(
   ActionType.ADD_CARD,
@@ -83,7 +98,7 @@ const addCard = createAsyncThunk(
 );
 
 const changeCardData = createAsyncThunk(
-  ActionType.CHANGE_CARD_DATA,
+  ActionType.CHANGE_CARD_TITLE,
   async ({ cardData, boardId }: { cardData: IChangeCardDataPayload; boardId: number }) => {
     await api.put(`/board/${boardId}/card/${cardData.id}`, { ...cardData });
   },
@@ -95,6 +110,12 @@ const deleteCard = createAsyncThunk(
     await api.delete(`/board/${boardId}/card/${cardId}`);
   },
 );
+const changeCardPosition = createAsyncThunk(
+  ActionType.CHANGE_CARD_POSITION,
+  async ({ cardsData, boardId }: { boardId:number, cardsData:IChangeCardPosition[], }) => {
+    await api.put(`/board/${boardId}/card`, cardsData);
+  },
+);
 
 export {
   addBoard,
@@ -102,10 +123,13 @@ export {
   addList,
   changeBoardTitle,
   changeCardData,
+  changeCardPosition,
   changeListData,
+  changeListPosition,
   deleteBoard,
   deleteCard,
   deleteList,
   getBoardById,
   getBoards,
+  getOtherBoardById,
 };

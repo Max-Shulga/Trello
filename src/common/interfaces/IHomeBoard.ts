@@ -1,5 +1,5 @@
 export interface IHomeBoard {
-  id?:number
+  id:number
   title: string
   custom: {
     [key: string]: string

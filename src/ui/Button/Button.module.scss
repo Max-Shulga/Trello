@@ -1,0 +1,9 @@
+@import 'src/common/styles/constants';
+@import 'src/common/styles/mixins';
+
+.button {
+  padding: 0.375rem 1rem;
+
+  @include hover;
+  @include main-button;
+}

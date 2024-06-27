@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.text {
+  min-height: 5rem;
+}

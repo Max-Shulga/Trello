@@ -2,6 +2,7 @@
 @import '../../common/styles/mixins';
 
 .boardContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2rem;
