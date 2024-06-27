@@ -64,9 +64,6 @@ function Card({
     >
       <div>
         {card.title}
-        {' '}
-        position:
-        {card.position}
       </div>
       <button
         type="button"
