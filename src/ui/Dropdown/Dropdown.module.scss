@@ -1,0 +1,38 @@
+@import 'src/common/styles/constants';
+@import 'src/common/styles/mixins';
+
+.dropDownContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.dropDownToggle {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid black;
+
+  @include main-button;
+  @include hover;
+
+  img {
+    justify-self: self-end;
+  }
+}
+
+.dropDownMenu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}

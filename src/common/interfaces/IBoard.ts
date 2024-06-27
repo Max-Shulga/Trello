@@ -2,7 +2,7 @@ import { Color } from '../types/Color';
 import { IList } from './IList';
 
 export interface IBoard {
-  boardId?:number
+  boardId:number
   title: string
   custom: {
     color: Color

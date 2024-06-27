@@ -1,0 +1,17 @@
+.listHeader {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 98%;
+  min-height: 20px;
+
+  button {
+    width: fit-content;
+    color: var(--text-color);
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+}

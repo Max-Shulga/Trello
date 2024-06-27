@@ -1,117 +1,56 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 
+import { ICard } from '../../../../common/interfaces/ICard';
 import { IList } from '../../../../common/interfaces/IList';
-import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
-import { IChangeListDataPayload } from '../../../../common/types/IChangeListDataPayload';
-import { useAppDispatch } from '../../../../store/hooks';
-import { addCard, changeListData, deleteList } from '../../../../store/reducers/actions';
-import InputForm from '../../../../ui/InputForm/InputForm';
 import Card from '../Card/Card';
+import CardCreator from './components/CardCreator/CardCreator';
+import ListHeader from './components/ListHeader/ListHeader';
 import styles from './List.module.scss';
 
 interface ListProps {
   list: IList
+  onDragStart: (list:IList, card:ICard) => void
+  onDragOver:(e: React.DragEvent<HTMLLIElement>)=> void
+  onDragDrop: (e: React.DragEvent<HTMLLIElement>, list:IList, card:ICard) => void
+  onEmptyListDrop:(e: React.DragEvent<HTMLLIElement>, list:IList)=>void
 }
 
 function List(props: ListProps) :React.JSX.Element {
-  const [showNewTitleInput, setShowNewTitleInput] = useState(false);
-  const [showNewCardInput, setShowNewCardInput] = useState(false);
-  const { list } = props;
-  const { id } = useParams();
+  const {
+    list, onDragStart, onDragDrop, onEmptyListDrop, onDragOver,
+  } = props;
 
-  const position = list.cards.length;
-  const [newListTitle, setNewListTitle] = useState<IChangeListDataPayload>({
-    title: '',
-    position: list.position,
-    id: list.id,
-  });
-
-  const [newCard, setNewCard] = useState<IChangeCardDataPayload>({
-    list_id: list.id,
-    title: '',
-    position,
-  });
-  const dispatch = useAppDispatch();
-
-  const handleNewTitleChange = (e: ChangeEvent<HTMLInputElement>):void => {
-    const newTitle = e.target.value;
-    setNewListTitle({
-      ...newListTitle,
-      title: newTitle,
-    });
+  const handleDragDrop = (e: React.DragEvent<HTMLLIElement>, card:ICard): void => {
+    e.preventDefault();
+    onDragDrop(e, list, card);
   };
-
-  const handleTitleSubmit = ():void => {
-    setShowNewTitleInput(false);
-
-    if (newListTitle.title) dispatch(changeListData({ listData: newListTitle, boardId: Number(id) }));
-  };
-
-  const handleCardInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
-    const newCardValue = e.target.value;
-    setNewCard({
-      ...newCard,
-      title: newCardValue,
-    });
-  };
-  const handleCardSubmit = ():void => {
-    setShowNewCardInput(false);
-
-    if (newCard.title) dispatch(addCard({ cardData: newCard, boardId: Number(id) }));
-  };
-
-  const handleDeleteList = ():void => {
-    dispatch(deleteList({ listId: list.id, boardId: Number(id) }));
+  const handleDragStart = (card:ICard): void => {
+    onDragStart(list, card);
   };
 
   return (
-    <li className={styles.listEl}>
+    <li
+      className={styles.listEl}
+      onDrop={(e) => onEmptyListDrop(e, list)}
+      onDragOver={onDragOver}
+    >
       <div className={styles.cardContentContainer} key={list.id}>
         <div className={styles.listContent}>
-          <div className={styles.listHeader}>
-            {showNewTitleInput ? (
-              <InputForm
-                htmlId="changeListTitle"
-                onChange={handleNewTitleChange}
-                value={list.title}
-                onSubmit={handleTitleSubmit}
-              />
-            ) : (
-              <button
-                type="button"
-                className={styles.listTitleButton}
-                onClick={() => setShowNewTitleInput(true)}
-              >
-                {list.title}
-              </button>
-            )}
-            <button type="button" onClick={handleDeleteList} className={styles.cardOptionsButton}>
-              del
-            </button>
+          <ListHeader list={list} />
+          <div className={styles.listBody}>
+            <ul className={styles.cardsContainer}>
+              {list.cards.map((card) => (
+                <div className={styles.cardContainer} key={card.id}>
+                  <Card
+                    card={card}
+                    onDragStart={handleDragStart}
+                    onDragDrop={handleDragDrop}
+                  />
+                </div>
+              ))}
+            </ul>
+            <CardCreator list={list} />
           </div>
-          <ul className={styles.cardsContainer}>
-            {showNewCardInput ? (
-              <InputForm
-                htmlId="addCard"
-                onChange={handleCardInputChange}
-                placeholder="Enter a title for this card..."
-                onSubmit={handleCardSubmit}
-                value=""
-              />
-            ) : (
-              <button
-                type="button"
-                className={styles.addCard}
-                onClick={() => setShowNewCardInput(true)}
-              >
-                Add a card
-              </button>
-            )}
-            {list.cards.map((card) => (
-              <Card key={card.id} {...card} list_id={list.id} />
-            ))}
-          </ul>
         </div>
       </div>
     </li>

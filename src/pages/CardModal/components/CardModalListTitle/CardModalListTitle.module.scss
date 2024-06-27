@@ -1,0 +1,14 @@
+.listTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+
+  button {
+    span {
+      font-size: 1.2rem;
+      text-decoration: underline;
+    }
+  }
+}

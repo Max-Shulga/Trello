@@ -72,9 +72,8 @@ input[type='color'] {
 h5 {
   display: block;
   margin: 0;
-  padding: 0.375rem 0.5rem 0.375rem 0.75rem;
   overflow: hidden;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25rem;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -99,4 +98,14 @@ input[type='radio'] {
   border: none;
   outline: none;
   appearance: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  color: var(--text-color);
 }

@@ -1,67 +1,80 @@
-import React, { ChangeEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import penIcon from '../../../../assets/penIcon.svg';
 import { ICard } from '../../../../common/interfaces/ICard';
-import { IChangeCardDataPayload } from '../../../../common/types/IChangeCardDataPayload';
-import { useAppDispatch } from '../../../../store/hooks';
-import { changeCardData, deleteCard } from '../../../../store/reducers/actions';
-import InputForm from '../../../../ui/InputForm/InputForm';
 import styles from './Card.module.scss';
 
-interface CardProps extends ICard {
-  list_id: number
+interface CardProps {
+  card:ICard
+  onDragStart: (card:ICard) => void
+  onDragDrop: (e: React.DragEvent<HTMLLIElement>, card:ICard) => void
 }
 
-function Card(props: CardProps):React.JSX.Element {
-  const [showInput, setShowInput] = useState(false);
-  const {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    list_id, title, id: cardId,
-  } = props;
+function Card({
+  card,
+  onDragStart,
+  onDragDrop,
+}: CardProps): React.JSX.Element {
+  const [isDragging, setIsDragging] = useState(false);
+  const navigate = useNavigate();
+  const onDragStartHandler = (e: React.DragEvent<HTMLLIElement>): void => {
+    setIsDragging(true);
+    e.stopPropagation();
 
-  const [cardData, setCardData] = useState<IChangeCardDataPayload>({
-    id: cardId,
-    list_id,
-    title: '',
-  });
-  const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>):void => {
-    setCardData({
-      ...cardData,
-      title: e.target.value,
-    });
+    onDragStart(card);
   };
-  const handleSubmit = ():void => {
-    setShowInput(false);
 
-    if (cardData.title) dispatch(changeCardData({ cardData, boardId: Number(id) }));
+  const onDragOverHandler = (e: React.DragEvent<HTMLLIElement>): void => {
+    if (e.currentTarget.classList.contains(styles.cardContainer)) {
+      e.currentTarget.style.boxShadow = '0 4px 3px gray';
+    }
   };
-  const handleDelete = ():void => {
-    dispatch(deleteCard({ cardId: cardData.id ?? 0, boardId: Number(id) }));
+
+  const onDragLeaveHandler = (e: React.DragEvent<HTMLLIElement>): void => {
+    e.currentTarget.style.boxShadow = 'none';
+  };
+
+  const onDragEndHandler = (e: React.DragEvent<HTMLLIElement>): void => {
+    setIsDragging(false);
+    e.currentTarget.style.boxShadow = 'none';
+  };
+
+  const onDragDropHandler = (e: React.DragEvent<HTMLLIElement>): void => {
+    e.preventDefault();
+
+    onDragDrop(e, card);
+    setIsDragging(false);
+    e.currentTarget.style.boxShadow = 'none';
+  };
+
+  const handleOpenCardModal = (): void => {
+    navigate(`c/${card.id}`);
   };
 
   return (
-    <li className={styles.cardContainer}>
-      {showInput ? (
-        <InputForm
-          htmlId="changeCardTitle"
-          onChange={handleInputChange}
-          onSubmit={handleSubmit}
-          value={title}
-        />
-      ) : (
-        <>
-          <div>{title}</div>
-          <button
-            type="button"
-            aria-label="Change card title"
-            className={styles.changeCardTitleButton}
-            onClick={() => setShowInput(true)}
-          />
-        </>
-      )}
-      <button type="button" aria-label="Delete card" className={styles.deleteCardButton} onClick={handleDelete} />
+    <li
+      className={`${styles.cardContainer} ${isDragging ? styles.dragging : ''}`}
+      draggable
+      onDragStart={onDragStartHandler}
+      onDragOver={onDragOverHandler}
+      onDragLeave={onDragLeaveHandler}
+      onDragEnd={onDragEndHandler}
+      onDrop={onDragDropHandler}
+    >
+      <div>
+        {card.title}
+        {' '}
+        position:
+        {card.position}
+      </div>
+      <button
+        type="button"
+        className={styles.changeCardTitleButton}
+        onClick={handleOpenCardModal}
+      >
+        <img src={penIcon} alt="pen" />
+      </button>
     </li>
   );
 }

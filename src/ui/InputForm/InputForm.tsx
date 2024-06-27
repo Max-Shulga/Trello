@@ -1,5 +1,5 @@
 import React, {
-  ChangeEvent, InputHTMLAttributes, useEffect,
+  InputHTMLAttributes, useEffect,
 } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -8,13 +8,14 @@ import BoardNameValidationInfo from '../BoardNameValidationInfo/BoardNameValidat
 import styles from './InputForm.module.scss';
 
 interface InputFormProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSubmit'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onSubmit'> {
   htmlId: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
   value?: string
   onSubmit: SubmitHandler<FormValues>
   className?: string
   validationPattern?: RegexPattern
+  width?:string
+  height?:string
 }
 
 type FormValues = {
@@ -23,11 +24,12 @@ type FormValues = {
 
 function InputForm({
   htmlId,
-  onChange,
   onSubmit,
   value = '',
   validationPattern = /.*/,
   className = '',
+  width,
+  height,
   ...rest
 }: Readonly<InputFormProps>): React.JSX.Element {
   const {
@@ -50,10 +52,6 @@ function InputForm({
     setFocus('title');
   }, [setFocus]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    onChange(e);
-  };
-
   return (
     <form
       id={htmlId}
@@ -66,15 +64,17 @@ function InputForm({
         <input
           className={styles.input}
           type="text"
+          style={{ width: `${width}`, height: `${height}` }}
           {...register('title', {
             required: true,
             pattern: validationPattern || /.*/,
           })}
-          onChange={handleChange}
           {...rest}
         />
         {formState.errors.title && <BoardNameValidationInfo right="5px" />}
       </label>
+      <button type="submit" style={{ display: 'none' }}>Submit</button>
+
     </form>
   );
 }
