@@ -10,12 +10,18 @@ import { useAppSelector } from '../store/hooks';
 import authorizedRouter from './authorized.routes';
 import notAuthorizedRouter from './notAuthorized.routes';
 
-const getRoutesByRole = (role:UserRoles):RouteObject[] => {
+const getRoutesByRole = (role: UserRoles):RouteObject[] => {
   switch (role) {
     case UserRoles.AUTHORIZED:
-      return [...authorizedRouter];
+      return [
+        ...authorizedRouter,
+        { path: '*', element: <Navigate to="/" /> }, // Перенаправление на главную страницу
+      ];
     case UserRoles.NOT_AUTHORIZED:
-      return [...notAuthorizedRouter];
+      return [
+        ...notAuthorizedRouter,
+        { path: '*', element: <Navigate to="/sign-in" /> }, // Перенаправление на страницу входа
+      ];
     default:
       return [];
   }
@@ -23,32 +29,15 @@ const getRoutesByRole = (role:UserRoles):RouteObject[] => {
 
 function TrelloRoutes(): React.ReactElement {
   const { role } = useAppSelector((state) => state.user);
-  let router;
 
-  switch (role) {
-    case UserRoles.AUTHORIZED:
-      router = createBrowserRouter([
-        {
-          path: '/',
-          element: <Layout />,
-          children: getRoutesByRole(role),
-          errorElement: <Navigate to="/" />,
-        },
-      ]);
-      break;
-    case UserRoles.NOT_AUTHORIZED:
-      router = createBrowserRouter([
-        {
-          path: '/',
-          element: <AuthLayout />,
-          children: getRoutesByRole(role),
-          errorElement: <Navigate to="/sign-in" />,
-        },
-      ]);
-      break;
-    default:
-      router = createBrowserRouter([]);
-  }
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: role === UserRoles.AUTHORIZED ? <Layout /> : <AuthLayout />,
+      children: getRoutesByRole(role),
+      errorElement: <Navigate to={role === UserRoles.AUTHORIZED ? '/' : 'sign-in'} />,
+    },
+  ]);
 
   return (
     <RouterProvider router={router} />
