@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getBoards } from '../../store/reducers/actions';
 import ThemeSwither from '../../ui/ThemeSwither/ThemeSwither';
+import SignOut from './components/SignOut';
 import styles from './Header.module.scss';
 
 function Header():React.JSX.Element {
@@ -36,6 +37,7 @@ function Header():React.JSX.Element {
         ))}
       </nav>
       <ThemeSwither />
+      <SignOut />
     </header>
   );
 }

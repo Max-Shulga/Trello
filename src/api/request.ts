@@ -15,25 +15,24 @@ const refreshAuthToken = async (): Promise<void> => {
   const refreshToken = localStorage.getItem('refreshToken');
 
   if (!refreshToken) {
-    throw new Error('No refresh token');
+    window.location.href = '/sign-in';
   }
 
-  try {
-    const { token, refreshToken: newRefreshToken }: IAuthResponse = await instance.post('/refresh', {
-      refreshToken,
-    });
-    setTokens(token, newRefreshToken);
-    instance.defaults.headers.Authorization = `Bearer ${token}`;
-  } catch (error) {
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('token');
-    throw error;
-  }
+  const { token, refreshToken: newRefreshToken }: IAuthResponse = await instance.post('/refresh', {
+    refreshToken,
+  });
+  instance.defaults.headers.Authorization = `Bearer ${newRefreshToken}`;
+  setTokens(token, newRefreshToken);
+  window.location.href = '/';
 };
 instance.interceptors.response.use(undefined, async (error) => {
   if (localStorage.getItem('refreshToken')) {
     if (error.response.status === 401) {
-      await refreshAuthToken();
+      await refreshAuthToken().catch(() => {
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('token');
+        window.location.href = '/sign-in';
+      });
     }
   }
 });

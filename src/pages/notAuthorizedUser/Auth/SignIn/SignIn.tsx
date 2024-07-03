@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { ISignIn } from '../../../../common/interfaces/ISignIn';
+import userRoles from '../../../../common/types/UserRoles';
 import { useAppDispatch } from '../../../../store/hooks';
 import { userSignIn } from '../../../../store/reducers/actions';
+import { setUserRole } from '../../../../store/reducers/user/userSlice';
 import Button from '../../../../ui/Button/Button';
 import Input from '../components/Input/Input';
 import styles from '../Sign.module.scss';
@@ -21,11 +23,9 @@ function SignIn():React.ReactElement {
       email: getValues().email,
       password: getValues().password,
     };
-    const isSignIn = await dispatch(userSignIn(newUserData));
+    await dispatch(userSignIn(newUserData));
 
-    if (isSignIn) {
-      window.location.href = '/';
-    }
+    dispatch(setUserRole(userRoles.AUTHORIZED));
   };
 
   return (

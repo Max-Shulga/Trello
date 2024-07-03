@@ -6,8 +6,10 @@ import emailRegex from '../../../../common/constants/emailRegex';
 import passwordRegex from '../../../../common/constants/passwordRegex';
 import { ISignIn } from '../../../../common/interfaces/ISignIn';
 import ISignUp from '../../../../common/interfaces/ISignUp';
+import userRoles from '../../../../common/types/UserRoles';
 import { useAppDispatch } from '../../../../store/hooks';
 import { addUser, userSignIn } from '../../../../store/reducers/actions';
+import { setUserRole } from '../../../../store/reducers/user/userSlice';
 import Button from '../../../../ui/Button/Button';
 import Input from '../components/Input/Input';
 import styles from '../Sign.module.scss';
@@ -26,7 +28,7 @@ function SignUp():React.ReactElement {
     };
     await dispatch(addUser(newUserData));
     await dispatch(userSignIn(newUserData));
-    window.location.href = '/';
+    dispatch(setUserRole(userRoles.AUTHORIZED));
   };
 
   return (

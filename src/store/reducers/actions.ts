@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from '../../api/request';
 import { IAuthResponse } from '../../common/interfaces/IAuthResponse';
-import IAuthResponseWithEmail from '../../common/interfaces/IAuthResponseWithEmail';
 import { IBoard } from '../../common/interfaces/IBoard';
 import { IChangeCardPosition } from '../../common/interfaces/IChangeCardPosition';
 import { IHomeBoard, IHomeBoards } from '../../common/interfaces/IHomeBoard';
@@ -125,11 +124,10 @@ const addUser = createAsyncThunk(ActionType.ADD_USER, async (userData: ISignIn):
 
 const userSignIn = createAsyncThunk(
   ActionType.USER_SIGN_IN,
-  async (userData: ISignIn): Promise<IAuthResponseWithEmail> => {
+  async (userData: ISignIn): Promise<IAuthResponse> => {
     const { token, refreshToken }:IAuthResponse = await api.post('/login', userData);
-    const { email } = userData;
 
-    return { token, refreshToken, email };
+    return { token, refreshToken };
   },
 );
 
