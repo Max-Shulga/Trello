@@ -1,0 +1,70 @@
+@import '../../../../../common/styles/constants';
+@import '../../../../../common/styles/mixins';
+
+.listEl {
+  display: block;
+  flex-shrink: 0;
+  align-self: flex-start;
+  height: 100%;
+  padding: 0 6px;
+  white-space: nowrap;
+}
+
+.cardContentContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 272px;
+  max-height: 100%;
+  padding-bottom: 8px;
+  white-space: normal;
+  vertical-align: top;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: $main-box-shadow;
+  scroll-margin: 8px;
+}
+
+.listContent {
+  position: relative;
+  display: flex;
+  flex-grow: 0;
+  flex-flow: row wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 0;
+  padding: 8px 8px 0;
+}
+
+.cardOptionsButton {
+  position: relative;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  border-right: $main-border-radius;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.listBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.cardContainer {
+  background: #c5c2c2;
+  border-radius: $main-border-radius;
+}

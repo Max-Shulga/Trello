@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
-import { toggleTheme } from '../../store/reducers/themeToggle/themeToggleSlice.ts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { toggleTheme } from '../../store/reducers/themeToggle/themeToggleSlice';
 import styles from './ThemeSwither.module.scss';
 
 function ThemeSwitcher():React.JSX.Element {

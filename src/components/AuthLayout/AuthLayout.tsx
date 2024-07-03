@@ -3,27 +3,21 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import UserRoles from '../../common/types/UserRoles';
 import { useAppSelector } from '../../store/hooks';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import styles from './Layout.module.scss';
+import styles from './AuthLayout.module.scss';
 
-function Layout():React.JSX.Element {
+function AuthLayout(): React.ReactElement {
   const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     if (role === UserRoles.NOT_AUTHORIZED) {
-      navigate('/');
+      navigate('/sign-in');
     }
   }, [role]);
 
   return (
-    <div className={styles.appContainer}>
-      <Header />
-      <main className={styles.content}>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <section className={styles.container}>
+      <Outlet />
+    </section>
   );
 }
-export default Layout;
+export default AuthLayout;

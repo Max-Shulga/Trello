@@ -4,10 +4,12 @@ import { combineReducers } from 'redux';
 import boardSlice from './reducers/board/boardSlice';
 import HomeSlice from './reducers/home/homeSlice';
 import themeToggleSlice from './reducers/themeToggle/themeToggleSlice';
+import userSlice from './reducers/user/userSlice';
 
 const rootReducer = combineReducers({
   home: HomeSlice,
   board: boardSlice,
+  user: userSlice,
   themeToggle: themeToggleSlice,
   toastr: toastrReducer,
 });

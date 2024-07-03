@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { RegexPattern } from '../../common/types/RegexPattern';
 import BoardNameValidationInfo from '../BoardNameValidationInfo/BoardNameValidationInfo';
 import styles from './InputForm.module.scss';
 
@@ -13,7 +12,7 @@ interface InputFormProps
   value?: string
   onSubmit: SubmitHandler<FormValues>
   className?: string
-  validationPattern?: RegexPattern
+  validationPattern?: RegExp
   width?:string
   height?:string
 }

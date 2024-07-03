@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from '../../api/request';
+import { IAuthResponse } from '../../common/interfaces/IAuthResponse';
+import IAuthResponseWithEmail from '../../common/interfaces/IAuthResponseWithEmail';
 import { IBoard } from '../../common/interfaces/IBoard';
 import { IChangeCardPosition } from '../../common/interfaces/IChangeCardPosition';
 import { IHomeBoard, IHomeBoards } from '../../common/interfaces/IHomeBoard';
+import { ISignIn } from '../../common/interfaces/ISignIn';
 import { IChangeCardDataPayload } from '../../common/types/IChangeCardDataPayload';
 import { IChangeListDataPayload } from '../../common/types/IChangeListDataPayload';
 import ActionType from './common';
@@ -116,11 +119,30 @@ const changeCardPosition = createAsyncThunk(
     await api.put(`/board/${boardId}/card`, cardsData);
   },
 );
+const addUser = createAsyncThunk(ActionType.ADD_USER, async (userData: ISignIn): Promise<void> => {
+  await api.post('/user', userData);
+});
+
+const userSignIn = createAsyncThunk(
+  ActionType.USER_SIGN_IN,
+  async (userData: ISignIn): Promise<IAuthResponseWithEmail> => {
+    const { token, refreshToken }:IAuthResponse = await api.post('/login', userData);
+    const { email } = userData;
+
+    return { token, refreshToken, email };
+  },
+);
+
+// const getUser = createAsyncThunk(
+//   ActionType.GET_USER,
+//   async ({ emailOrUsername }: IUser) => api.get(`/user?emailOrUsername=${emailOrUsername}`),
+// );
 
 export {
   addBoard,
   addCard,
   addList,
+  addUser,
   changeBoardTitle,
   changeCardData,
   changeCardPosition,
@@ -132,4 +154,6 @@ export {
   getBoardById,
   getBoards,
   getOtherBoardById,
+  // getUser,
+  userSignIn,
 };

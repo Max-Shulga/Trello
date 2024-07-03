@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { toastr } from 'react-redux-toastr';
 
-export const handleApiError = (error: AxiosError) => {
+const handleApiError = (error: AxiosError) :void => {
   if (error.response) {
     toastr.error('Response error', 'Check network');
   } else if (error.request) {
@@ -10,3 +10,5 @@ export const handleApiError = (error: AxiosError) => {
     toastr.error('Error', error.message);
   }
 };
+
+export default handleApiError;
