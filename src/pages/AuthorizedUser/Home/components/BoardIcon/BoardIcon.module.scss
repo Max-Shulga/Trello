@@ -1,0 +1,32 @@
+@import '../../../../../common/styles/mixins';
+
+.boardsPageListItem {
+  box-sizing: border-box;
+  width: 150px;
+  padding: 0;
+  background: var(--card-bg);
+  border-radius: $main-border-radius;
+  box-shadow: $main-box-shadow;
+  cursor: pointer;
+  transform: translate(0);
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.boardIcon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  color: var(--main-bg-color);
+  text-transform: capitalize;
+  text-decoration: none;
+  border-radius: $main-border-radius;
+
+  div {
+    padding: 8px;
+  }
+}

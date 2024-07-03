@@ -1,0 +1,19 @@
+@import '../../../../common/styles/constants';
+
+.actionsContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  > button,
+  > div > button {
+    width: 150px;
+    font-weight: 500;
+  }
+}
+
+.archive {
+  background: $card-red !important;
+}

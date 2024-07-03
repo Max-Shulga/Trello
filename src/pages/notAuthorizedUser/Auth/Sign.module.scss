@@ -1,0 +1,28 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 500px;
+
+  .formHeader {
+    margin: 0 auto;
+    padding-bottom: 2rem;
+  }
+
+  .formBody {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .submitButton {
+    width: 80%;
+    margin: 0 auto;
+    background: #67c7e5;
+  }
+
+  a {
+    color: var(--text-color);
+    letter-spacing: 1px;
+  }
+}

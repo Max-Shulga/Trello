@@ -1,0 +1,141 @@
+@import '../../../../../common/styles/constants';
+@import '../../../../../common/styles/mixins';
+
+.dropMenuContainer {
+  position: relative;
+}
+
+.newBoardContainer {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 600px;
+}
+
+.newSubBoardContainer {
+  display: flex;
+  flex-direction: column;
+  width: 304px;
+  padding: 0 1rem;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: $main-box-shadow;
+  transform: translateY(-10%);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  padding: 4px 8px;
+  text-align: center;
+
+  h2 {
+    grid-row: 1;
+    grid-column: 1 / span 3;
+    height: 40px;
+    margin: 0;
+    padding: 0 32px;
+    overflow: hidden;
+    line-height: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.closeButton {
+  z-index: 1;
+  display: flex;
+  grid-row: 1;
+  grid-column: 3;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  color: #626f86;
+  border-radius: 8px;
+
+  img {
+    width: 22px;
+  }
+}
+
+//.contentContainer {
+//  display: flex;
+//  flex-direction: column;
+//  gap: 1rem;
+//  min-height: 263px;
+//  padding: 0 1rem;
+//}
+
+.boardPreViewer {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 220px;
+  padding: 8px;
+  border-radius: $main-border-radius;
+}
+
+.bgPickerContainer {
+  padding-bottom: 4px;
+}
+
+.titleInputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 8px;
+
+  p {
+    font-weight: 500;
+  }
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.createButtonDisabled {
+  @include main-button;
+
+  padding: 3px 0;
+  color: var(--main-bg-color);
+  font-weight: 400;
+  letter-spacing: 2px;
+  background: $card-gray;
+  border: none;
+  box-shadow: none;
+}
+
+.createButton {
+  @include main-button;
+
+  padding: 3px 0;
+  color: var(--main-bg-color);
+  font-weight: 400;
+  letter-spacing: 2px;
+  background: #579dff;
+  border: none;
+  box-shadow: none;
+
+  @include hover;
+  @include active-button;
+}
+
+.notValid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 5px;
+  width: 100%;
+}
