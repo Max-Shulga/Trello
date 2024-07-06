@@ -43,6 +43,7 @@ function CardCreator({ list }: Props): React.JSX.Element {
         <InputForm
           htmlId="addCard"
           onChange={handleCardInputChange}
+          onClose={() => setShowNewCardInput(false)}
           placeholder="Enter a title for this card..."
           onSubmit={handleCardSubmit}
           value=""

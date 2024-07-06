@@ -1,7 +1,11 @@
+/* eslint-disable no-param-reassign */
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import { IHomeBoards } from '../../../common/interfaces/IHomeBoard';
-import { addBoard, getBoards } from '../actions';
+import {
+  addBoard, changeBoardTitle, deleteBoard, getBoards,
+} from '../actions';
 
 interface IInitialState extends IHomeBoards {
   isLoading:boolean
@@ -12,7 +16,9 @@ const initialState: IInitialState = {
   isLoading: true,
 
 };
-
+const thunks = [deleteBoard,
+  addBoard,
+  changeBoardTitle];
 const homeSlice = createSlice({
   name: 'boards',
   initialState,
@@ -29,6 +35,11 @@ const homeSlice = createSlice({
         boards: [...state.boards, action.payload],
         isLoading: false,
       }));
+    thunks.forEach((thunk) => {
+      builder.addCase(thunk.pending, (state) => {
+        state.isLoading = true;
+      });
+    });
   },
 });
 export default homeSlice.reducer;

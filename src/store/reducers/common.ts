@@ -15,6 +15,5 @@ enum ActionType {
   CHANGE_CARD_POSITION = 'board/card/changeCardPosition',
   ADD_USER = 'users/addUser',
   USER_SIGN_IN = 'users/signIn',
-  GET_USER = 'users/getUser',
 }
 export default ActionType;

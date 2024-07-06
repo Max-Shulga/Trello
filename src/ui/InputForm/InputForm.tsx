@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import useEnter from '../../common/hooks/useEnter';
+import useEscape from '../../common/hooks/useEscape';
 import BoardNameValidationInfo from '../BoardNameValidationInfo/BoardNameValidationInfo';
 import styles from './InputForm.module.scss';
 
@@ -11,6 +13,7 @@ interface InputFormProps
   htmlId: string
   value?: string
   onSubmit: SubmitHandler<FormValues>
+  onClose:()=>void
   className?: string
   validationPattern?: RegExp
   width?:string
@@ -25,10 +28,11 @@ function InputForm({
   htmlId,
   onSubmit,
   value = '',
-  validationPattern = /.*/,
   className = '',
   width,
   height,
+  onClose,
+  validationPattern,
   ...rest
 }: Readonly<InputFormProps>): React.JSX.Element {
   const {
@@ -46,7 +50,8 @@ function InputForm({
   const handleFormSubmit: SubmitHandler<FormValues> = ({ title }) => {
     onSubmit({ title });
   };
-
+  useEscape(onClose);
+  useEnter(handleSubmit(handleFormSubmit));
   useEffect(() => {
     setFocus('title');
   }, [setFocus]);
@@ -65,8 +70,7 @@ function InputForm({
           type="text"
           style={{ width: `${width}`, height: `${height}` }}
           {...register('title', {
-            required: true,
-            pattern: validationPattern || /.*/,
+            ...(validationPattern ? { pattern: validationPattern } : {}),
           })}
           {...rest}
         />

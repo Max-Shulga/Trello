@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
 
 import handleApiError from '../../../api/handleApiError';
-import iconSpinner from '../../../assets/iconSpinner.gif';
 import { IHomeBoard } from '../../../common/interfaces/IHomeBoard';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getBoards } from '../../../store/reducers/actions';
+import Loader from '../../../ui/Loader/Loader';
 import BoardIcon from './components/BoardIcon/BoardIcon';
 import NewBoardControl from './components/NewBoardControl/NewBoardControl';
 import styles from './Home.module.scss';
@@ -22,10 +22,9 @@ function Home():React.JSX.Element {
       });
   }, [dispatch]);
 
-  if (isLoading) return <img className={styles.loading} src={iconSpinner} alt="loading spinner" />;
-
   return (
     <div className={styles.homePageContainer}>
+      {isLoading && <Loader />}
       <h3>Your workspaces</h3>
       <div>
         <ul className={styles.iconsList}>

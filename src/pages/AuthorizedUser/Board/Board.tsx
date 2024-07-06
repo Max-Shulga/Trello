@@ -1,15 +1,16 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Outlet, useParams } from 'react-router-dom';
 
 import handleApiError from '../../../api/handleApiError';
-import iconSpinner from '../../../assets/iconSpinner.gif';
-import { ICard } from '../../../common/interfaces/ICard';
+import { IChangeCardPosition } from '../../../common/interfaces/IChangeCardPosition';
 import { IList } from '../../../common/interfaces/IList';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { changeCardPosition, getBoardById } from '../../../store/reducers/actions';
-import { getUpdatedCardsData } from '../../../utils/getUpdatedCardsData';
+import Loader from '../../../ui/Loader/Loader';
+import updateCardsData from '../../../utils/updateCardsData';
 import styles from './Board.module.scss';
 import BoardHeader from './components/BoardHeader/BoardHeader';
 import List from './components/List/List';
@@ -22,9 +23,6 @@ function Board():React.JSX.Element {
   const { isLoading } = useAppSelector((state) => state.board);
   const [showListCreateForm, setShowListCreateForm] = useState(false);
   const dispatch = useAppDispatch();
-  const [currentList, setCurrentList] = useState<IList>();
-  const [currentCard, setCurrentCard] = useState<ICard>();
-
   const createNewListText = lists.length > 0 ? 'Add another list' : 'Add a list';
   useEffect(() => {
     dispatch(getBoardById(id))
@@ -34,71 +32,47 @@ function Board():React.JSX.Element {
       });
   }, [id, dispatch]);
 
-  const onDragStartHandler = (list:IList, card:ICard): void => {
-    if (list) setCurrentList(list);
+  const onDragEnd = (result: DropResult):void => {
+    const { destination, source, draggableId } = result;
 
-    if (card) setCurrentCard(card);
-  };
-  const onDragOverHandler = (e: React.DragEvent<HTMLLIElement>): void => {
-    e.preventDefault();
-  };
-  const onDragDropHandler = (e: React.DragEvent<HTMLLIElement>, list:IList, card:ICard): void => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (list.id === currentList!.id && card.position === currentCard!.position) {
+    if (!destination) {
       return;
     }
-    const cardsDataToUpdate = getUpdatedCardsData(
-      currentList!,
-      list,
-      {
-        id: currentCard!.id,
-        position: card.position + 1,
-        list_id: list.id,
-      },
-    );
-    dispatch(changeCardPosition({
-      cardsData: cardsDataToUpdate,
-      boardId: Number(id),
-    }));
-  };
-  const handleEmptyListDrop = (e: React.DragEvent<HTMLLIElement>, list:IList):void => {
-    e.preventDefault();
-    const cardsDataToUpdate = getUpdatedCardsData(
-      currentList!,
-      list,
-      {
-        id: currentCard!.id,
-        position: 1,
-        list_id: list.id,
-      },
-    );
-    dispatch(changeCardPosition({
-      cardsData: cardsDataToUpdate,
-      boardId: Number(id),
-    }));
-  };
 
-  if (isLoading) {
-    return <img className={styles.loading} src={iconSpinner} alt="loading spinner" />;
-  }
+    if (destination.droppableId === source.droppableId
+      && destination.index === source.index) {
+      return;
+    }
+    const sourceList = lists.find((list) => list.id === +source.droppableId);
+    const destinationList = lists.find((list) => list.id === +destination.droppableId);
+    const movedCardData:IChangeCardPosition = {
+      id: +draggableId,
+      list_id: sourceList!.id,
+      position: +destination.index,
+    };
+
+    const cardsToUpdate = updateCardsData(
+      sourceList!,
+      destinationList!,
+      movedCardData,
+    );
+    dispatch(changeCardPosition({
+      cardsData: cardsToUpdate,
+      boardId: Number(id),
+    }));
+  };
 
   return (
     <div style={{ background: custom.color }} className={styles.boardContainer}>
+      {isLoading && <Loader />}
       <BoardHeader title={title} />
       <section className={styles.listWrapper}>
         <ul className={styles.ListContainer}>
-          {lists.map((list:IList) => (
-            <List
-              key={list.id}
-              list={list}
-              onDragOver={onDragOverHandler}
-              onDragStart={onDragStartHandler}
-              onDragDrop={onDragDropHandler}
-              onEmptyListDrop={handleEmptyListDrop}
-            />
-          ))}
+          <DragDropContext onDragEnd={onDragEnd}>
+            {lists.map((list: IList) => (
+              <List key={list.id} list={list} />
+            ))}
+          </DragDropContext>
           <li className={styles.addCard}>
             {showListCreateForm ? (
               <NewListCreator

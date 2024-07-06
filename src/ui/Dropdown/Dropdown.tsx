@@ -1,8 +1,9 @@
 import React, {
-  ReactElement, useEffect, useRef, useState,
+  ReactElement, useRef, useState,
 } from 'react';
 
 import dropDownIcon from '../../assets/dropDownIcon.svg';
+import useOutsideClick from '../../common/hooks/useOutsideClick';
 import ModalMenuContainer from '../ModalContainer/ModalMenuContainer';
 import styles from './Dropdown.module.scss';
 
@@ -14,18 +15,7 @@ interface DropdownProps {
 function Dropdown({ children, defaultValue }: DropdownProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const handleClickOutside = (event: MouseEvent): void => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return ():void => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  useOutsideClick(dropdownRef, () => setIsOpen(false));
 
   const handleToggle = (): void => {
     setIsOpen(!isOpen);

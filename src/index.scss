@@ -52,8 +52,8 @@ input[type='color'] {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -107,5 +107,11 @@ ul {
 }
 
 button {
+  margin: 0;
+  padding: 0;
   color: var(--text-color);
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
 }

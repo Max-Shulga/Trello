@@ -9,9 +9,12 @@ export default [
   {
     path: AuthorizedUserRoutes.BOARD,
     element: <Board />,
+    children: [
+      {
+        path: AuthorizedUserRoutes.CARD_MODAL,
+        element: <CardModal />,
+      },
+    ],
   },
-  {
-    path: AuthorizedUserRoutes.CARD_MODAL,
-    element: <CardModal />,
-  },
+
 ];

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import bgColors from '../../../../../../../common/constants/mainBgColors';
+import ActionButton from '../../../../../../../ui/ActionButton/ActionButton';
 import ColorButtons from '../../../../../../../ui/ColorButtons/ColorButtons';
 import styles from './ColorPicker.module.scss';
 
@@ -17,11 +18,9 @@ function ColorPicker({ onClick }:Props):React.JSX.Element {
         {bgColors.main.map((color) => (
           <ColorButtons color={color} key={color} onClick={onClick} />
         ))}
-        <button
-          type="button"
-          className={`${styles.moreColorsButton} ${showMoreColors ? '' : styles.moreEffect} ${styles.moreEffectContainer}`}
-          onClick={() => setShowMoreColors(!showMoreColors)}
-          aria-label="Show More Colors"
+        <ActionButton
+          showActions={showMoreColors}
+          setShowActions={setShowMoreColors}
         />
       </div>
       {' '}

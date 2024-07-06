@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import useEnter from '../../../../../common/hooks/useEnter';
+import useEscape from '../../../../../common/hooks/useEscape';
 import { IHomeBoard } from '../../../../../common/interfaces/IHomeBoard';
 import { useAppDispatch } from '../../../../../store/hooks';
 import { addBoard } from '../../../../../store/reducers/actions';
@@ -50,6 +52,8 @@ function NewBoardForm({ onClick }: IProps) :React.JSX.Element {
     dispatch(addBoard(formData));
     closeForm();
   };
+  useEscape(closeForm);
+  useEnter(handleSubmit(submitForm));
 
   return (
     <div className={styles.dropMenuContainer}>
@@ -77,6 +81,7 @@ function NewBoardForm({ onClick }: IProps) :React.JSX.Element {
                 <div className={styles.notValid}>
                   <input
                     type="text"
+                    className={styles.input}
                     {...register('title', {
                       required: {
                         value: true,

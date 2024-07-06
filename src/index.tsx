@@ -23,5 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         closeOnToastrClick
       />
     </Provider>
+
   </React.StrictMode>,
 );

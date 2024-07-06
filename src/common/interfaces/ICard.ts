@@ -5,7 +5,7 @@ export interface ICard {
   title: string
   description: string
   custom: {
-    [key: string]: string
+    [key: string]: string | number
   }
   users: number[]
 }

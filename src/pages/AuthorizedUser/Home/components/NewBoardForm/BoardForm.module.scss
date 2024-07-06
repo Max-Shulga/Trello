@@ -61,13 +61,9 @@
   }
 }
 
-//.contentContainer {
-//  display: flex;
-//  flex-direction: column;
-//  gap: 1rem;
-//  min-height: 263px;
-//  padding: 0 1rem;
-//}
+.input {
+  @include input-preset;
+}
 
 .boardPreViewer {
   display: flex;

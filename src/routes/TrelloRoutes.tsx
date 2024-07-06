@@ -15,12 +15,12 @@ const getRoutesByRole = (role: UserRoles):RouteObject[] => {
     case UserRoles.AUTHORIZED:
       return [
         ...authorizedRouter,
-        { path: '*', element: <Navigate to="/" /> }, // Перенаправление на главную страницу
+        { path: '*', element: <Navigate to="/" /> },
       ];
     case UserRoles.NOT_AUTHORIZED:
       return [
         ...notAuthorizedRouter,
-        { path: '*', element: <Navigate to="/sign-in" /> }, // Перенаправление на страницу входа
+        { path: '*', element: <Navigate to="/sign-in" /> },
       ];
     default:
       return [];
@@ -35,7 +35,6 @@ function TrelloRoutes(): React.ReactElement {
       path: '/',
       element: role === UserRoles.AUTHORIZED ? <Layout /> : <AuthLayout />,
       children: getRoutesByRole(role),
-      errorElement: <Navigate to={role === UserRoles.AUTHORIZED ? '/' : 'sign-in'} />,
     },
   ]);
 

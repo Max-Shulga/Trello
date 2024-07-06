@@ -34,6 +34,7 @@ function CardModalCardTitle() :React.JSX.Element {
       {showInput ? (
         <InputForm
           htmlId="changeCardTitle"
+          onClose={() => setShowInput(false)}
           onSubmit={handleSubmit}
           value={cardTitle}
         />
