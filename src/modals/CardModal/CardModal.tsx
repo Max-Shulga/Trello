@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import closeIcon from '../../assets/closeIcon.svg';
-import { useAppDispatch } from '../../store/hooks';
+import useEscape from '../../common/hooks/useEscape';
+import useOutsideClick from '../../common/hooks/useOutsideClick';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getCardById, resetSelectedCardData } from '../../store/reducers/board/boardSlice';
+import Loader from '../../ui/Loader/Loader';
 import ModalMenuContainer from '../../ui/ModalContainer/ModalMenuContainer';
 import styles from './CardModal.module.scss';
 import CardModalActions from './components/CardModalActions/CardModalActions';
@@ -18,17 +21,12 @@ function CardModal():React.JSX.Element {
   const { cardId } = params;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const cardModalRef = useRef<HTMLDivElement>(null);
   const handleOnClose = ():void => {
-    navigate('../');
+    navigate(-1);
   };
-  const handleEscClose = (event: KeyboardEvent):void => {
-    if (event.key === 'Escape') {
-      handleOnClose();
-    }
-  };
+  const { isLoading } = useAppSelector((state) => state.board);
   useEffect(() => {
-    window.addEventListener('keydown', handleEscClose);
     dispatch(getCardById(Number(cardId)));
 
     return ():void => {
@@ -36,9 +34,13 @@ function CardModal():React.JSX.Element {
     };
   }, [dispatch, cardId]);
 
+  useOutsideClick(cardModalRef, handleOnClose);
+  useEscape(handleOnClose);
+
   return (
     <section className={styles.wrapper}>
-      <ModalMenuContainer>
+      {isLoading && <Loader />}
+      <ModalMenuContainer ref={cardModalRef}>
         <>
           <section className={styles.headerContainer}>
             <CardModalCardTitle />

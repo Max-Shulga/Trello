@@ -4,7 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import patternBoardTitle from '../../../../../common/constants/patternBoardTitle';
 import { useAppDispatch } from '../../../../../store/hooks';
 import { changeBoardTitle, deleteBoard } from '../../../../../store/reducers/actions';
+import ActionButton from '../../../../../ui/ActionButton/ActionButton';
+import Button from '../../../../../ui/Button/Button';
 import InputForm from '../../../../../ui/InputForm/InputForm';
+import ModalMenuContainer from '../../../../../ui/ModalContainer/ModalMenuContainer';
 import styles from './BoardHeader.module.scss';
 
 function BoardHeader({ title }: { title: string }): React.JSX.Element {
@@ -13,7 +16,7 @@ function BoardHeader({ title }: { title: string }): React.JSX.Element {
   const { id } = useParams();
   const [newTitle, setNewTitle] = useState(title);
   const navigate = useNavigate();
-
+  const [showActions, setShowActions] = useState(false);
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setNewTitle(e.target.value);
   };
@@ -35,6 +38,7 @@ function BoardHeader({ title }: { title: string }): React.JSX.Element {
           <InputForm
             htmlId="changeBoardName"
             onChange={handleInputChange}
+            onClose={() => setShowNewTitleInput(false)}
             value={title}
             onSubmit={handleSubmit}
             validationPattern={patternBoardTitle}
@@ -43,10 +47,18 @@ function BoardHeader({ title }: { title: string }): React.JSX.Element {
           <h3>{title}</h3>
         )}
       </div>
+      <div className={styles.actionContainer}>
+        <ActionButton showActions={showActions} setShowActions={setShowActions} className={styles.actionButton} />
+        {showActions
+          && (
+            <ModalMenuContainer className={styles.modalMenu}>
+              <Button onClick={handleDeleteBoard}>
+                Delete Board
+              </Button>
+            </ModalMenuContainer>
+          )}
+      </div>
 
-      <button className={styles.deleteButton} type="button" onClick={handleDeleteBoard}>
-        del
-      </button>
     </div>
   );
 }

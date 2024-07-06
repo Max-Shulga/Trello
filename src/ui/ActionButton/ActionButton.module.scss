@@ -1,0 +1,25 @@
+@import 'src/common/styles/mixins';
+
+.moreActions {
+  position: relative;
+  width: 40px;
+  height: 32px;
+  border-radius: $main-border-radius;
+
+  @include hover;
+
+  &.actionEffect::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 9px;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    content: '• • •';
+  }
+}
+
+.hideActionEffect {
+  display: flex;
+  background: $card-gray;
+}

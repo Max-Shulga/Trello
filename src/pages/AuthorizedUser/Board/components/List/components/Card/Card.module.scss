@@ -1,4 +1,5 @@
 @import '../../../../../../../common/styles/constants';
+@import '../../../../../../../common/styles/mixins';
 
 .cardContainer {
   position: relative;
@@ -6,6 +7,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   padding-right: 1rem;
   color: black;
   font-size: 1rem;
@@ -14,17 +16,16 @@
   border: 1px solid var(--card-border);
   border-radius: $main-border-radius;
   box-shadow: 0 1px 1px #091e4240, 0 0 1px #091e424f;
+  cursor: pointer;
   transition: transform 0.3s ease;
   scroll-margin: 8px;
 
-  input {
-    height: 26px;
+  &:hover {
+    @include hover;
   }
 
-  &:hover {
-    button {
-      display: block;
-    }
+  input {
+    height: 26px;
   }
 
   div {
@@ -56,8 +57,8 @@
   }
 }
 
-.dragging {
-  box-shadow: 0 2px 3px gray;
-  transform: rotate(-5deg);
-  opacity: 1;
+.cardTitle {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

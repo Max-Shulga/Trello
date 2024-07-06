@@ -11,29 +11,26 @@ const instance = axios.create({
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   },
 });
+
 const refreshAuthToken = async (): Promise<void> => {
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  if (!refreshToken) {
-    window.location.href = '/sign-in';
-  }
-
-  const { token, refreshToken: newRefreshToken }: IAuthResponse = await instance.post('/refresh', {
-    refreshToken,
+  const { token, refreshToken }: IAuthResponse = await instance.post('/refresh', {
+    refreshToken: localStorage.getItem('refreshToken'),
   });
-  instance.defaults.headers.Authorization = `Bearer ${newRefreshToken}`;
-  setTokens(token, newRefreshToken);
-  window.location.href = '/';
+  setTokens(token, refreshToken);
+  instance.defaults.headers.Authorization = `Bearer ${token}`;
 };
-instance.interceptors.response.use(undefined, async (error) => {
-  if (localStorage.getItem('refreshToken')) {
-    if (error.response.status === 401) {
-      await refreshAuthToken().catch(() => {
-        localStorage.removeItem('refreshToken');
+
+instance.interceptors.response.use(undefined, (error) => {
+  if (!(error.response.data.status === 401)) {
+    setTimeout(() => {
+      refreshAuthToken().catch(() => {
         localStorage.removeItem('token');
-        window.location.href = '/sign-in';
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
       });
-    }
+    }, 0);
+  } else if (localStorage.getItem('token') === null) {
+    window.location.href = '/sign-in';
   }
 });
 

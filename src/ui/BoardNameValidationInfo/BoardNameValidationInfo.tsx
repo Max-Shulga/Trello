@@ -40,7 +40,7 @@ function BoardNameValidationInfo({
 
       {showInfo && (
         <div className={styles.info}>
-          <h4>The name of the board may contain:</h4>
+          <p>The name of the board may contain:</p>
           <p> Numbers, letters, spaces,</p>
           <p>dashes, periods, and underscores</p>
         </div>

@@ -9,12 +9,14 @@ import ActionType from '../common';
 const refreshBoardsMiddleware: Middleware<{}, RootState> = ({ dispatch }) => (next) => (action) => {
   const typedDispatch = dispatch as ThunkDispatch<RootState, unknown, Action>;
   const typedAction = action as Action;
+  const actions = [
+    `${ActionType.CHANGE_BOARD_TITLE}/fulfilled`,
+    `${ActionType.DELETE_BOARD}/fulfilled`,
+    `${ActionType.ADD_BOARD}/fulfilled`,
 
-  if (
-    typedAction.type === `${ActionType.CHANGE_BOARD_TITLE}/fulfilled`
-    || typedAction.type === `${ActionType.DELETE_BOARD}/fulfilled`
-    || typedAction.type === `${ActionType.ADD_BOARD}/fulfilled`
-  ) {
+  ];
+
+  if (actions.includes(typedAction.type)) {
     typedDispatch(getBoards());
   }
 

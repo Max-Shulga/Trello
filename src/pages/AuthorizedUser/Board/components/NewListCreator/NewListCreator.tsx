@@ -40,6 +40,7 @@ function NewListCreator(params: NewListCreatorProps):React.JSX.Element {
         onChange={handleInputChange}
         placeholder="Enter list title..."
         onSubmit={handleSubmit}
+        onClose={() => null}
       />
       <div className={styles.buttonsContainer}>
 

@@ -3,6 +3,8 @@
 
 .input {
   @include input-preset;
+
+  cursor: pointer;
 }
 
 .inputContainer {

@@ -9,7 +9,16 @@ import emptyList from '../../../common/factories/emptyList';
 import { IBoard } from '../../../common/interfaces/IBoard';
 import { ICard } from '../../../common/interfaces/ICard';
 import { IList } from '../../../common/interfaces/IList';
-import { getBoardById, getOtherBoardById } from '../actions';
+import {
+  addCard,
+  addList,
+  changeBoardTitle, changeCardData,
+  changeCardPosition,
+  changeListData, changeListPosition,
+  deleteBoard, deleteCard, deleteList,
+  getBoardById,
+  getOtherBoardById,
+} from '../actions';
 
 interface IInitialState {
   board:IBoard
@@ -18,6 +27,7 @@ interface IInitialState {
   selectedCard: ICard
   selectedList: IList
   otherBoard:IBoard
+
 }
 
 const initialState: IInitialState = {
@@ -27,6 +37,18 @@ const initialState: IInitialState = {
   selectedList: emptyList,
   otherBoard: emptyBoard,
 };
+const thunks = [getBoardById,
+  getOtherBoardById,
+  changeBoardTitle,
+  deleteBoard,
+  addList,
+  changeListData,
+  deleteList,
+  changeListPosition,
+  addCard,
+  changeCardData,
+  deleteCard,
+  changeCardPosition];
 
 const boardSlice = createSlice({
   name: 'board',
@@ -69,7 +91,15 @@ const boardSlice = createSlice({
         state.otherBoard = payload;
         state.otherBoard.boardId = payload.boardId;
       });
+    thunks.forEach((thunk) => {
+      builder.addCase(thunk.pending, (state) => {
+        state.isLoading = true;
+      });
+    });
   },
 });
-export const { getCardById, resetSelectedCardData } = boardSlice.actions;
+export const {
+  getCardById,
+  resetSelectedCardData,
+} = boardSlice.actions;
 export default boardSlice.reducer;

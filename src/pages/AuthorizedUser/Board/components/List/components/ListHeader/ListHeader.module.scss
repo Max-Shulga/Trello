@@ -10,8 +10,30 @@
 
   button {
     width: fit-content;
+    overflow: hidden;
     color: var(--text-color);
     font-size: 1.25rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     cursor: pointer;
+  }
+}
+
+.actionContainer {
+  position: relative;
+  width: fit-content;
+
+  .actionButton {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .modalMenu {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    z-index: 4;
+    width: fit-content;
+    padding: 0 !important;
   }
 }

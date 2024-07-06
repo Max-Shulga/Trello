@@ -5,7 +5,10 @@ import { useParams } from 'react-router-dom';
 import { IList } from '../../../../../../../common/interfaces/IList';
 import { useAppDispatch } from '../../../../../../../store/hooks';
 import { changeListData, deleteList } from '../../../../../../../store/reducers/actions';
+import ActionButton from '../../../../../../../ui/ActionButton/ActionButton';
+import Button from '../../../../../../../ui/Button/Button';
 import InputForm from '../../../../../../../ui/InputForm/InputForm';
+import ModalMenuContainer from '../../../../../../../ui/ModalContainer/ModalMenuContainer';
 import styles from './ListHeader.module.scss';
 
 interface Props {
@@ -17,6 +20,7 @@ function ListHeader({ list }: Props): React.JSX.Element {
 
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  const [showActions, setShowActions] = useState(false);
 
   const handleTitleSubmit: SubmitHandler<{ title: string }> = ({ title }) => {
     if (title) {
@@ -36,6 +40,7 @@ function ListHeader({ list }: Props): React.JSX.Element {
       {showNewTitleInput ? (
         <InputForm
           htmlId="changeListTitle"
+          onClose={() => setShowNewTitleInput(false)}
           value={list.title}
           onSubmit={handleTitleSubmit}
         />
@@ -48,9 +53,17 @@ function ListHeader({ list }: Props): React.JSX.Element {
           {list.title}
         </button>
       )}
-      <button type="button" onClick={handleDeleteList} className={styles.cardOptionsButton}>
-        del
-      </button>
+      <div className={styles.actionContainer}>
+        <ActionButton showActions={showActions} setShowActions={setShowActions} className={styles.actionButton} />
+        {showActions
+          && (
+            <ModalMenuContainer className={styles.modalMenu}>
+              <Button onClick={handleDeleteList}>
+                Delete List
+              </Button>
+            </ModalMenuContainer>
+          )}
+      </div>
     </div>
   );
 }

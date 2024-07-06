@@ -86,6 +86,7 @@ function CardProcessModal({ actionType }: CardModalProps): React.JSX.Element {
 
     handleClose();
   };
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent): void {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -123,6 +124,7 @@ function CardProcessModal({ actionType }: CardModalProps): React.JSX.Element {
               <>
                 <h5>Title</h5>
                 <InputForm
+                  onClose={() => null}
                   htmlId="title"
                   value={cardTitle}
                   onSubmit={submitNewTitle}

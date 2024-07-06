@@ -11,7 +11,7 @@ function Layout():React.JSX.Element {
   const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
-    if (role === UserRoles.NOT_AUTHORIZED) {
+    if (role === UserRoles.AUTHORIZED) {
       navigate('/');
     }
   }, [role]);

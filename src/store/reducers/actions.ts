@@ -131,11 +131,6 @@ const userSignIn = createAsyncThunk(
   },
 );
 
-// const getUser = createAsyncThunk(
-//   ActionType.GET_USER,
-//   async ({ emailOrUsername }: IUser) => api.get(`/user?emailOrUsername=${emailOrUsername}`),
-// );
-
 export {
   addBoard,
   addCard,

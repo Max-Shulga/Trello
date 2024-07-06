@@ -6,5 +6,5 @@ export enum NotAuthorizedUserRoutes {
 export enum AuthorizedUserRoutes {
   HOME = '/',
   BOARD = 'board/:id',
-  CARD_MODAL = 'board/:id/:cardId',
+  CARD_MODAL = ':cardId',
 }
