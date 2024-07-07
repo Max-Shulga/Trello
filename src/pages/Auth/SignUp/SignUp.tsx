@@ -62,7 +62,7 @@ function SignUp():React.ReactElement {
             {...register('password', {
               pattern: {
                 value: passwordRegex,
-                message: 'Password must be at least 8 characters long and contain uppercase letter digit.',
+                message: 'Password must be at least 8 characters long and contain uppercase letter and digit.',
               },
               required: {
                 value: true,
