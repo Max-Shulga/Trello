@@ -4,7 +4,7 @@ import styles from './ColorButtons.module.scss';
 
 interface Props {
   color :string,
-  onClick:(e: React.MouseEvent<HTMLInputElement>)=>void
+  onClick:(color:string)=>void
 }
 
 function ColorButtons({ color, onClick }:Props): React.JSX.Element {
@@ -15,7 +15,7 @@ function ColorButtons({ color, onClick }:Props): React.JSX.Element {
       className={styles.colorButton}
       style={{ background: color }}
       value={color}
-      onClick={onClick}
+      onClick={() => onClick(color)}
     />
   );
 }

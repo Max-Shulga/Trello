@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import UserRoles from '../../common/types/UserRoles';
-import { useAppSelector } from '../../store/hooks';
+import routesNames from '../../routes/routes.names';
 import styles from './AuthLayout.module.scss';
 
 function AuthLayout(): React.ReactElement {
-  const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const isLogin = localStorage.getItem('refreshToken');
   useEffect(() => {
-    if (role === UserRoles.NOT_AUTHORIZED) {
-      navigate('/sign-in');
+    if (isLogin) {
+      navigate(routesNames.HOME);
     }
-  }, [role]);
+  }, [navigate, isLogin]);
 
   return (
     <section className={styles.container}>

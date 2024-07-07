@@ -1,0 +1,13 @@
+@import 'src/common/styles/mixins';
+
+.addNewBoardButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 68px;
+  padding: 10px;
+
+  @include main-button;
+  @include hover;
+}
