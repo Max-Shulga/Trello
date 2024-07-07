@@ -1,0 +1,64 @@
+@import '../../../../../../common/styles/constants';
+@import '../../../../../../common/styles/mixins';
+
+.cardContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 1rem;
+  color: black;
+  font-size: 1rem;
+  list-style: none;
+  background: $main-white-color;
+  border: 1px solid var(--card-border);
+  border-radius: $main-border-radius;
+  box-shadow: 0 1px 1px #091e4240, 0 0 1px #091e424f;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  scroll-margin: 8px;
+
+  &:hover {
+    @include hover;
+  }
+
+  input {
+    height: 26px;
+  }
+
+  div {
+    min-height: 24px;
+    padding: 8px 12px 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+  }
+}
+
+.deleteCardButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: none;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 50%;
+
+  &::after {
+    content: '\2716';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
+}
+
+.cardTitle {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

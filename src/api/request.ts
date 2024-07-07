@@ -1,8 +1,8 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 
 import { api } from '../common/constants';
 import { IAuthResponse } from '../common/interfaces/IAuthResponse';
-import setTokens from '../utils/setTokens';
 
 const instance = axios.create({
   baseURL: api.baseURL,
@@ -13,27 +13,50 @@ const instance = axios.create({
 });
 
 const refreshAuthToken = async (): Promise<void> => {
-  const { token, refreshToken }: IAuthResponse = await instance.post('/refresh', {
-    refreshToken: localStorage.getItem('refreshToken'),
+  setTimeout(() => {
+    window.location.href = '/';
+  }, 2000);
+  const refreshToken = localStorage.getItem('refreshToken');
+  const response: IAuthResponse = await instance.post('/refresh', {
+    refreshToken,
   });
-  setTokens(token, refreshToken);
-  instance.defaults.headers.Authorization = `Bearer ${token}`;
+  localStorage.setItem('token', response.token);
+  localStorage.setItem('refreshToken', response.refreshToken);
+  instance.defaults.headers.Authorization = `Bearer ${response.token}`;
 };
 
-instance.interceptors.response.use(undefined, (error) => {
-  if (!(error.response.data.status === 401)) {
-    setTimeout(() => {
-      refreshAuthToken().catch(() => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/';
-      });
-    }, 0);
-  } else if (localStorage.getItem('token') === null) {
-    window.location.href = '/sign-in';
-  }
-});
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      if (localStorage.getItem('refreshToken')) {
+        try {
+          await refreshAuthToken();
 
+          return await instance(error.config);
+        } catch {
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/auth/sign-in';
+        }
+      } else {
+        window.location.href = '/auth/sign-in';
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
+
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
 instance.interceptors.response.use((res) => res.data);
 
 export default instance;

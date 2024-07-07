@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 
 import api from '../../api/request';
 import { IAuthResponse } from '../../common/interfaces/IAuthResponse';
@@ -14,6 +15,7 @@ const getBoards = createAsyncThunk(
   ActionType.GET_BOARDS,
   async () => {
     const { boards }:IHomeBoards = await api.get('/board');
+    // console.log(boards.boards);
 
     return boards;
   },
@@ -118,16 +120,28 @@ const changeCardPosition = createAsyncThunk(
     await api.put(`/board/${boardId}/card`, cardsData);
   },
 );
-const addUser = createAsyncThunk(ActionType.ADD_USER, async (userData: ISignIn): Promise<void> => {
+const signUp = createAsyncThunk(ActionType.ADD_USER, async (userData: ISignIn): Promise<void> => {
   await api.post('/user', userData);
 });
 
-const userSignIn = createAsyncThunk(
+const signIn = createAsyncThunk<
+IAuthResponse,
+ISignIn,
+{ rejectValue: number }
+>(
   ActionType.USER_SIGN_IN,
-  async (userData: ISignIn): Promise<IAuthResponse> => {
-    const { token, refreshToken }:IAuthResponse = await api.post('/login', userData);
+  async (userData, { rejectWithValue }) => {
+    try {
+      const { token, refreshToken } :IAuthResponse = await api.post('/login', userData);
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
 
-    return { token, refreshToken };
+      return { token, refreshToken };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return rejectWithValue(error?.response?.status || 0);
+    }
   },
 );
 
@@ -135,7 +149,6 @@ export {
   addBoard,
   addCard,
   addList,
-  addUser,
   changeBoardTitle,
   changeCardData,
   changeCardPosition,
@@ -147,6 +160,6 @@ export {
   getBoardById,
   getBoards,
   getOtherBoardById,
-  // getUser,
-  userSignIn,
+  signIn,
+  signUp,
 };

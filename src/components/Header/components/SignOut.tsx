@@ -1,15 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import UserRoles from '../../../common/types/UserRoles';
-import { useAppDispatch } from '../../../store/hooks';
-import { setUserRole } from '../../../store/reducers/user/userSlice';
 import styles from './SignOut.module.scss';
 
 function SignOut(): React.ReactElement {
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleSighOut = ():void => {
     localStorage.clear();
-    dispatch(setUserRole(UserRoles.NOT_AUTHORIZED));
+    navigate('auth/sign-in');
   };
 
   return (

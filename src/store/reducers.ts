@@ -1,15 +1,15 @@
 import { reducer as toastrReducer } from 'react-redux-toastr';
 import { combineReducers } from 'redux';
 
+import authSlice from './reducers/auth/authSlice';
 import boardSlice from './reducers/board/boardSlice';
 import HomeSlice from './reducers/home/homeSlice';
 import themeToggleSlice from './reducers/themeToggle/themeToggleSlice';
-import userSlice from './reducers/user/userSlice';
 
 const rootReducer = combineReducers({
   home: HomeSlice,
   board: boardSlice,
-  user: userSlice,
+  auth: authSlice,
   themeToggle: themeToggleSlice,
   toastr: toastrReducer,
 });
