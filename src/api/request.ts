@@ -13,9 +13,6 @@ const instance = axios.create({
 });
 
 const refreshAuthToken = async (): Promise<void> => {
-  setTimeout(() => {
-    window.location.href = '/';
-  }, 2000);
   const refreshToken = localStorage.getItem('refreshToken');
   const response: IAuthResponse = await instance.post('/refresh', {
     refreshToken,
@@ -23,22 +20,19 @@ const refreshAuthToken = async (): Promise<void> => {
   localStorage.setItem('token', response.token);
   localStorage.setItem('refreshToken', response.refreshToken);
   instance.defaults.headers.Authorization = `Bearer ${response.token}`;
+  window.location.href = '/';
 };
 
 instance.interceptors.response.use(
   (response) => response,
-  async (error) => {
+  (error) => {
     if (error.response?.status === 401) {
       if (localStorage.getItem('refreshToken')) {
-        try {
-          await refreshAuthToken();
-
-          return await instance(error.config);
-        } catch {
+        refreshAuthToken().catch(() => {
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
           window.location.href = '/auth/sign-in';
-        }
+        });
       } else {
         window.location.href = '/auth/sign-in';
       }
