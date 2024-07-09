@@ -20,13 +20,15 @@ const refreshAuthToken = async (): Promise<void> => {
   localStorage.setItem('token', response.token);
   localStorage.setItem('refreshToken', response.refreshToken);
   instance.defaults.headers.Authorization = `Bearer ${response.token}`;
-  window.location.href = '/';
+  window.location.reload();
 };
 
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const { response } = error;
+
+    if (response?.status === 401) {
       if (localStorage.getItem('refreshToken')) {
         refreshAuthToken().catch(() => {
           localStorage.removeItem('token');
@@ -36,6 +38,8 @@ instance.interceptors.response.use(
       } else {
         window.location.href = '/auth/sign-in';
       }
+    } else if (response?.status === 404) {
+      window.location.href = '/error';
     }
 
     return Promise.reject(error);

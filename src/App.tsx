@@ -9,6 +9,7 @@ import CardModal from './modals/CardModal/CardModal';
 import SignIn from './pages/Auth/SignIn/SignIn';
 import SignUp from './pages/Auth/SignUp/SignUp';
 import Board from './pages/Board/Board';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Home from './pages/Home/Home';
 import RouteNames from './routes/routes.names';
 import store from './store/store';
@@ -28,6 +29,8 @@ function App():ReactElement {
             <Route path={RouteNames.SIGN_IN} element={<SignIn />} />
             <Route path={RouteNames.SIGN_UP} element={<SignUp />} />
           </Route>
+          <Route path="*" element={<ErrorPage />} />
+
         </Routes>
       </BrowserRouter>
       <ReduxToastr

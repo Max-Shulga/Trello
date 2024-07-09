@@ -28,9 +28,11 @@ function CardCreator({ list }: Props): React.JSX.Element {
       title: newCardValue,
     });
   };
+
   useEffect(() => {
     setNewCard({ ...newCard, position: list.cards.length + 1 });
-  }, [newCard, list]);
+  }, [list]);
+
   const handleCardSubmit = (): void => {
     setShowNewCardInput(false);
 
