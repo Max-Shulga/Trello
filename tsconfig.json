@@ -11,6 +11,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
 
@@ -21,5 +22,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["**/*.ts", "src"],
+  "exclude": ["vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
