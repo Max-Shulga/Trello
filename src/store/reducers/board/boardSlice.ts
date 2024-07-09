@@ -90,6 +90,7 @@ const boardSlice = createSlice({
       .addCase(getOtherBoardById.fulfilled, (state, { payload }) => {
         state.otherBoard = payload;
         state.otherBoard.boardId = payload.boardId;
+        state.isLoading = false;
       });
     thunks.forEach((thunk) => {
       builder.addCase(thunk.pending, (state) => {
