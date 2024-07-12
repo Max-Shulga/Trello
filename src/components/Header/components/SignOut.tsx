@@ -1,12 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './SignOut.module.scss';
 
 function SignOut(): React.ReactElement {
   const navigate = useNavigate();
+  const location = useLocation();
   const handleSighOut = ():void => {
-    localStorage.clear();
+    localStorage.setItem('token', '');
+    localStorage.setItem('refreshToken', '');
+    localStorage.setItem('redirectUrl', location.pathname);
     navigate('auth/sign-in');
   };
 

@@ -12,33 +12,43 @@ const instance = axios.create({
   },
 });
 
-const refreshAuthToken = async (): Promise<void> => {
+const refreshAuthToken = async (): Promise<string> => {
   const refreshToken = localStorage.getItem('refreshToken');
   const response: IAuthResponse = await instance.post('/refresh', {
     refreshToken,
   });
   localStorage.setItem('token', response.token);
   localStorage.setItem('refreshToken', response.refreshToken);
-  instance.defaults.headers.Authorization = `Bearer ${response.token}`;
-  window.location.reload();
+
+  return response.token;
 };
 
 instance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     const { response } = error;
+    const originalRequest = error.config;
 
-    if (response?.status === 401) {
-      if (localStorage.getItem('refreshToken')) {
-        refreshAuthToken().catch(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('refreshToken');
-          window.location.href = '/auth/sign-in';
-        });
-      } else {
+    if (response?.status === 401 && !originalRequest.isRetry) {
+      originalRequest.isRetry = true;
+
+      try {
+        const newToken = refreshAuthToken();
+        instance.defaults.headers.Authorization = `Bearer ${newToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newToken}`; // `Authorization` should be used here
+
+        return await axios(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.setItem('redirectUrl', window.location.pathname);
         window.location.href = '/auth/sign-in';
+
+        return Promise.reject(refreshError);
       }
-    } else if (response?.status === 404) {
+    }
+
+    if (response?.status === 404) {
       window.location.href = '/error';
     }
 

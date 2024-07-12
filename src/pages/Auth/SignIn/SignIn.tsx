@@ -30,8 +30,11 @@ function SignIn():React.ReactElement {
     if (error === 401) {
       setMessage('Incorrect login or password');
       reset();
+    } else {
+      const redirectUrl = localStorage.getItem('redirectUrl') || routesNames.HOME;
+      localStorage.removeItem('redirectUrl');
+      navigate(redirectUrl);
     }
-    navigate(routesNames.HOME);
   };
 
   return (
