@@ -28,7 +28,9 @@ function SignUp():React.ReactElement {
     };
     await dispatch(signUp(newUserData));
     await dispatch(signIn(newUserData));
-    navigate(routesNames.HOME);
+    const redirectUrl = localStorage.getItem('redirectUrl') || routesNames.HOME;
+    localStorage.removeItem('redirectUrl');
+    navigate(redirectUrl);
   };
 
   return (
