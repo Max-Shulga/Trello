@@ -11,7 +11,6 @@ interface CardProps {
 
 function Card({ card }: CardProps): React.JSX.Element {
   const navigate = useNavigate();
-
   const handleOpenCardModal = (): void => {
     navigate(`${card.id}`);
   };
