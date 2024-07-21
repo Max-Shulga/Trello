@@ -6,10 +6,12 @@ import styles from './BoardIcon.module.scss';
 
 function BoardIcon({ custom, title, id }: IHomeBoard):ReactElement {
   return (
-    <li className={styles.boardsPageListItem}>
+    <li
+      className={styles.boardsPageListItem}
+      style={{ background: custom?.color }}
+    >
       <Link
         className={styles.boardIcon}
-        style={{ background: custom?.color }}
         to={`board/${id}`}
       >
         <div>{title}</div>
